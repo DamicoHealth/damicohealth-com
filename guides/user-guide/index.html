@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#F68630" />
+<title>User Guide — DH Field EMR</title>
+<meta name="description" content="Daily-use guide for clinicians using DH Field EMR. Encounter workflow, vitals, labs, diagnoses, medications, referrals, and patient history." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://damicohealth.com/guides/user-guide/" />
+
+<meta property="og:title" content="User Guide — DH Field EMR" />
+<meta property="og:description" content="Daily-use guide for clinicians using DH Field EMR." />
+<meta property="og:url" content="https://damicohealth.com/guides/user-guide/" />
+<meta property="og:type" content="article" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23F68630'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Quicksand,Arial,sans-serif' font-weight='700' font-size='40' fill='white'>D</text></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand" aria-label="DH Field EMR home">
+      <span class="brand-logo" aria-hidden="true">D</span>
+      <span>DH Field EMR</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li><a href="/#pricing">Pricing</a></li>
+        <li><a href="/#download">Download</a></li>
+        <li><a href="/#support">Support</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="/#download">Download</a>
+    </div>
+  </div>
+</header>
+
+<main class="guide-page">
+  <h1>User Guide</h1>
+  <p class="guide-subtitle">Daily clinic workflow for clinicians. How to document encounters fast and find what you need later.</p>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-title">On this page</div>
+    <ul>
+      <li><a href="#new-encounter">Creating a new encounter</a></li>
+      <li><a href="#demographics">Patient demographics &amp; MRN</a></li>
+      <li><a href="#vitals">Entering vitals</a></li>
+      <li><a href="#labs">Recording labs</a></li>
+      <li><a href="#diagnoses">Selecting diagnoses</a></li>
+      <li><a href="#medications">Adding medications</a></li>
+      <li><a href="#procedures">Procedures, imaging, surgery</a></li>
+      <li><a href="#referrals">Setting referrals</a></li>
+      <li><a href="#save-next">Save &amp; Next workflow</a></li>
+      <li><a href="#searching">Searching records</a></li>
+      <li><a href="#history">Patient history</a></li>
+      <li><a href="#mark-complete">Marking referrals complete</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="new-encounter">Creating a new encounter</h2>
+  <p>From the <code>Records</code> screen, tap <code>+ New Encounter</code>. The encounter form is a single page covering everything from demographics to discharge. Scroll down to fill in each section, or jump between them on the side rail (Mac/iPad).</p>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>You don't need to fill out every field. Only the patient name, date of birth, site, and provider are required. Everything else is optional — fill in what's clinically relevant.</p>
+  </div>
+
+  <h2 id="demographics">Patient demographics &amp; auto-MRN generation</h2>
+  <p>At the top of the form, enter:</p>
+  <ul>
+    <li><code>First name</code></li>
+    <li><code>Last name</code></li>
+    <li><code>Date of birth</code> (or estimated year)</li>
+    <li><code>Sex</code></li>
+    <li><code>Village</code> or location (optional)</li>
+  </ul>
+  <p>The <code>MRN</code> field auto-generates from name and DOB the moment you fill those out. If the patient has been seen before in your organization, the app detects this and surfaces their prior MRN with a <code>Return Patient</code> badge — tap it to link this encounter to their existing record.</p>
+
+  <h2 id="vitals">Entering vitals</h2>
+  <p>The Vitals section accepts:</p>
+  <ul>
+    <li><code>Temperature</code> — Celsius by default, with a toggle to Fahrenheit</li>
+    <li><code>Blood pressure</code> — systolic / diastolic in two side-by-side fields</li>
+    <li><code>Heart rate</code></li>
+    <li><code>Respiratory rate</code></li>
+    <li><code>Weight</code> — kg by default, toggle to lbs if needed</li>
+    <li><code>Height</code> — optional</li>
+    <li><code>SpO2</code></li>
+  </ul>
+  <p>Out-of-range values (very high BP, fever, low SpO2) are flagged with a colored highlight so they're easier to spot in the record later.</p>
+
+  <h2 id="labs">Recording labs</h2>
+  <p>Labs use one-tap buttons to keep entry fast.</p>
+
+  <h3>Binary tests (POS / NEG)</h3>
+  <p>For tests like malaria RDT, pregnancy, HIV rapid, and so on, tap <code>POS</code> or <code>NEG</code>. Tap again to clear. The app records the result and the timestamp.</p>
+
+  <h3>Numeric tests</h3>
+  <p>For tests with a numeric result (hemoglobin, glucose, etc.), tap the test name to open a small numeric pad. Type the value and tap <code>Done</code>.</p>
+
+  <h3>Urinalysis</h3>
+  <p>Urinalysis has a dedicated dipstick panel — leukocytes, nitrites, protein, glucose, ketones, blood, etc. Tap each pad to cycle through Negative, Trace, 1+, 2+, 3+.</p>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>Your admin can add custom lab tests in <code>Options → Lab Tests</code>. Anything you commonly run in your program can be turned into a one-tap button.</p>
+  </div>
+
+  <h2 id="diagnoses">Selecting diagnoses</h2>
+  <p>Tap <code>+ Add Diagnosis</code> to open the diagnosis picker. You can:</p>
+  <ul>
+    <li>Pick from a list of presets (your admin curates these)</li>
+    <li>Search by typing a few letters of the condition name</li>
+    <li>Use the text override to type a free-text diagnosis if it's not in your presets</li>
+    <li>Mark a diagnosis as <code>Confirmed</code>, <code>Suspected</code>, or <code>Rule out</code></li>
+    <li>Add multiple diagnoses for one encounter</li>
+  </ul>
+
+  <h2 id="medications">Adding medications</h2>
+  <p>There are two ways to add medications, optimized for different situations.</p>
+
+  <h3>Rx presets (fastest)</h3>
+  <p>Rx presets are pre-built prescription bundles for common scenarios — for example, "Malaria — adult" might add artemether-lumefantrine with the right dose, frequency, and duration in one tap. Tap a preset to add the whole bundle to the encounter, then adjust as needed.</p>
+
+  <h3>Medication builder</h3>
+  <p>For one-off prescriptions or anything not in a preset, tap <code>+ Build Medication</code>. The builder walks through:</p>
+  <ol>
+    <li>Drug name (search the formulary)</li>
+    <li>Dose (with weight-based calculator if a weight is on file)</li>
+    <li>Route — PO, IM, IV, topical, etc.</li>
+    <li>Frequency — once, BID, TID, QID, q4h, etc.</li>
+    <li>Duration — number of days</li>
+    <li>Notes — anything specific to this patient</li>
+  </ol>
+  <p>The builder checks the formulary in <code>Options → Formulary</code> for available stock or known forms.</p>
+
+  <h2 id="procedures">Procedures, imaging, surgical encounters</h2>
+  <p>Below the Rx section there are three optional blocks:</p>
+  <ul>
+    <li><code>Procedures</code> — pick from your preset list (incision &amp; drainage, suturing, dressing, etc.) and add notes</li>
+    <li><code>Imaging</code> — record what was ordered or done (X-ray, ultrasound) and the finding</li>
+    <li><code>Surgical Encounters</code> — for OR cases. Pick the procedure, surgeon, anesthesia type, and a status (Planned, In Progress, Completed)</li>
+  </ul>
+
+  <h2 id="referrals">Setting referrals with dates</h2>
+  <p>Tap <code>+ Add Referral</code> to record any onward referral — surgery day, follow-up clinic, hospital transfer, etc.</p>
+  <ul>
+    <li>Pick the <code>Referral Type</code> from your presets</li>
+    <li>Set a <code>Scheduled Date</code> if you have one</li>
+    <li>Add a destination or specialty</li>
+    <li>Add notes for the receiving team</li>
+  </ul>
+  <p>Open referrals show up in <code>Scheduling</code> so the team can plan around them.</p>
+
+  <h2 id="save-next">Save &amp; Next workflow for batch entry</h2>
+  <p>If you're entering a stack of paper forms after a clinic day, use <code>Save &amp; Next</code> at the bottom of the form instead of <code>Save</code>. This:</p>
+  <ol>
+    <li>Saves the current encounter</li>
+    <li>Clears the form</li>
+    <li>Pre-fills site, provider, and date from your last entry</li>
+    <li>Puts focus back at the top so you can start typing the next patient</li>
+  </ol>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>Most teams enter a 4-day clinic of 300+ patients in a few hours using Save &amp; Next. Get into a rhythm and don't switch between mouse and keyboard if you can help it.</p>
+  </div>
+
+  <h2 id="searching">Searching records</h2>
+  <p>From <code>Records</code>, the search box at the top accepts:</p>
+  <ul>
+    <li>Patient name (partial matches work)</li>
+    <li>MRN</li>
+    <li>Diagnosis</li>
+    <li>Medication</li>
+    <li>Site</li>
+  </ul>
+  <p>Below the search box, filter chips let you narrow by date range, provider, site, or diagnosis. Filters stack — so "all malaria-positive patients seen by Dr. Okafor at Site 3" is one search.</p>
+
+  <h2 id="history">Viewing patient history (multi-visit support)</h2>
+  <p>Tap any patient in the records list to see their full chart. Multiple visits show up in chronological order with a summary card for each visit:</p>
+  <ul>
+    <li>Date and site</li>
+    <li>Chief complaint</li>
+    <li>Diagnoses</li>
+    <li>Medications prescribed</li>
+    <li>Open referrals</li>
+  </ul>
+  <p>Tap a visit card to open the full encounter as it was originally written. From the patient header, tap <code>+ New Visit</code> to start a fresh encounter linked to the same MRN — useful for return patients.</p>
+
+  <h2 id="mark-complete">Marking referrals complete</h2>
+  <p>When a referral is fulfilled — surgery happens, patient is seen at follow-up, hospital transfer is complete — open the patient's chart and find the referral on their visit. Tap the referral card and choose <code>Mark Complete</code>. You can add an outcome note. The referral disappears from the open queue in <code>Scheduling</code>.</p>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>From the Scheduling screen, you can mark referrals complete in bulk by tapping each one in the list and choosing the action — useful at the end of a surgery day.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="brand">
+          <span class="brand-logo" aria-hidden="true">D</span>
+          <span>DH Field EMR</span>
+        </a>
+        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href="/#download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/guides/getting-started/">Getting Started</a></li>
+          <li><a href="/guides/user-guide/">User Guide</a></li>
+          <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="mailto:support@damicohealth.org">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>Made for global health teams.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

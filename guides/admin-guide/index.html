@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#F68630" />
+<title>Admin Guide — DH Field EMR</title>
+<meta name="description" content="Admin guide for DH Field EMR. Customize presets, manage cloud sync, share organization codes, run backups, generate donor reports, and manage subscriptions." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://damicohealth.com/guides/admin-guide/" />
+
+<meta property="og:title" content="Admin Guide — DH Field EMR" />
+<meta property="og:description" content="Admin guide for DH Field EMR." />
+<meta property="og:url" content="https://damicohealth.com/guides/admin-guide/" />
+<meta property="og:type" content="article" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23F68630'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Quicksand,Arial,sans-serif' font-weight='700' font-size='40' fill='white'>D</text></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand" aria-label="DH Field EMR home">
+      <span class="brand-logo" aria-hidden="true">D</span>
+      <span>DH Field EMR</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li><a href="/#pricing">Pricing</a></li>
+        <li><a href="/#download">Download</a></li>
+        <li><a href="/#support">Support</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="/#download">Download</a>
+    </div>
+  </div>
+</header>
+
+<main class="guide-page">
+  <h1>Admin Guide</h1>
+  <p class="guide-subtitle">For organization admins. Set up presets, manage your team, sync data, run backups, and handle subscriptions.</p>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-title">On this page</div>
+    <ul>
+      <li><a href="#roles">Admin vs Standard devices</a></li>
+      <li><a href="#admin-password">Setting an admin password</a></li>
+      <li><a href="#presets">Customizing presets</a></li>
+      <li><a href="#sites">Sites</a></li>
+      <li><a href="#physicians">Physicians</a></li>
+      <li><a href="#formulary">Formulary</a></li>
+      <li><a href="#procedures">Procedures</a></li>
+      <li><a href="#chief-complaints">Chief complaints</a></li>
+      <li><a href="#dx-presets">Diagnosis presets</a></li>
+      <li><a href="#labs">Lab tests</a></li>
+      <li><a href="#rx-presets">Rx presets</a></li>
+      <li><a href="#referrals">Referral types</a></li>
+      <li><a href="#hide-presets">Show/hide without deleting</a></li>
+      <li><a href="#cloud">Cloud Connection setup</a></li>
+      <li><a href="#sharing-code">Sharing your Organization Code</a></li>
+      <li><a href="#sync">Manual sync workflow</a></li>
+      <li><a href="#backup">Database backup</a></li>
+      <li><a href="#donor-reports">Generating donor reports</a></li>
+      <li><a href="#subscription">Managing the subscription tier</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="roles">Admin vs Standard device roles</h2>
+  <p>Every device in your organization is one of two roles:</p>
+  <ul>
+    <li><strong>Admin</strong> — can edit presets, manage cloud sync, run backups, generate donor reports, and change the subscription tier. Typically the team lead's device or the backend Mac.</li>
+    <li><strong>Standard</strong> — can create encounters, view records, and run analytics. Cannot change configuration or the formulary. Can be promoted to admin by an existing admin.</li>
+  </ul>
+  <p>The first device that creates the organization automatically becomes the admin. Additional admin devices are promoted from <code>Admin → Devices → [device name] → Promote to Admin</code>.</p>
+
+  <h2 id="admin-password">Setting an admin password</h2>
+  <p>The admin password protects the <code>Options</code> screen and the <code>Admin</code> configuration sections. Without it, even an admin device can't change presets.</p>
+  <ol>
+    <li>Open <code>Admin → Security</code></li>
+    <li>Tap <code>Set Admin Password</code></li>
+    <li>Enter and confirm your password</li>
+    <li>Save</li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-title">Important</div>
+    <p>Forgotten admin passwords can only be reset by another admin device on the same organization. If every admin device loses the password, contact <a href="mailto:support@damicohealth.org">support@damicohealth.org</a>.</p>
+  </div>
+
+  <h2 id="presets">Customizing presets</h2>
+  <p>Presets live in the <code>Options</code> tab. They control what shows up as one-tap buttons everywhere else in the app. Investing 30 minutes in good presets pays off across hundreds of patient encounters.</p>
+
+  <h3 id="sites">Sites</h3>
+  <p>Each clinic location your team works at. Add a name, optional location notes, and an active/inactive toggle. Sites appear as a picker on every encounter form.</p>
+
+  <h3 id="physicians">Physicians</h3>
+  <p>The clinicians on your team. Add name, role (MD, NP, PA, RN, etc.), and any credentials you want printed on records or reports.</p>
+
+  <h3 id="formulary">Formulary (medications)</h3>
+  <p>Your medication list. For each medication, capture:</p>
+  <ul>
+    <li>Drug name (generic and brand)</li>
+    <li>Available forms (tablet, suspension, injection)</li>
+    <li>Strengths in stock</li>
+    <li>Default dosing notes (adult and pediatric)</li>
+    <li>Common indications</li>
+  </ul>
+  <p>The formulary feeds the medication builder during encounters.</p>
+
+  <h3 id="procedures">Procedures</h3>
+  <p>The procedures your team performs. Examples: incision and drainage, suturing, dressing change, foreign body removal. Each procedure can have a default note template.</p>
+
+  <h3 id="chief-complaints">Chief complaints</h3>
+  <p>Common presenting complaints — fever, abdominal pain, cough, rash. Used as one-tap buttons on the encounter form. Add ones specific to your program (e.g. snake bite, road traffic injury).</p>
+
+  <h3 id="dx-presets">Diagnosis presets</h3>
+  <p>The diagnoses your team commonly makes. For each preset:</p>
+  <ul>
+    <li>Diagnosis name</li>
+    <li>Optional ICD-10 code</li>
+    <li>Default linked medications (so picking the diagnosis can suggest typical Rx)</li>
+  </ul>
+
+  <h3 id="labs">Lab tests (custom POS/NEG or numeric)</h3>
+  <p>Add the labs your program runs. For each:</p>
+  <ul>
+    <li>Test name</li>
+    <li>Type — <code>POS/NEG</code>, <code>numeric</code>, or <code>urinalysis dipstick</code></li>
+    <li>For numeric: units, reference range, and out-of-range flagging thresholds</li>
+  </ul>
+
+  <h3 id="rx-presets">Rx presets (prescription bundles)</h3>
+  <p>This is one of the biggest time savers. An Rx preset bundles a full prescription — drug, dose, route, frequency, duration — into one tap. Examples:</p>
+  <ul>
+    <li><code>Malaria — adult</code> → artemether-lumefantrine 80/480, PO, BID, 3 days</li>
+    <li><code>UTI — adult</code> → nitrofurantoin 100mg, PO, BID, 5 days</li>
+    <li><code>Strep throat — pediatric</code> → amoxicillin 50 mg/kg/day, PO, divided BID, 10 days</li>
+  </ul>
+  <p>Build a library of presets that match your program's most common prescriptions. The builder still lets you adjust on a per-patient basis.</p>
+
+  <h3 id="referrals">Referral types</h3>
+  <p>The kinds of referrals your team makes. Examples: surgery day, hospital transfer, follow-up clinic, OB/GYN, dental, ophthalmology. Each type can have a default destination.</p>
+
+  <h3 id="hide-presets">Show/hide presets without deleting</h3>
+  <p>Most preset editors have a <code>Visible</code> toggle. Turn it off to hide a preset from the encounter form without losing it — useful for seasonal items (e.g. specific antimalarials only relevant in certain trips) or items you might want to bring back.</p>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>Avoid deleting presets that have already been used in encounters. Hiding preserves historical records that reference the preset by name. Deleting may leave older encounters without a clean linked label.</p>
+  </div>
+
+  <h2 id="cloud">Cloud Connection setup</h2>
+  <p>If you're going to sync across multiple devices, you need a cloud connection. From <code>Admin → Cloud Connection</code>:</p>
+  <ol>
+    <li>Tap <code>Connect</code></li>
+    <li>Pick the cloud provider (Apple CloudKit by default; Supabase available for self-hosted organizations)</li>
+    <li>Authenticate or paste your project credentials (for self-hosted Supabase)</li>
+    <li>Confirm — the app verifies the connection and runs an initial schema check</li>
+  </ol>
+  <p>Once connected, the screen shows your organization code, the sync status (last successful sync, last attempted sync, any errors), and a list of devices currently joined.</p>
+
+  <h2 id="sharing-code">Sharing your Organization Code with team members</h2>
+  <p>Each new device that joins your team needs your Organization Code. From <code>Admin → Cloud Connection</code>:</p>
+  <ol>
+    <li>Tap <code>Share Organization Code</code></li>
+    <li>Send the code through any channel (email, text, WhatsApp, or read it out loud)</li>
+    <li>The teammate enters it on the Join Organization screen during their setup wizard</li>
+  </ol>
+  <div class="callout">
+    <div class="callout-title">Note</div>
+    <p>The Organization Code is the only thing standing between your data and a stranger. Treat it like a password — share only with team members.</p>
+  </div>
+
+  <h2 id="sync">Manual sync workflow (sync at end of day)</h2>
+  <p>The app syncs automatically when internet is available, but most field teams prefer to control when sync happens — usually at the end of each clinic day when you're back at the lodge with reliable wifi.</p>
+  <ol>
+    <li>From <code>Admin → Sync</code>, set sync mode to <code>Manual</code></li>
+    <li>Each device works offline during the day</li>
+    <li>At end of day, gather devices in one place with internet</li>
+    <li>On each device, tap <code>Sync Now</code></li>
+    <li>The backend Mac (or admin device) merges everything and pushes to the cloud</li>
+    <li>Other devices pull the merged result</li>
+  </ol>
+  <p>The sync log on the Cloud Connection screen shows progress, conflicts, and any errors.</p>
+
+  <h2 id="backup">Database backup</h2>
+  <p>Even with cloud sync, run a local backup at least once per trip. From <code>Admin → Backup</code>:</p>
+  <ol>
+    <li>Tap <code>Export Backup</code></li>
+    <li>Pick a destination (Files app, AirDrop to a teammate's device, or a USB drive on Mac)</li>
+    <li>The app writes an encrypted backup file containing all encounters, presets, and configuration</li>
+  </ol>
+  <p>Restore via <code>Admin → Backup → Import Backup</code> on a fresh device. You'll need the same admin password to decrypt.</p>
+
+  <h2 id="donor-reports">Generating donor reports</h2>
+  <p>Donors typically want a one-page summary of activity. From <code>Analytics → Donor Report</code>:</p>
+  <ol>
+    <li>Pick a date range (last trip, calendar year, custom)</li>
+    <li>Pick a site filter if needed (or leave empty for all)</li>
+    <li>Choose the sections to include — patient counts, age and sex breakdown, top diagnoses, lab volume, surgeries, referrals fulfilled</li>
+    <li>Tap <code>Generate Report</code></li>
+    <li>Export as PDF or CSV</li>
+  </ol>
+  <div class="callout">
+    <div class="callout-title">Tip</div>
+    <p>Save your most-used report configurations as templates. The next trip you can re-run the same report with one tap.</p>
+  </div>
+
+  <h2 id="subscription">Managing the subscription tier</h2>
+  <p>Subscriptions are managed through Apple's App Store, but the entry point is inside the app:</p>
+  <ol>
+    <li>Open <code>Admin → Subscription</code></li>
+    <li>You'll see your current tier and current device count / patient count vs limits</li>
+    <li>Tap a tier card to upgrade or downgrade</li>
+    <li>Apple's StoreKit handles the purchase</li>
+    <li>The app picks up the new entitlement immediately</li>
+  </ol>
+  <p>To cancel or change billing, go to your iPhone or iPad <code>Settings → [Your Name] → Subscriptions</code>, or on Mac, <code>App Store → [Your Name] → Account Settings → Subscriptions</code>. Apple handles the billing — Damico Health Inc. never sees your payment details.</p>
+  <div class="callout">
+    <div class="callout-title">Note</div>
+    <p>If you cancel a paid tier, your data is preserved. The app drops you back to the Free tier, which may impose lower device or patient limits. Existing data above those limits stays accessible — you just can't add new beyond the cap until you re-subscribe.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="brand">
+          <span class="brand-logo" aria-hidden="true">D</span>
+          <span>DH Field EMR</span>
+        </a>
+        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href="/#download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/guides/getting-started/">Getting Started</a></li>
+          <li><a href="/guides/user-guide/">User Guide</a></li>
+          <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="mailto:support@damicohealth.org">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>Made for global health teams.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
