@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
 <title>Privacy Policy — DH Field EMR</title>
-<meta name="description" content="Privacy Policy for DH Field EMR by Damico Health Inc." />
+<meta name="description" content="Privacy Policy for DH Field EMR by Damico Health Inc. We don't collect your patient data — it stays on your device and, optionally, in your own Supabase cloud." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://damicohealth.com/privacy/" />
 
@@ -32,101 +32,77 @@
     <nav aria-label="Primary">
       <ul class="nav-links">
         <li><a href="/#features">Features</a></li>
-        <li><a href="/#pricing">Pricing</a></li>
-        <li><a href="/#download">Download</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li><a href="/#opensource">Open Source</a></li>
         <li><a href="/#support">Support</a></li>
       </ul>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="/#download">Download</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
     </div>
   </div>
 </header>
 
 <main class="legal-page">
   <h1>Privacy Policy</h1>
-  <p class="legal-meta"><strong>DH Field EMR</strong><br />
-  Effective Date: [Date of App Store launch]<br />
-  Last Updated: [Date of App Store launch]</p>
+  <p class="legal-meta"><strong>DH Field EMR</strong> &middot; a project of Damico Health Inc.<br />
+  Last updated: May 2026</p>
 
   <h2>1. Introduction</h2>
-  <p>This Privacy Policy explains how Damico Health Inc. ("we," "us," or "our") collects, uses, and discloses information when you use the DH Field EMR mobile and desktop applications (the "App").</p>
-  <p>DH Field EMR is designed exclusively for international medical outreach and global health programs. It is NOT intended for use within the United States healthcare system and is NOT a certified Electronic Health Record (EHR) system under any regulatory framework.</p>
+  <p>This Privacy Policy explains how Damico Health Inc. ("we," "us," or "our") handles information in connection with the DH Field EMR web application (the "App") and this website. DH Field EMR is a free, open-source tool designed for international medical outreach and global health programs. It is <strong>not</strong> intended for use within the United States healthcare system and is <strong>not</strong> a certified Electronic Health Record (EHR) system.</p>
 
-  <h2>2. Information We Do NOT Collect</h2>
-  <p>Damico Health Inc. does not access, view, or store the patient data you enter into the App. We do not operate any servers that hold patient medical records.</p>
-  <p>Specifically, we do NOT collect:</p>
-  <ul>
-    <li>Patient names, dates of birth, or demographic information</li>
-    <li>Medical histories, diagnoses, or treatment information</li>
-    <li>Laboratory results or clinical data</li>
-    <li>Photos, documents, or other patient-related files</li>
-    <li>Location data beyond what Apple provides for crash reporting</li>
-  </ul>
+  <h2>2. We Do Not Collect Your Patient Data</h2>
+  <p>We do not operate any servers that store the patient information you enter into the App, and we cannot see it. The App runs entirely in your own browser, and this website is a static site that does not collect patient data of any kind.</p>
+  <p>We never receive your patients' names, dates of birth, demographics, medical histories, diagnoses, lab results, medications, or any other clinical information.</p>
 
-  <h2>3. How Data is Stored</h2>
-  <p><strong>Local Storage:</strong> All patient data entered into the App is stored locally on your device using Apple's Core Data framework.</p>
-  <p><strong>Cloud Sync (Optional):</strong> If you enable cloud sync by creating or joining an Organization, your data is stored in Apple's CloudKit Public Database service. This data is partitioned by your Organization Code and is accessible only to devices that have been registered with that Organization Code.</p>
-  <p><strong>Apple's Role:</strong> When cloud sync is enabled, data is transmitted to and stored by Apple's CloudKit service. Apple's privacy policy governs that storage. See <a href="https://apple.com/legal/privacy">apple.com/legal/privacy</a>.</p>
+  <h2>3. Where Your Data Lives</h2>
+  <p><strong>On your device.</strong> Records you enter are saved locally in your browser's storage on the device you use. They stay on that device unless you sync or back them up.</p>
+  <p><strong>In your own cloud (optional).</strong> If you choose to enable sync, your records are stored in a <strong>Supabase</strong> project that <em>you</em> create and control. We do not host it, administer it, or have access to it. You hold the credentials, you choose the region, and you can export or delete the data at any time. Supabase's own terms and privacy policy govern that hosting — see <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</p>
 
-  <h2>4. Information We Do Collect</h2>
-  <p>We may collect limited information through standard Apple services:</p>
-  <ul>
-    <li><strong>Subscription Status:</strong> If you subscribe to a paid tier, Apple provides us with anonymous subscription receipt information to verify your entitlement.</li>
-    <li><strong>Crash Reports:</strong> If the App crashes, Apple may send anonymous crash diagnostics to us through Apple's standard developer services.</li>
-    <li><strong>App Store Analytics:</strong> Apple provides aggregate, anonymous App Store analytics (downloads, impressions) through App Store Connect.</li>
-  </ul>
+  <h2>4. What This Website Collects</h2>
+  <p>This website (damicohealth.com) is hosted on GitHub Pages and contains no advertising, no analytics or tracking scripts, and no user accounts. As with any website, the hosting provider may log standard technical request information (such as IP address and browser type) for security and reliability; that is governed by <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub's privacy statement</a>. We do not place tracking cookies.</p>
 
   <h2>5. Your Responsibilities</h2>
-  <p>When using DH Field EMR, YOU and YOUR ORGANIZATION are responsible for:</p>
+  <p>Because your data stays under your control, you and your organization are responsible for:</p>
   <ul>
     <li>Obtaining appropriate patient consent before collecting medical data</li>
-    <li>Complying with data protection laws in your country of operation</li>
-    <li>Securing devices that contain patient information</li>
-    <li>Maintaining adequate backups of your data</li>
-    <li>Controlling which devices are registered to your Organization</li>
-    <li>Appropriately handling, storing, and eventually deleting patient records</li>
+    <li>Complying with the data-protection laws of your country of operation</li>
+    <li>Securing the devices that hold patient information</li>
+    <li>Keeping regular backups (the App can export a complete backup file)</li>
+    <li>Protecting your Supabase URL and key, and controlling who can use them</li>
+    <li>Appropriately retaining and, when required, deleting patient records</li>
   </ul>
 
-  <h2>6. Subscriptions and Payments</h2>
-  <p>Subscriptions are managed exclusively through Apple's App Store. We do not process payments directly. You can manage, pause, or cancel your subscription at any time through your Apple ID settings.</p>
+  <h2>6. It's Free — No Payments</h2>
+  <p>DH Field EMR is free and open-source. There are no subscriptions, no per-seat fees, and we do not process any payments to use it. If you choose to make a voluntary donation, that payment is handled entirely by PayPal under <a href="https://www.paypal.com/us/legalhub/privacy-full" target="_blank" rel="noopener">PayPal's privacy policy</a>; we receive only the limited information PayPal provides about a donation.</p>
 
   <h2>7. Children's Privacy</h2>
-  <p>The App is not directed at children. It is a professional tool used by medical personnel for the documentation of patient encounters, which may include patients of any age, but the App is operated by trained adults only.</p>
+  <p>The App is a professional tool operated by trained adults. While the patients documented may be of any age, the App is not directed at or used by children.</p>
 
   <h2>8. International Data Transfers</h2>
-  <p>If you use cloud sync, your data is stored on Apple's servers which may be located in various countries. You are responsible for ensuring compliance with cross-border data transfer laws applicable to your organization.</p>
+  <p>If you enable sync, you select the region for your own Supabase project, and your data is stored there. You are responsible for ensuring compliance with any cross-border data-transfer laws applicable to your organization.</p>
 
   <h2>9. Data Retention and Deletion</h2>
   <ul>
-    <li>Data stored locally on your device persists until you delete it from the device or uninstall the App.</li>
-    <li>Data stored in CloudKit persists until you delete it through the App or delete your Organization.</li>
-    <li>You may request that we help you delete your Organization and all associated data by emailing <a href="mailto:support@damicohealth.org">support@damicohealth.org</a>.</li>
+    <li>Data stored locally on a device persists until you delete it, clear the app's storage, or remove the app from that device.</li>
+    <li>Data stored in your Supabase project persists until you delete it. Because the project is entirely yours, you can remove records or delete the whole project at any time from your Supabase dashboard.</li>
+    <li>We cannot delete your data for you, because we do not hold it.</li>
   </ul>
 
   <h2>10. Security</h2>
-  <p>We use Apple's standard security practices for iOS, iPadOS, and macOS apps, including:</p>
-  <ul>
-    <li>App Sandbox protection</li>
-    <li>HTTPS encryption for all network communications</li>
-    <li>CloudKit's built-in encryption for cloud-stored data</li>
-    <li>Hardware-backed encryption on supported devices</li>
-  </ul>
+  <p>Network traffic between the App, this website, and Supabase uses HTTPS encryption. Your Supabase project includes database access controls (row-level security) configured by the setup script. You are responsible for keeping your Supabase credentials and your devices secure. Because the App is open source, you (or anyone) can review exactly how data is stored and transmitted.</p>
 
   <h2>11. Changes to This Policy</h2>
-  <p>We may update this Privacy Policy from time to time. Changes will be posted to this page with an updated "Last Updated" date. Continued use of the App after changes constitutes acceptance of the updated policy.</p>
+  <p>We may update this Privacy Policy from time to time. Changes will be posted to this page with an updated date above. Continued use of the App after changes constitutes acceptance of the updated policy.</p>
 
   <h2>12. Contact Us</h2>
-  <p>If you have questions about this Privacy Policy, please contact:</p>
   <p>Damico Health Inc.<br />
   Email: <a href="mailto:support@damicohealth.org">support@damicohealth.org</a><br />
   Website: <a href="https://damicohealth.org">damicohealth.org</a></p>
 
   <h2>13. Disclaimers</h2>
-  <p>DH Field EMR IS NOT A MEDICAL DEVICE. It is a data entry and record-keeping tool only. All clinical decisions must be made by qualified healthcare professionals. Damico Health Inc. assumes no liability for clinical decisions made using data from this application.</p>
-  <p>THIS SOFTWARE IS NOT HIPAA COMPLIANT. It is not intended for use within the United States healthcare system or any other jurisdiction requiring certified electronic health record systems.</p>
-
-  <p class="legal-meta" style="margin-top:40px;"><strong>Last Updated:</strong> [Date]</p>
+  <p><strong>DH Field EMR is not a medical device.</strong> It is a data-entry and record-keeping tool only. All clinical decisions must be made by qualified healthcare professionals. Damico Health Inc. assumes no liability for clinical decisions made using data from the App.</p>
+  <p><strong>The App is not HIPAA-compliant</strong> and is not intended for use within the United States healthcare system or any jurisdiction requiring certified electronic health record systems. The software is provided free and "as is," without warranty of any kind.</p>
 </main>
 
 <footer class="footer">
@@ -137,33 +113,35 @@
           <span class="brand-logo" aria-hidden="true">D</span>
           <span>DH Field EMR</span>
         </a>
-        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+        <p>A free, open-source electronic medical record built for global health field medicine. A project of Damico Health Inc.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#features">Features</a></li>
-          <li><a href="/#pricing">Pricing</a></li>
-          <li><a href="/#download">Download</a></li>
+          <li><a href="/#opensource">Open Source</a></li>
+          <li><a href="https://github.com/DamicoHealth/dh-field-emr">Source Code</a></li>
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h4>Guides</h4>
+        <ul>
+          <li><a href="/guides/getting-started/">Setup Guide</a></li>
+          <li><a href="/guides/user-guide/">User Guide</a></li>
+          <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal &amp; Contact</h4>
         <ul>
           <li><a href="/privacy/">Privacy Policy</a></li>
           <li><a href="/terms/">Terms of Service</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Organization</h4>
-        <ul>
-          <li><a href="https://damicohealth.org">damicohealth.org</a></li>
           <li><a href="mailto:support@damicohealth.org">Contact</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>&copy; 2026 Damico Health Inc. Source code available on GitHub.</div>
       <div>Made for global health teams.</div>
     </div>
   </div>

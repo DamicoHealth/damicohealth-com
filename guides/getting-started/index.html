@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
-<title>Getting Started — DH Field EMR</title>
-<meta name="description" content="First-time setup guide for DH Field EMR. Download the app, complete the setup wizard, and create your first patient encounter." />
+<title>Setup Guide — DH Field EMR</title>
+<meta name="description" content="Step-by-step setup for DH Field EMR: install the app on your device, choose offline-only or cloud sync, and connect your own free Supabase database." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://damicohealth.com/guides/getting-started/" />
 
-<meta property="og:title" content="Getting Started — DH Field EMR" />
-<meta property="og:description" content="First-time setup guide for DH Field EMR." />
+<meta property="og:title" content="Setup Guide — DH Field EMR" />
+<meta property="og:description" content="Install the app, choose offline-only or cloud sync, and connect your own Supabase." />
 <meta property="og:url" content="https://damicohealth.com/guides/getting-started/" />
 <meta property="og:type" content="article" />
 
@@ -20,6 +20,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../styles.css" />
+<style>
+  /* Local helpers for code blocks in the guides */
+  pre.code { background:#0f172a; color:#e2e8f0; padding:16px 18px; border-radius:10px; overflow:auto; font-size:12.5px; line-height:1.5; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  .steps { counter-reset: step; list-style:none; padding-left:0; }
+  .steps > li { position:relative; padding-left:46px; margin-bottom:14px; }
+  .steps > li::before { counter-increment: step; content: counter(step); position:absolute; left:0; top:-2px; width:30px; height:30px; background:var(--primary,#F68630); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+</style>
 </head>
 <body>
 
@@ -33,139 +40,215 @@
       <ul class="nav-links">
         <li><a href="/#features">Features</a></li>
         <li><a href="/guides/">Guides</a></li>
-        <li><a href="/#pricing">Pricing</a></li>
-        <li><a href="/#download">Download</a></li>
+        <li><a href="/#opensource">Open Source</a></li>
         <li><a href="/#support">Support</a></li>
       </ul>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="/#download">Download</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
     </div>
   </div>
 </header>
 
 <main class="guide-page">
-  <h1>Getting Started</h1>
-  <p class="guide-subtitle">For first-time users. Get the app running, complete setup, and document your first patient encounter.</p>
+  <h1>Setup Guide</h1>
+  <p class="guide-subtitle">Get DH Field EMR running on your device in a few minutes — offline-only, or synced to your own free cloud.</p>
 
   <nav class="toc" aria-label="Table of contents">
     <div class="toc-title">On this page</div>
     <ul>
-      <li><a href="#download">1. Download the app</a></li>
-      <li><a href="#first-launch">2. First launch and Terms agreement</a></li>
-      <li><a href="#setup-paths">3. Choose a setup path</a></li>
-      <li><a href="#device-name">4. Set your device name</a></li>
-      <li><a href="#interface">5. The main interface</a></li>
-      <li><a href="#first-encounter">6. Create your first encounter</a></li>
-      <li><a href="#next-steps">7. Next steps</a></li>
+      <li><a href="#need">1. What you'll need</a></li>
+      <li><a href="#install">2. Install the app</a></li>
+      <li><a href="#mode">3. Choose how you'll use it</a></li>
+      <li><a href="#supabase">4. Set up your own cloud (Supabase)</a></li>
+      <li><a href="#connect">5. Connect the app</a></li>
+      <li><a href="#more-devices">6. Add more devices</a></li>
+      <li><a href="#configure">7. Make it yours</a></li>
+      <li><a href="#first">8. Your first patient</a></li>
+      <li><a href="#safe">9. Keeping your data safe</a></li>
+      <li><a href="#next">10. Next steps</a></li>
     </ul>
   </nav>
 
-  <h2 id="download">1. Download the app</h2>
-  <p>DH Field EMR runs on iPhone, iPad, and Mac. Download it from the Apple App Store.</p>
-  <p><a href="/#download" class="btn btn-primary">Download on App Store</a></p>
-  <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>The app is free to download and includes a free tier with no time limit. You can upgrade your tier later from inside the app if your team grows.</p>
-  </div>
-
-  <h2 id="first-launch">2. First launch and Terms agreement</h2>
-  <p>The first time you open DH Field EMR, you'll see a Terms of Service screen. Read through and tap <code>Agree</code> to continue. This covers:</p>
+  <h2 id="need">1. What you'll need</h2>
   <ul>
-    <li>The app is for international medical outreach only — <strong>not</strong> for use within US healthcare</li>
-    <li>It is not HIPAA compliant and not a certified EHR</li>
-    <li>Your organization is responsible for patient consent and local data protection laws</li>
-    <li>All clinical decisions are made by qualified clinicians, not the app</li>
-  </ul>
-  <div class="callout warning">
-    <div class="callout-title">Important</div>
-    <p>If your work involves US-based patients or any setting that requires HIPAA compliance, this app is not appropriate for you. See the <a href="/terms/">Terms of Service</a> for full details.</p>
-  </div>
-
-  <h2 id="setup-paths">3. Choose a setup path</h2>
-  <p>After agreeing to the Terms, the setup wizard offers three options. Pick the one that matches your situation.</p>
-
-  <h3>Standalone</h3>
-  <p>Best for: a solo clinician on a single device, or trying out the app.</p>
-  <ul>
-    <li>All data lives on this device only</li>
-    <li>No cloud sync</li>
-    <li>No organization code needed</li>
-    <li>You can switch to an organization later from the Admin screen</li>
-  </ul>
-
-  <h3>Create Organization</h3>
-  <p>Best for: the first device for a team. Whoever sets this up becomes the admin.</p>
-  <ul>
-    <li>Choose an organization name</li>
-    <li>The app generates a unique <strong>Organization Code</strong> (e.g. <code>HOPE-2026-XQ7K</code>)</li>
-    <li>Set an admin password to protect customization and configuration</li>
-    <li>Connect to the cloud so other devices can join</li>
+    <li>A device with a modern browser — an <strong>iPad/iPhone</strong> (Safari), an <strong>Android</strong> tablet/phone (Chrome), or a <strong>laptop</strong> (Chrome or Edge).</li>
+    <li><strong>For cloud sync (optional but recommended):</strong> a free <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> account. This is where your team's records live so multiple devices stay in sync and your data has an off-device home. It's free for the volumes a field clinic produces.</li>
   </ul>
   <div class="callout">
-    <div class="callout-title">Save your Organization Code</div>
-    <p>Write it down somewhere safe. You'll need to give it to teammates who join your organization later.</p>
+    <div class="callout-title">No app store, no purchase</div>
+    <p>DH Field EMR is a web app. You "install" it by adding it to your home screen — there's nothing to buy and no account to create with us.</p>
   </div>
 
-  <h3>Join Organization</h3>
-  <p>Best for: additional devices joining a team that already has an admin device set up.</p>
-  <ul>
-    <li>Get the Organization Code from your admin</li>
-    <li>Enter it on the Join screen</li>
-    <li>The app downloads your team's presets and history</li>
-    <li>You start as a Standard device — your admin can promote you if needed</li>
-  </ul>
+  <h2 id="install">2. Install the app</h2>
+  <p>First, open the app in your browser:</p>
+  <p><a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a></p>
+  <p>Then add it to your home screen so it opens like a normal app and works offline:</p>
 
-  <h2 id="device-name">4. Set your device name</h2>
-  <p>Give this device a name so the rest of your team can tell it apart in sync logs and audit trails. Examples:</p>
-  <ul>
-    <li><code>Triage iPad 1</code></li>
-    <li><code>Dr. Okafor's iPhone</code></li>
-    <li><code>Backend Mac</code></li>
-  </ul>
-  <p>You can change this later in <code>Admin → Device Name</code>.</p>
+  <h3>iPad &amp; iPhone (Safari)</h3>
+  <ol class="steps">
+    <li>Open the link above in <strong>Safari</strong> (not Chrome — only Safari can install on iOS).</li>
+    <li>Tap the <strong>Share</strong> button (the square with an up-arrow).</li>
+    <li>Choose <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</li>
+    <li>From now on, <strong>always open the app from the new home-screen icon</strong> — that's what makes it work reliably offline.</li>
+  </ol>
 
-  <h2 id="interface">5. The main interface</h2>
-  <p>Once setup is complete, you'll see the main app. There are five sections in the top navigation:</p>
+  <h3>Android (Chrome)</h3>
+  <ol class="steps">
+    <li>Open the link in <strong>Chrome</strong>.</li>
+    <li>Tap the menu (⋮) and choose <strong>Install app</strong> (or tap the "Install" banner if it appears).</li>
+    <li>Open it from the new icon in your app drawer.</li>
+  </ol>
 
-  <h3>Records</h3>
-  <p>Where most of your work happens. Create new encounters, search past records, view patient history, and mark referrals complete.</p>
-
-  <h3>Analytics</h3>
-  <p>Real-time dashboards showing patient volume, disease burden, lab positivity rates, provider productivity, and donor-ready summary reports.</p>
-
-  <h3>Scheduling</h3>
-  <p>Surgery day planning and referral tracking. See who's scheduled and where, and mark surgeries complete.</p>
-
-  <h3>Options</h3>
-  <p>Customize presets — sites, physicians, medications, diagnoses, lab tests, prescription bundles, referral types, and more. Available to admin devices.</p>
-
-  <h3>Admin</h3>
-  <p>Cloud Connection, sync controls, database backup, donor report generation, subscription tier management, and device settings. Admin devices have the full version; standard devices see a reduced subset.</p>
-
-  <h2 id="first-encounter">6. Create your first patient encounter</h2>
-  <ol>
-    <li>Tap <code>Records</code></li>
-    <li>Tap <code>+ New Encounter</code></li>
-    <li>Enter patient first name, last name, and date of birth — the MRN auto-generates</li>
-    <li>Choose a site and a provider</li>
-    <li>Enter chief complaint (or pick from presets)</li>
-    <li>Fill out vitals (temperature, blood pressure, weight)</li>
-    <li>Record any labs as POS / NEG or numeric values</li>
-    <li>Pick a diagnosis from presets, or type a custom one</li>
-    <li>Add medications, procedures, imaging, or referrals as needed</li>
-    <li>Tap <code>Save</code></li>
+  <h3>Laptop / Desktop (Chrome or Edge)</h3>
+  <ol class="steps">
+    <li>Open the link in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
+    <li>Click the <strong>Install</strong> icon in the address bar (a small monitor with a down-arrow), or use the menu → <strong>Install</strong>.</li>
   </ol>
   <div class="callout">
-    <div class="callout-title">Tip — Save &amp; Next</div>
-    <p>For high-volume clinic days, use <code>Save &amp; Next</code> instead of <code>Save</code>. It saves the current encounter and immediately opens a fresh form so you can roll through patients without going back to the records list every time.</p>
+    <div class="callout-title">Updating later</div>
+    <p>When a new version ships, the app shows a small <strong>"Update now"</strong> bar — just tap it. You can always check which version you're running: it's shown next to the title at the top (e.g. <code>v2026-05-30 17:22</code>).</p>
   </div>
 
-  <h2 id="next-steps">7. Next steps</h2>
+  <h2 id="mode">3. Choose how you'll use it</h2>
+  <p>The first time you open the app, a short setup wizard asks how you want to run it. There are three choices:</p>
+
+  <h3>Standalone (Offline Only)</h3>
+  <p>Best for trying it out, or a single device with no need to share data.</p>
   <ul>
-    <li>Daily clinic workflow — see the <a href="/guides/user-guide/">User Guide</a></li>
-    <li>Customizing presets, sync, backups, and donor reports — see the <a href="/guides/admin-guide/">Admin Guide</a></li>
-    <li>Questions or stuck on setup — email <a href="mailto:support@damicohealth.org">support@damicohealth.org</a></li>
+    <li>All records stay on this one device.</li>
+    <li>No Supabase, no setup — just name your device and start.</li>
+    <li>You can switch to cloud sync later from the <strong>Admin</strong> screen.</li>
+  </ul>
+
+  <h3>New Organization</h3>
+  <p>Best for the <strong>first</strong> device of a team. You'll create your own Supabase database (next section), and this device becomes the admin.</p>
+
+  <h3>Join Existing Setup</h3>
+  <p>Best for <strong>additional</strong> devices joining a team that's already set up. You'll paste the same Supabase URL and key your team already uses (see <a href="#more-devices">section 6</a>).</p>
+
+  <div class="callout">
+    <div class="callout-title">Just want to look around?</div>
+    <p>Pick <strong>Standalone</strong>. It takes 10 seconds and you can explore everything. Nothing you enter is sent anywhere.</p>
+  </div>
+
+  <h2 id="supabase">4. Set up your own cloud (Supabase)</h2>
+  <p>This is the one technical step, and you only do it <strong>once</strong> for your whole team. It gives your records a safe home in the cloud that <em>you</em> own and control.</p>
+
+  <ol class="steps">
+    <li>Go to <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and create a free account.</li>
+    <li>Click <strong>New project</strong>. Give it a name (e.g. "Hope Clinic EMR"), set a database password (save it somewhere safe), pick a region near where you work, and create it. Wait a minute for it to finish setting up.</li>
+    <li>In the left sidebar, open the <strong>SQL Editor</strong> and click <strong>New query</strong>.</li>
+    <li>Copy the entire block below, paste it into the editor, and click <strong>Run</strong>. You should see "Success."</li>
+  </ol>
+
+  <pre class="code">-- DH Field EMR — Supabase setup (run once). Safe to re-run.
+CREATE TABLE IF NOT EXISTS records (
+  id UUID PRIMARY KEY,
+  device_id TEXT, site TEXT, date TEXT, mrn TEXT,
+  given_name TEXT, family_name TEXT, name TEXT, sex TEXT, dob TEXT, phone TEXT,
+  pregnant TEXT, breastfeeding TEXT, temp TEXT, bp TEXT, weight TEXT,
+  allergies TEXT, current_meds TEXT, pmh TEXT, chief_concern TEXT,
+  labs JSONB DEFAULT '{}'::jsonb, lab_comments TEXT,
+  urinalysis JSONB DEFAULT '{}'::jsonb, blood_glucose TEXT,
+  diagnosis TEXT, diagnosis_codes JSONB DEFAULT '[]'::jsonb,
+  medications JSONB DEFAULT '[]'::jsonb, treatment_notes TEXT, treatment TEXT,
+  procedures JSONB DEFAULT '[]'::jsonb, transport TEXT, travel_time TEXT,
+  access_to_care JSONB, referral_type TEXT, referral_date TEXT, referral_status TEXT,
+  imaging JSONB, surgery JSONB, provider TEXT, notes TEXT,
+  custom_fields JSONB DEFAULT '{}'::jsonb, template_id TEXT, template_name TEXT,
+  age_estimated BOOLEAN DEFAULT false, saved_at TIMESTAMPTZ,
+  sync_version INTEGER DEFAULT 1, deleted BOOLEAN DEFAULT false,
+  synced_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS devices (
+  id TEXT PRIMARY KEY, name TEXT NOT NULL, role TEXT DEFAULT 'standard',
+  org_name TEXT, last_sync_at TIMESTAMPTZ, created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS config (
+  key TEXT PRIMARY KEY, value JSONB, updated_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_records_synced_at ON records (synced_at);
+CREATE INDEX IF NOT EXISTS idx_records_device_id ON records (device_id);
+CREATE INDEX IF NOT EXISTS idx_records_mrn ON records (mrn);
+ALTER TABLE records ENABLE ROW LEVEL SECURITY;
+ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE config  ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_read_records"   ON records FOR SELECT USING (true);
+CREATE POLICY "anon_insert_records" ON records FOR INSERT WITH CHECK (
+  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+CREATE POLICY "anon_update_records" ON records FOR UPDATE USING (
+  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+CREATE POLICY "anon_read_devices"   ON devices FOR SELECT USING (true);
+CREATE POLICY "anon_insert_devices" ON devices FOR INSERT WITH CHECK (true);
+CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true);
+CREATE POLICY "anon_read_config"   ON config FOR SELECT USING (true);
+CREATE POLICY "anon_write_config"  ON config FOR INSERT WITH CHECK (true);
+CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true);
+CREATE POLICY "no_delete_records" ON records FOR DELETE USING (false);
+CREATE POLICY "no_delete_devices" ON devices FOR DELETE USING (false);
+CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);</pre>
+
+  <div class="callout">
+    <div class="callout-title">Prefer the full file?</div>
+    <p>The complete, commented version lives in the source repo at <code>supabase/setup.sql</code> — see the <a href="https://github.com/DamicoHealth/dh-field-emr">GitHub repository</a>.</p>
+  </div>
+
+  <h2 id="connect">5. Connect the app</h2>
+  <p>Back in the setup wizard (on the device you chose <strong>New Organization</strong>), you'll be asked for two things from Supabase:</p>
+  <ol class="steps">
+    <li>In Supabase, open <strong>Settings → API</strong> (the gear icon).</li>
+    <li>Copy your <strong>Project URL</strong> — it looks like <code>https://abcdxyz.supabase.co</code>.</li>
+    <li>Copy your <strong>anon</strong> key (also called the "publishable" key) — a long string starting with <code>eyJ…</code>. If you only see "Publishable" and "Secret," use <strong>Publishable</strong>. If your project shows newer keys, look for <em>"Legacy anon / service_role keys"</em> and copy the <strong>anon</strong> one.</li>
+    <li>Paste both into the app's <strong>Supabase URL</strong> and <strong>Supabase Anon Key</strong> fields and continue.</li>
+    <li>Let it <strong>seed the default presets</strong> (medications, diagnoses, sites, etc.), <strong>name this device</strong>, and <strong>set an admin password</strong> (this protects customization and settings).</li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-title">Use the anon / publishable key — not the secret one</div>
+    <p>Never put your <strong>service_role</strong> or <strong>secret</strong> key in the app or share it. The anon/publishable key is the one meant for apps.</p>
+  </div>
+
+  <h2 id="more-devices">6. Add more devices</h2>
+  <p>For every other phone, tablet, or laptop on your team:</p>
+  <ol class="steps">
+    <li>Install the app (section 2) and open it.</li>
+    <li>In the setup wizard, choose <strong>Join Existing Setup</strong>.</li>
+    <li>Paste the <strong>same Supabase URL and anon key</strong> the first device used. (Keep them somewhere your team can find — they're the "key" to your shared data.)</li>
+    <li>Name the device. It'll pull down your presets and history automatically.</li>
+  </ol>
+
+  <h2 id="configure">7. Make it yours</h2>
+  <p>On the admin device, open <strong>Options</strong> (and <strong>Admin</strong>) to tailor the app to your clinic:</p>
+  <ul>
+    <li>Add your <strong>sites</strong>, <strong>providers</strong>, and edit the medication / diagnosis / procedure presets.</li>
+    <li>Use the <strong>form builder</strong> to add your own sections and questions, or create multiple encounter forms (e.g. general vs. surgical).</li>
+  </ul>
+  <p>Full details are in the <a href="/guides/admin-guide/">Admin Guide</a>. Changes sync to every device automatically.</p>
+
+  <h2 id="first">8. Your first patient</h2>
+  <ol class="steps">
+    <li>Tap <strong>+ New Encounter</strong>.</li>
+    <li>Enter the patient's name and date of birth — the MRN fills in automatically.</li>
+    <li>Pick a site and provider, record the complaint, vitals, labs, diagnosis, and any meds or referrals.</li>
+    <li>Tap <strong>Save &amp; Close</strong> — or, on a busy clinic day, <strong>Save &amp; Next</strong> to jump straight to a fresh form.</li>
+  </ol>
+
+  <h2 id="safe">9. Keeping your data safe</h2>
+  <p>Two simple habits keep your records protected:</p>
+  <ul>
+    <li><strong>Sync when you have signal.</strong> The moment a device gets internet, it pushes records up to your Supabase — that's your off-device safety net. (Offline records also stay on the device; just give a save a few seconds to settle before force-closing the app.)</li>
+    <li><strong>Download a backup at the end of each clinic day.</strong> In <strong>Admin → Backup</strong>, tap <strong>Download Backup</strong> to save a complete <code>.json</code> file you can keep, email, or copy to a laptop. A backup can never be cleared by the device.</li>
+  </ul>
+  <div class="callout warning">
+    <div class="callout-title">A note on offline storage</div>
+    <p>On iPads in particular, the operating system can occasionally clear a web app's local storage. In day-to-day use your records persist fine, but <strong>cloud sync and daily backups are what make your data truly safe</strong> — please use them.</p>
+  </div>
+
+  <h2 id="next">10. Next steps</h2>
+  <ul>
+    <li>Daily clinic workflow — see the <a href="/guides/user-guide/">User Guide</a>.</li>
+    <li>Customizing forms, presets, sync, backups, and donor reports — see the <a href="/guides/admin-guide/">Admin Guide</a>.</li>
+    <li>Stuck? Email <a href="mailto:support@damicohealth.org">support@damicohealth.org</a> or open an issue on <a href="https://github.com/DamicoHealth/dh-field-emr">GitHub</a>.</li>
   </ul>
 </main>
 
@@ -177,26 +260,26 @@
           <span class="brand-logo" aria-hidden="true">D</span>
           <span>DH Field EMR</span>
         </a>
-        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+        <p>A free, open-source electronic medical record built for global health field medicine. A project of Damico Health Inc.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#features">Features</a></li>
-          <li><a href="/#pricing">Pricing</a></li>
-          <li><a href="/#download">Download</a></li>
+          <li><a href="/#opensource">Open Source</a></li>
+          <li><a href="https://github.com/DamicoHealth/dh-field-emr">Source Code</a></li>
         </ul>
       </div>
       <div>
-        <h4>Resources</h4>
+        <h4>Guides</h4>
         <ul>
-          <li><a href="/guides/getting-started/">Getting Started</a></li>
+          <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h4>Legal &amp; Contact</h4>
         <ul>
           <li><a href="/privacy/">Privacy Policy</a></li>
           <li><a href="/terms/">Terms of Service</a></li>
@@ -205,7 +288,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>&copy; 2026 Damico Health Inc. Source code available on GitHub.</div>
       <div>Made for global health teams.</div>
     </div>
   </div>

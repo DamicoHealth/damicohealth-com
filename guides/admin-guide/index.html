@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
 <title>Admin Guide — DH Field EMR</title>
-<meta name="description" content="Admin guide for DH Field EMR. Customize presets, manage cloud sync, share organization codes, run backups, generate donor reports, and manage subscriptions." />
+<meta name="description" content="Admin guide for DH Field EMR. Customize presets and forms, connect your own Supabase cloud, add team devices, run backups, and generate donor reports." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://damicohealth.com/guides/admin-guide/" />
 
@@ -33,20 +33,19 @@
       <ul class="nav-links">
         <li><a href="/#features">Features</a></li>
         <li><a href="/guides/">Guides</a></li>
-        <li><a href="/#pricing">Pricing</a></li>
-        <li><a href="/#download">Download</a></li>
+        <li><a href="/#opensource">Open Source</a></li>
         <li><a href="/#support">Support</a></li>
       </ul>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="/#download">Download</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
     </div>
   </div>
 </header>
 
 <main class="guide-page">
   <h1>Admin Guide</h1>
-  <p class="guide-subtitle">For organization admins. Set up presets, manage your team, sync data, run backups, and handle subscriptions.</p>
+  <p class="guide-subtitle">For organization admins. Set up presets and forms, connect your cloud, add devices, run backups, and generate reports.</p>
 
   <nav class="toc" aria-label="Table of contents">
     <div class="toc-title">On this page</div>
@@ -64,19 +63,18 @@
       <li><a href="#rx-presets">Rx presets</a></li>
       <li><a href="#referrals">Referral types</a></li>
       <li><a href="#hide-presets">Show/hide without deleting</a></li>
-      <li><a href="#cloud">Cloud Connection setup</a></li>
-      <li><a href="#sharing-code">Sharing your Organization Code</a></li>
-      <li><a href="#sync">Manual sync workflow</a></li>
-      <li><a href="#backup">Database backup</a></li>
+      <li><a href="#cloud">Cloud sync (your Supabase)</a></li>
+      <li><a href="#sharing-code">Adding team devices</a></li>
+      <li><a href="#sync">Sync workflow</a></li>
+      <li><a href="#backup">Backups</a></li>
       <li><a href="#donor-reports">Generating donor reports</a></li>
-      <li><a href="#subscription">Managing the subscription tier</a></li>
     </ul>
   </nav>
 
   <h2 id="roles">Admin vs Standard device roles</h2>
   <p>Every device in your organization is one of two roles:</p>
   <ul>
-    <li><strong>Admin</strong> — can edit presets, manage cloud sync, run backups, generate donor reports, and change the subscription tier. Typically the team lead's device or the backend Mac.</li>
+    <li><strong>Admin</strong> — can edit presets and forms, manage cloud sync, run backups, and generate donor reports. Typically the team lead's device or the backend laptop.</li>
     <li><strong>Standard</strong> — can create encounters, view records, and run analytics. Cannot change configuration or the formulary. Can be promoted to admin by an existing admin.</li>
   </ul>
   <p>The first device that creates the organization automatically becomes the admin. Additional admin devices are promoted from <code>Admin → Devices → [device name] → Promote to Admin</code>.</p>
@@ -155,26 +153,29 @@
     <p>Avoid deleting presets that have already been used in encounters. Hiding preserves historical records that reference the preset by name. Deleting may leave older encounters without a clean linked label.</p>
   </div>
 
-  <h2 id="cloud">Cloud Connection setup</h2>
-  <p>If you're going to sync across multiple devices, you need a cloud connection. From <code>Admin → Cloud Connection</code>:</p>
+  <h2 id="cloud">Cloud sync with your own Supabase</h2>
+  <p>To share records across devices and keep an off-device copy, connect the app to a free Supabase project that your organization owns. The full walkthrough — creating the project and running the setup SQL — is in the <a href="/guides/getting-started/#supabase">Setup Guide</a>.</p>
   <ol>
-    <li>Tap <code>Connect</code></li>
-    <li>Pick the cloud provider (Apple CloudKit by default; Supabase available for self-hosted organizations)</li>
-    <li>Authenticate or paste your project credentials (for self-hosted Supabase)</li>
-    <li>Confirm — the app verifies the connection and runs an initial schema check</li>
+    <li>Set this up during the first-run wizard ("New Organization"), or later from <code>Admin → Cloud Connection</code>.</li>
+    <li>Paste your <strong>Supabase Project URL</strong> and <strong>anon key</strong> (from Supabase → Settings → API).</li>
+    <li>Save. The app verifies the connection and starts syncing.</li>
   </ol>
-  <p>Once connected, the screen shows your organization code, the sync status (last successful sync, last attempted sync, any errors), and a list of devices currently joined.</p>
+  <p>Once connected, the screen shows sync status — last successful sync, anything still pending, and any errors.</p>
+  <div class="callout warning">
+    <div class="callout-title">Use the anon / publishable key</div>
+    <p>Never enter or share your Supabase <strong>service_role</strong> / secret key — only the <strong>anon</strong> (publishable) key, which is the one meant for the app.</p>
+  </div>
 
-  <h2 id="sharing-code">Sharing your Organization Code with team members</h2>
-  <p>Each new device that joins your team needs your Organization Code. From <code>Admin → Cloud Connection</code>:</p>
+  <h2 id="sharing-code">Adding team devices</h2>
+  <p>Every other phone, tablet, or laptop joins by using the <strong>same Supabase URL and anon key</strong> as the first device.</p>
   <ol>
-    <li>Tap <code>Share Organization Code</code></li>
-    <li>Send the code through any channel (email, text, WhatsApp, or read it out loud)</li>
-    <li>The teammate enters it on the Join Organization screen during their setup wizard</li>
+    <li>Install the app on the new device and open it.</li>
+    <li>In the setup wizard, choose <strong>Join Existing Setup</strong>.</li>
+    <li>Paste your Supabase URL and anon key — the device pulls down your presets and history automatically.</li>
   </ol>
   <div class="callout">
-    <div class="callout-title">Note</div>
-    <p>The Organization Code is the only thing standing between your data and a stranger. Treat it like a password — share only with team members.</p>
+    <div class="callout-title">Keep your credentials handy — and private</div>
+    <p>Your Supabase URL + anon key are the "key" to your shared data. Keep them where your team can find them, and don't post them publicly.</p>
   </div>
 
   <h2 id="sync">Manual sync workflow (sync at end of day)</h2>
@@ -189,14 +190,18 @@
   </ol>
   <p>The sync log on the Cloud Connection screen shows progress, conflicts, and any errors.</p>
 
-  <h2 id="backup">Database backup</h2>
-  <p>Even with cloud sync, run a local backup at least once per trip. From <code>Admin → Backup</code>:</p>
+  <h2 id="backup">Backups</h2>
+  <p>Whether or not you use cloud sync, download a backup at least once per clinic day. From <code>Admin → Backup</code>:</p>
   <ol>
-    <li>Tap <code>Export Backup</code></li>
-    <li>Pick a destination (Files app, AirDrop to a teammate's device, or a USB drive on Mac)</li>
-    <li>The app writes an encrypted backup file containing all encounters, presets, and configuration</li>
+    <li>Tap <code>Download Backup</code></li>
+    <li>Save the <code>.json</code> file — to your Files app, AirDrop to a teammate, or copy it to a laptop</li>
+    <li>The file contains all encounters, presets, and configuration</li>
   </ol>
-  <p>Restore via <code>Admin → Backup → Import Backup</code> on a fresh device. You'll need the same admin password to decrypt.</p>
+  <p>Restore on any device via <code>Admin → Backup → Restore from File</code>. Restoring <strong>merges</strong> records in — it never wipes existing data.</p>
+  <div class="callout">
+    <div class="callout-title">Why backups matter</div>
+    <p>A downloaded file is the one copy a device can never clear on its own. On iPads especially, treat a daily backup (or cloud sync) as your real safety net.</p>
+  </div>
 
   <h2 id="donor-reports">Generating donor reports</h2>
   <p>Donors typically want a one-page summary of activity. From <code>Analytics → Donor Report</code>:</p>
@@ -212,20 +217,13 @@
     <p>Save your most-used report configurations as templates. The next trip you can re-run the same report with one tap.</p>
   </div>
 
-  <h2 id="subscription">Managing the subscription tier</h2>
-  <p>Subscriptions are managed through Apple's App Store, but the entry point is inside the app:</p>
-  <ol>
-    <li>Open <code>Admin → Subscription</code></li>
-    <li>You'll see your current tier and current device count / patient count vs limits</li>
-    <li>Tap a tier card to upgrade or downgrade</li>
-    <li>Apple's StoreKit handles the purchase</li>
-    <li>The app picks up the new entitlement immediately</li>
-  </ol>
-  <p>To cancel or change billing, go to your iPhone or iPad <code>Settings → [Your Name] → Subscriptions</code>, or on Mac, <code>App Store → [Your Name] → Account Settings → Subscriptions</code>. Apple handles the billing — Damico Health Inc. never sees your payment details.</p>
-  <div class="callout">
-    <div class="callout-title">Note</div>
-    <p>If you cancel a paid tier, your data is preserved. The app drops you back to the Free tier, which may impose lower device or patient limits. Existing data above those limits stays accessible — you just can't add new beyond the cap until you re-subscribe.</p>
-  </div>
+  <h2 id="open">It's open source — make it yours</h2>
+  <p>DH Field EMR is free and the full source is public. Beyond the in-app customization, your organization can fork the code, run your own hosted copy, or contribute improvements back.</p>
+  <ul>
+    <li>Source code &amp; issues: <a href="https://github.com/DamicoHealth/dh-field-emr">github.com/DamicoHealth/dh-field-emr</a></li>
+    <li>Found a bug or want a feature? Open an issue or email <a href="mailto:support@damicohealth.org">support@damicohealth.org</a>.</li>
+    <li>If it helps your work, <a href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">a donation</a> keeps it going — never required.</li>
+  </ul>
 </main>
 
 <footer class="footer">
@@ -236,26 +234,26 @@
           <span class="brand-logo" aria-hidden="true">D</span>
           <span>DH Field EMR</span>
         </a>
-        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+        <p>A free, open-source electronic medical record built for global health field medicine. A project of Damico Health Inc.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#features">Features</a></li>
-          <li><a href="/#pricing">Pricing</a></li>
-          <li><a href="/#download">Download</a></li>
+          <li><a href="/#opensource">Open Source</a></li>
+          <li><a href="https://github.com/DamicoHealth/dh-field-emr">Source Code</a></li>
         </ul>
       </div>
       <div>
-        <h4>Resources</h4>
+        <h4>Guides</h4>
         <ul>
-          <li><a href="/guides/getting-started/">Getting Started</a></li>
+          <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h4>Legal &amp; Contact</h4>
         <ul>
           <li><a href="/privacy/">Privacy Policy</a></li>
           <li><a href="/terms/">Terms of Service</a></li>
@@ -264,7 +262,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>&copy; 2026 Damico Health Inc. Source code available on GitHub.</div>
       <div>Made for global health teams.</div>
     </div>
   </div>

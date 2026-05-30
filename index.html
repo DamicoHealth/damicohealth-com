@@ -5,24 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
 
-<title>DH Field EMR — Electronic Medical Records for Medical Outreach</title>
-<meta name="description" content="DH Field EMR is a purpose-built electronic medical record app for global health and medical outreach teams. Works offline, syncs across Mac, iPad, and iPhone." />
-<meta name="keywords" content="field EMR, medical outreach, global health EMR, offline EMR, iPad EMR, medical mission software, Damico Health" />
+<title>DH Field EMR — A free, offline-first EMR for medical outreach</title>
+<meta name="description" content="DH Field EMR is a free, open-source electronic medical record for global health and medical outreach teams. Runs in your browser, works offline, and syncs to your own cloud. Install it on an iPad, Android tablet, or laptop." />
+<meta name="keywords" content="field EMR, medical outreach, global health EMR, offline EMR, open source EMR, free EMR, self-hosted EMR, PWA, Supabase, Damico Health" />
 <meta name="author" content="Damico Health Inc." />
 <link rel="canonical" href="https://damicohealth.com/" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://damicohealth.com/" />
-<meta property="og:title" content="DH Field EMR — Electronic Medical Records for Medical Outreach" />
-<meta property="og:description" content="Purpose-built for global health teams. Works offline, syncs across devices, adapts to your clinic's workflow." />
+<meta property="og:title" content="DH Field EMR — A free, offline-first EMR for medical outreach" />
+<meta property="og:description" content="Free and open-source. Runs in your browser, works offline, syncs to your own cloud. Set it up yourself in minutes." />
 <meta property="og:site_name" content="DH Field EMR" />
 <meta property="og:image" content="https://damicohealth.com/og-image.png" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="DH Field EMR — Electronic Medical Records for Medical Outreach" />
-<meta name="twitter:description" content="Purpose-built for global health teams. Works offline, syncs across devices." />
+<meta name="twitter:title" content="DH Field EMR — A free, offline-first EMR for medical outreach" />
+<meta name="twitter:description" content="Free and open-source. Runs in your browser, works offline, syncs to your own cloud." />
 <meta name="twitter:image" content="https://damicohealth.com/og-image.png" />
 
 <!-- Favicon (inline SVG) -->
@@ -42,14 +42,11 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "DH Field EMR",
-  "operatingSystem": "iOS, iPadOS, macOS",
+  "operatingSystem": "Web (iPadOS, Android, Windows, macOS, ChromeOS)",
   "applicationCategory": "MedicalApplication",
-  "description": "Electronic medical record app purpose-built for international medical outreach and global health programs. Works offline and syncs across devices.",
-  "offers": [
-    { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
-    { "@type": "Offer", "name": "Team", "price": "24.99", "priceCurrency": "USD" },
-    { "@type": "Offer", "name": "Pro", "price": "49.99", "priceCurrency": "USD" }
-  ],
+  "description": "Free, open-source electronic medical record for international medical outreach and global health programs. Runs in the browser, works offline, and syncs to your own cloud.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true,
   "publisher": {
     "@type": "Organization",
     "name": "Damico Health Inc.",
@@ -72,14 +69,13 @@
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
         <li><a href="/guides/">Guides</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#download">Download</a></li>
+        <li><a href="#opensource">Open Source</a></li>
         <li><a href="#support">Support</a></li>
       </ul>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost" href="https://damicohealth.github.io/dh-field-emr/">Try Demo</a>
-      <a class="btn btn-primary" href="#download">Download</a>
+      <a class="btn btn-ghost" href="/guides/getting-started/">Setup Guide</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" id="navToggle">
         <span></span><span></span><span></span>
       </button>
@@ -93,14 +89,14 @@
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <span class="eyebrow">For global health teams</span>
-      <h1>Electronic Medical Records for Medical Outreach</h1>
-      <p class="hero-lede">Purpose-built for global health teams. Works offline, syncs across devices, adapts to your clinic's workflow.</p>
+      <span class="eyebrow">Free &amp; open-source · For global health teams</span>
+      <h1>An offline-first EMR for medical outreach</h1>
+      <p class="hero-lede">Chart patients fast, even with no internet. Your records live on the device and sync to <em>your own</em> cloud when you reconnect. Install it on an iPad, Android tablet, or laptop in a couple of minutes — no app store, no account to buy.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary btn-lg" href="#download" id="download">Download on App Store</a>
-        <a class="btn btn-outline btn-lg" href="https://damicohealth.github.io/dh-field-emr/">Try Demo</a>
+        <a class="btn btn-primary btn-lg" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
+        <a class="btn btn-outline btn-lg" href="/guides/getting-started/">Read the Setup Guide</a>
       </div>
-      <p class="hero-note">Free to download &middot; Works on Mac, iPad, and iPhone</p>
+      <p class="hero-note">Free forever &middot; Works offline &middot; Runs on iPad, Android, and laptops</p>
     </div>
 
     <div class="hero-visual" aria-hidden="true">
@@ -142,7 +138,7 @@
     <div class="section-head">
       <span class="eyebrow">The problem</span>
       <h2>Paper Forms Don't Scale</h2>
-      <p>Medical outreach teams see hundreds of patients per clinic day. By week's end, a stack of paper forms sits waiting to be entered, referrals need tracking, and donors need reports. Traditional EMR systems cost thousands per year, require constant internet, and are designed for hospital workflows &mdash; not field clinics.</p>
+      <p>Medical outreach teams see hundreds of patients per clinic day. By week's end, a stack of paper forms sits waiting to be entered, referrals need tracking, and donors need reports. Commercial EMRs cost thousands per year, assume constant internet, and are built for hospital workflows &mdash; not field clinics.</p>
     </div>
     <div class="problem-grid">
       <div class="problem-card">
@@ -173,25 +169,25 @@
 <section class="section-light" id="solution">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">The solution</span>
+      <span class="eyebrow">The approach</span>
       <h2>Built for the Field</h2>
-      <p>DH Field EMR is designed for how medical outreach actually works. Enter paper forms in seconds, not minutes. Sync across every device at the end of the day. Generate donor reports with one tap.</p>
+      <p>DH Field EMR is designed for how medical outreach actually works. Enter a patient in seconds, keep working with zero internet, and sync everyone's records to your own cloud at the end of the day.</p>
     </div>
     <div class="solution-grid">
       <div class="solution-card">
         <div class="solution-icon" aria-hidden="true">⚡</div>
         <h3>Fast Entry</h3>
-        <p>Single-page encounter form. One-click buttons for everything. Enter a complete patient record in 30 seconds.</p>
+        <p>Single-page encounter form with one-tap buttons for complaints, diagnoses, and medications. A full record in well under a minute.</p>
       </div>
       <div class="solution-card">
         <div class="solution-icon" aria-hidden="true">📡</div>
         <h3>Offline-First</h3>
-        <p>Works completely offline. Devices sync automatically when internet is available. Perfect for remote clinics.</p>
+        <p>Runs entirely on the device — no signal required. When you reconnect, records sync to your cloud automatically.</p>
       </div>
       <div class="solution-card">
         <div class="solution-icon" aria-hidden="true">🎯</div>
-        <h3>Customizable</h3>
-        <p>Edit every preset &mdash; medications, diagnoses, procedures, sites, providers. Make it fit your organization.</p>
+        <h3>Make It Yours</h3>
+        <p>Build your own form sections and fields, set up multiple encounter types, and edit every preset to match your clinic. It's open source — change anything you like.</p>
       </div>
     </div>
   </div>
@@ -202,67 +198,65 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Capabilities</span>
-      <h2>Everything You Need</h2>
-      <p>A complete toolkit for running field clinics &mdash; from registration through donor reporting.</p>
+      <h2>Everything You Need to Run a Field Clinic</h2>
+      <p>From patient registration through donor reporting &mdash; without the billing modules and hospital overhead you don't.</p>
     </div>
     <div class="features-grid">
       <div class="feature-cat">
         <h3>Patient Management</h3>
         <ul>
           <li>Auto-generated MRN from name and date of birth</li>
-          <li>Automatic return patient detection</li>
-          <li>Multi-visit tracking per patient</li>
+          <li>Automatic return-patient detection &amp; carry-forward</li>
+          <li>Multi-visit history per patient</li>
           <li>Searchable records with advanced filters</li>
         </ul>
       </div>
       <div class="feature-cat">
         <h3>Clinical Documentation</h3>
         <ul>
-          <li>Vitals, history, chief complaint</li>
-          <li>Configurable lab tests (POS/NEG or numeric)</li>
+          <li>Vitals, history, and chief complaint</li>
+          <li>Configurable lab tests (positive/negative or numeric)</li>
           <li>Urinalysis dipstick support</li>
-          <li>Diagnosis presets with text override</li>
-          <li>Medication builder with dosing calculations</li>
-          <li>Procedures, imaging, surgical encounters</li>
+          <li>Diagnosis presets with free-text override</li>
+          <li>Medication builder with dosing math</li>
+          <li>Procedures, imaging, and surgical encounters</li>
         </ul>
       </div>
       <div class="feature-cat">
-        <h3>Workflow</h3>
+        <h3>Customize the Form</h3>
         <ul>
-          <li>Referral scheduling with date tracking</li>
-          <li>Surgery day planning</li>
-          <li>Provider assignment</li>
-          <li>Transport and travel time tracking</li>
+          <li>Add your own sections and questions</li>
+          <li>Field types: text, choices, numbers, ranges, yes/no, dates</li>
+          <li>Multiple encounter forms (e.g. general, surgical, dental)</li>
+          <li>Editable presets: meds, diagnoses, sites, providers</li>
         </ul>
       </div>
       <div class="feature-cat">
         <h3>Reporting</h3>
         <ul>
-          <li>Real-time analytics dashboard</li>
-          <li>Disease burden charts</li>
-          <li>Lab positivity rates</li>
-          <li>Provider productivity reports</li>
-          <li>One-tap donor report generation</li>
-          <li>CSV export</li>
+          <li>Live analytics dashboard</li>
+          <li>Disease-burden charts &amp; lab positivity rates</li>
+          <li>Provider productivity</li>
+          <li>One-tap donor report</li>
+          <li>CSV export for any spreadsheet or stats tool</li>
         </ul>
       </div>
       <div class="feature-cat">
-        <h3>Organization</h3>
+        <h3>Your Data, Your Cloud</h3>
         <ul>
-          <li>Up to 25 devices per organization</li>
-          <li>Admin and standard device roles</li>
-          <li>Password-protected admin access</li>
-          <li>Cloud sync with organization codes</li>
-          <li>No iCloud account required</li>
+          <li>Syncs to a free Supabase project that <em>you</em> own</li>
+          <li>Multiple devices share one organization's records</li>
+          <li>Works fully standalone (offline-only) too</li>
+          <li>Download a complete backup file anytime</li>
         </ul>
       </div>
       <div class="feature-cat">
-        <h3>Safety</h3>
+        <h3>Open &amp; Free</h3>
         <ul>
-          <li>End-to-end encryption</li>
-          <li>Org-scoped data access</li>
-          <li>Admin audit trail</li>
-          <li>Data stays in your organization's cloud</li>
+          <li>Free forever — no subscription, no per-seat fees</li>
+          <li>Full source code on GitHub</li>
+          <li>Self-host and customize for your team</li>
+          <li>No vendor lock-in: it's your data and your code</li>
         </ul>
       </div>
     </div>
@@ -273,105 +267,59 @@
 <section class="section-light" id="platforms">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Platforms</span>
-      <h2>Works Everywhere Your Team Does</h2>
-      <p>Built natively for Apple devices with the same data across every platform.</p>
+      <span class="eyebrow">Runs anywhere</span>
+      <h2>Works on the Devices You Already Have</h2>
+      <p>It's a web app — open it in a browser, then "Add to Home Screen" to install it like a normal app. No app store, no special hardware.</p>
     </div>
     <div class="platform-grid">
       <div class="platform-card">
-        <div class="icon" aria-hidden="true">💻</div>
-        <h3>Mac</h3>
-        <p>Full desktop experience with multi-window support. Ideal for the backend data entry station.</p>
-      </div>
-      <div class="platform-card">
         <div class="icon" aria-hidden="true">📱</div>
-        <h3>iPad</h3>
-        <p>Touch-optimized for clinic stations. Take patient information at triage or the provider station.</p>
+        <h3>iPad &amp; iPhone</h3>
+        <p>Open in Safari, then Share → Add to Home Screen. Touch-optimized for triage and provider stations.</p>
       </div>
       <div class="platform-card">
-        <div class="icon" aria-hidden="true">📞</div>
-        <h3>iPhone</h3>
-        <p>Review records, mark surgery completions, check schedules on the go.</p>
+        <div class="icon" aria-hidden="true">🤖</div>
+        <h3>Android</h3>
+        <p>Open in Chrome and install when prompted. Great on low-cost field tablets.</p>
+      </div>
+      <div class="platform-card">
+        <div class="icon" aria-hidden="true">💻</div>
+        <h3>Laptop &amp; Desktop</h3>
+        <p>Chrome or Edge on Windows, Mac, or ChromeOS — ideal for an end-of-day data and reporting station.</p>
       </div>
     </div>
-    <p class="platform-note">Same account. Same data. All platforms syncing through the cloud.</p>
+    <p class="platform-note">Same app, same data — every device syncs through your own cloud.</p>
   </div>
 </section>
 
-<!-- =======================  PRICING  ======================= -->
-<section class="section-white" id="pricing">
+<!-- =======================  OPEN SOURCE / FREE  ======================= -->
+<section class="section-white" id="opensource">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Pricing</span>
-      <h2>Pricing That Scales With Your Team</h2>
-      <p>Start free. Upgrade when your team grows. All plans include full offline support and cloud sync.</p>
+      <span class="eyebrow">Free &amp; open source</span>
+      <h2>Free to Use. Free to Change.</h2>
+      <p>DH Field EMR is free forever and the entire source code is public. Run it as-is, set up your own cloud, or fork it and adapt it to your program. If it helps your work and you'd like to chip in, donations keep it going — but they're never required.</p>
     </div>
-
-    <div class="billing-wrap">
-      <div class="billing-toggle" role="tablist" aria-label="Billing period">
-        <button type="button" id="btnMonthly" class="active" role="tab" aria-selected="true">Monthly</button>
-        <button type="button" id="btnYearly" role="tab" aria-selected="false">Yearly <span style="opacity:.7">(save up to $100)</span></button>
+    <div class="solution-grid">
+      <div class="solution-card">
+        <div class="solution-icon" aria-hidden="true">💟</div>
+        <h3>Free Forever</h3>
+        <p>No subscriptions, no per-device fees, no paywalled features. Everything is included.</p>
+        <p style="margin-top:14px;"><a class="btn btn-outline" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate via PayPal</a></p>
+      </div>
+      <div class="solution-card">
+        <div class="solution-icon" aria-hidden="true">⌨️</div>
+        <h3>View the Source</h3>
+        <p>Read the code, file issues, suggest changes, or build your own version on GitHub.</p>
+        <p style="margin-top:14px;"><a class="btn btn-outline" href="https://github.com/DamicoHealth/dh-field-emr">GitHub Repository</a></p>
+      </div>
+      <div class="solution-card">
+        <div class="solution-icon" aria-hidden="true">🛠️</div>
+        <h3>Self-Host It</h3>
+        <p>Bring your own free Supabase project and host the app yourself — your data never has to touch us.</p>
+        <p style="margin-top:14px;"><a class="btn btn-outline" href="/guides/getting-started/">Setup Guide</a></p>
       </div>
     </div>
-
-    <div class="pricing-info-banner">
-      <strong>How subscriptions work:</strong> All subscriptions are managed through the app on your device. Download the app first, then upgrade your tier from the Admin screen. Apple processes all payments securely.
-    </div>
-
-    <div class="pricing-grid">
-      <!-- Free -->
-      <div class="price-card">
-        <h3>Free</h3>
-        <div class="price-tag">$0 <span class="unit">/ forever</span></div>
-        <p class="price-sub">For solo clinicians and small trips.</p>
-        <ul>
-          <li>Up to 3 devices</li>
-          <li>400 patients</li>
-          <li>Full cloud sync</li>
-          <li>All analytics &amp; reports</li>
-          <li>All customization features</li>
-        </ul>
-        <a class="btn btn-outline" href="#download">Download the App</a>
-      </div>
-
-      <!-- Team (featured) -->
-      <div class="price-card featured">
-        <span class="price-badge">Recommended</span>
-        <h3>Team</h3>
-        <div class="price-tag">
-          <span class="price-amount" data-monthly="$24.99" data-yearly="$250">$24.99</span>
-          <span class="unit price-unit" data-monthly="/ month" data-yearly="/ year">/ month</span>
-        </div>
-        <p class="price-sub price-save" data-monthly="Billed monthly" data-yearly="Save $50 vs monthly">Billed monthly</p>
-        <ul>
-          <li>Up to 10 devices</li>
-          <li>5,000 patients</li>
-          <li>Everything in Free</li>
-          <li>Priority email support</li>
-        </ul>
-        <a class="btn btn-primary" href="#download">Download to Subscribe</a>
-      </div>
-
-      <!-- Pro -->
-      <div class="price-card">
-        <h3>Pro</h3>
-        <div class="price-tag">
-          <span class="price-amount" data-monthly="$49.99" data-yearly="$500">$49.99</span>
-          <span class="unit price-unit" data-monthly="/ month" data-yearly="/ year">/ month</span>
-        </div>
-        <p class="price-sub price-save" data-monthly="Billed monthly" data-yearly="Save $100 vs monthly">Billed monthly</p>
-        <ul>
-          <li>Up to 25 devices</li>
-          <li>Unlimited patients</li>
-          <li>Everything in Team</li>
-          <li>Dedicated onboarding</li>
-        </ul>
-        <a class="btn btn-outline" href="#download">Download to Subscribe</a>
-      </div>
-    </div>
-
-    <p class="price-foot">All pricing through Apple. Cancel anytime from your device settings. Free tier has no time limit.</p>
-    <p class="price-foot-extra">Subscriptions auto-renew unless cancelled. Manage or cancel anytime through your Apple ID settings. Pricing in USD.</p>
   </div>
 </section>
 
@@ -383,7 +331,6 @@
         <span class="eyebrow">Who it's for</span>
         <h2>Designed for Global Health Work</h2>
         <p>DH Field EMR is built for medical outreach programs operating in resource-limited international settings. Typical deployments include:</p>
-        <p style="color:var(--muted);font-style:italic;">"We entered 300 patients from a 4-day clinic in under 2 hours. The old system would have taken us all week."</p>
       </div>
       <ul class="usecase-list">
         <li>Short-term medical mission trips</li>
@@ -401,10 +348,10 @@
 <section class="section-white" id="notice">
   <div class="container">
     <div class="warning">
-      <h2><span aria-hidden="true">⚠️</span> Global Health Use Only</h2>
-      <p><strong>This software is designed exclusively for international medical outreach and is NOT intended for use within the United States healthcare system.</strong></p>
-      <p>DH Field EMR is not a certified Electronic Health Record system and is not compliant with HIPAA or any US healthcare regulations. Organizations using this software are responsible for complying with data protection laws in their country of operation and obtaining appropriate patient consent.</p>
-      <p>This software is a data entry and record-keeping tool only. All clinical decisions must be made by qualified healthcare professionals.</p>
+      <h2><span aria-hidden="true">⚠️</span> Please Read: Intended Use &amp; Disclaimers</h2>
+      <p><strong>DH Field EMR is a documentation and record-keeping tool only. It is not a medical device, it does not provide medical advice, and it must never replace the judgment of a qualified healthcare professional.</strong> Dosing helpers and presets are conveniences that you are responsible for verifying.</p>
+      <p><strong>Designed for international medical outreach &mdash; not the US healthcare system.</strong> It is not a certified Electronic Health Record and is not HIPAA-compliant. Organizations are responsible for complying with the data-protection laws of their country of operation and for obtaining appropriate patient consent.</p>
+      <p><strong>You are responsible for your own data.</strong> When you connect your own cloud (Supabase), your patient data lives in <em>your</em> account under <em>your</em> control — keep backups and secure your credentials. The software is provided free and "as is," without warranty of any kind. See the <a href="/terms/">Terms</a> and <a href="/privacy/">Privacy Policy</a> for full details.</p>
     </div>
   </div>
 </section>
@@ -414,15 +361,16 @@
   <div class="container">
     <div class="support">
       <span class="eyebrow">Support</span>
-      <h2>Questions?</h2>
-      <p>We're here to help. Email us for setup help, technical questions, or feature requests.</p>
+      <h2>Questions or Getting Set Up?</h2>
+      <p>Start with the guides below, or email us for setup help, technical questions, or to share feedback.</p>
       <a class="support-email" href="mailto:support@damicohealth.org">support@damicohealth.org</a>
       <div class="support-links">
-        <a href="/guides/getting-started/">Getting Started</a>
+        <a href="/guides/getting-started/">Setup Guide</a>
         <a href="/guides/user-guide/">User Guide</a>
         <a href="/guides/admin-guide/">Admin Guide</a>
-        <a href="/privacy/">Privacy Policy</a>
-        <a href="/terms/">Terms of Service</a>
+        <a href="https://github.com/DamicoHealth/dh-field-emr">Source Code</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
       </div>
     </div>
   </div>
@@ -430,9 +378,9 @@
 
 <!-- =======================  FINAL CTA  ======================= -->
 <section class="final-cta">
-  <h2>Ready to Modernize Your Field Clinic?</h2>
-  <p>Download DH Field EMR for free today. No account required to start.</p>
-  <a class="btn btn-light btn-lg" href="#download">Download on App Store</a>
+  <h2>Ready to try it?</h2>
+  <p>Launch it in your browser right now, or follow the setup guide to connect your own cloud. It's free.</p>
+  <a class="btn btn-light btn-lg" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
 </section>
 
 </main>
@@ -446,21 +394,21 @@
           <span class="brand-logo" aria-hidden="true">D</span>
           <span>DH Field EMR</span>
         </a>
-        <p>Electronic medical records built for global health field medicine. A product of Damico Health Inc.</p>
+        <p>A free, open-source electronic medical record built for global health field medicine. A project of Damico Health Inc.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="#features">Features</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="https://damicohealth.github.io/dh-field-emr/">Demo</a></li>
-          <li><a href="#download">Download</a></li>
+          <li><a href="#opensource">Open Source</a></li>
+          <li><a href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a></li>
+          <li><a href="https://github.com/DamicoHealth/dh-field-emr">Source Code</a></li>
         </ul>
       </div>
       <div>
-        <h4>Resources</h4>
+        <h4>Guides</h4>
         <ul>
-          <li><a href="/guides/getting-started/">Getting Started</a></li>
+          <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
         </ul>
@@ -476,7 +424,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 Damico Health Inc. All rights reserved.</div>
+      <div>&copy; 2026 Damico Health Inc. Source code available on GitHub.</div>
       <div>Made for global health teams.</div>
     </div>
   </div>
@@ -492,7 +440,6 @@
         var open = nav.classList.toggle('open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      // close menu on link click
       nav.querySelectorAll('.nav-links a').forEach(function(a){
         a.addEventListener('click', function(){
           nav.classList.remove('open');
@@ -500,31 +447,6 @@
         });
       });
     }
-  })();
-
-  // Pricing toggle
-  (function(){
-    var monthly = document.getElementById('btnMonthly');
-    var yearly = document.getElementById('btnYearly');
-    if (!monthly || !yearly) return;
-    function setPeriod(period){
-      var isYearly = period === 'yearly';
-      monthly.classList.toggle('active', !isYearly);
-      yearly.classList.toggle('active', isYearly);
-      monthly.setAttribute('aria-selected', !isYearly);
-      yearly.setAttribute('aria-selected', isYearly);
-      document.querySelectorAll('.price-amount').forEach(function(el){
-        el.textContent = el.getAttribute(isYearly ? 'data-yearly' : 'data-monthly');
-      });
-      document.querySelectorAll('.price-unit').forEach(function(el){
-        el.textContent = el.getAttribute(isYearly ? 'data-yearly' : 'data-monthly');
-      });
-      document.querySelectorAll('.price-save').forEach(function(el){
-        el.textContent = el.getAttribute(isYearly ? 'data-yearly' : 'data-monthly');
-      });
-    }
-    monthly.addEventListener('click', function(){ setPeriod('monthly'); });
-    yearly.addEventListener('click', function(){ setPeriod('yearly'); });
   })();
 </script>
 
