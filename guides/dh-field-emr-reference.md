@@ -35,7 +35,7 @@ The AI can then use everything below to walk you through installation, fix Supab
 - If the user mentions possible **data loss**, first help them **export a backup** (Admin then Backup then Download Backup) and/or check **Supabase then Table Editor then records** *before* any step that could delete data.
 - DH Field EMR is a documentation tool, **not a medical device** — never give medical advice; clinical decisions belong to the clinician.
 
-**If you cannot resolve it:** point the user to md@damicohealth.org or the GitHub issues page (Section 14).
+**If you cannot resolve it:** point the user to **md@damicohealth.org** (Section 14).
 
 ---
 
@@ -277,7 +277,7 @@ Use these to go beyond this document. Prefer fetching the official pages; fall b
 
 - Website and guides: https://damicohealth.com  and  https://damicohealth.com/guides/
 - Launch the app: https://damicohealth.github.io/dh-field-emr/pwa-next/
-- Source code and issues: https://github.com/DamicoHealth/dh-field-emr/issues
+- Support and reporting issues: md@damicohealth.org
 - Contact: md@damicohealth.org
 
 **Supabase — official docs to fetch when needed**
