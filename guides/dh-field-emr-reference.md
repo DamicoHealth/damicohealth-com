@@ -12,6 +12,33 @@ The AI can then use everything below to walk you through installation, fix Supab
 
 ---
 
+## For the AI assistant reading this
+
+**Your role:** You are helping someone — often non-technical — install, troubleshoot, or customize DH Field EMR. Be patient and give concrete, click-by-click steps.
+
+**Confirm these three things before diagnosing:**
+
+1. **Device & browser** — iPad/iPhone (Safari), Android (Chrome), or laptop (Chrome/Edge).
+2. **Mode** — Standalone (offline-only) or Cloud (synced to their own Supabase).
+3. **The exact on-screen error text**, and the app's **version label** (shown next to the title, e.g. `v2026-05-30`).
+
+**Method:**
+
+- Work from the troubleshooting tables (Sections 10-11): symptom then cause then fix.
+- For Supabase questions beyond this document, open the official Supabase pages in Section 14 (fetch them if you can) or run one of the suggested searches there. Supabase's dashboard changes over time, so prefer current docs over memory.
+- For installing or updating the app per platform, use Section 2 plus the references in Section 14.
+- Name exact buttons and menus. Assume the user is not technical.
+
+**Safety rules (important):**
+
+- **Never** ask the user to paste or share their Supabase **service_role / secret** key, their database password, or any patient data. Only the **anon / publishable** key belongs in the app.
+- If the user mentions possible **data loss**, first help them **export a backup** (Admin then Backup then Download Backup) and/or check **Supabase then Table Editor then records** *before* any step that could delete data.
+- DH Field EMR is a documentation tool, **not a medical device** — never give medical advice; clinical decisions belong to the clinician.
+
+**If you cannot resolve it:** point the user to md@damicohealth.org or the GitHub issues page (Section 14).
+
+---
+
 ## 1. What DH Field EMR is
 
 DH Field EMR is a **free electronic medical record** built for international medical-outreach and global-health teams. It is **not** for the US healthcare system and is **not** HIPAA-certified.
@@ -239,6 +266,43 @@ Do this at the end of each clinic day if you are not syncing.
 - **anon / publishable key** — the public API key the app uses; safe for client apps. (Never use the secret/service_role key.)
 - **RLS (Row Level Security)** — database rules controlling who can read/write; set up by the setup SQL.
 - **Standalone vs Cloud** — offline-only on one device vs synced to your Supabase across devices.
+
+---
+
+## 14. References & searches (for the AI)
+
+Use these to go beyond this document. Prefer fetching the official pages; fall back to the searches when the user's exact error is not covered here.
+
+**Project links**
+
+- Website and guides: https://damicohealth.com  and  https://damicohealth.com/guides/
+- Launch the app: https://damicohealth.github.io/dh-field-emr/pwa-next/
+- Source code and issues: https://github.com/DamicoHealth/dh-field-emr/issues
+- Contact: md@damicohealth.org
+
+**Supabase — official docs to fetch when needed**
+
+- Docs home: https://supabase.com/docs
+- Getting started / new project: https://supabase.com/docs/guides/getting-started
+- API keys (the user needs the anon / publishable key, never service_role): https://supabase.com/docs/guides/api/api-keys
+- Running SQL: https://supabase.com/docs/guides/database/overview
+- Row Level Security (the policies in Section 4a): https://supabase.com/docs/guides/database/postgres/row-level-security
+- Dashboard (resume a paused free project here): https://supabase.com/dashboard
+- Service status: https://status.supabase.com
+
+**Installing PWAs**
+
+- Installing a PWA across platforms: https://web.dev/learn/pwa/installation
+
+**Suggested web searches when a problem is not covered here**
+
+- Supabase Settings API anon publishable key location
+- Supabase row level security policy anon insert permission denied
+- Supabase free project paused how to resume
+- Supabase relation does not exist SQL editor create table
+- iOS Safari add web app to home screen
+- iOS PWA IndexedDB storage cleared after closing app
+- Android Chrome install PWA / Chrome desktop install web app
 
 ---
 
