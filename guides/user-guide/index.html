@@ -37,7 +37,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
     </div>
   </div>
 </header>
@@ -60,114 +60,106 @@
       <li><a href="#save-next">Save &amp; Next workflow</a></li>
       <li><a href="#searching">Searching records</a></li>
       <li><a href="#history">Patient history</a></li>
-      <li><a href="#mark-complete">Marking referrals complete</a></li>
+      <li><a href="#mark-complete">Tracking referral status</a></li>
     </ul>
   </nav>
 
   <h2 id="new-encounter">Creating a new encounter</h2>
-  <p>From the <code>Records</code> screen, tap <code>+ New Encounter</code>. The encounter form is a single page covering everything from demographics to discharge. Scroll down to fill in each section, or jump between them on the side rail (Mac/iPad).</p>
+  <p>From the <code>Records</code> screen, tap <code>+ New Encounter</code>. The encounter form is a single page covering everything from demographics to notes. Scroll down to fill in each section, or jump between them using the section bar. If your team has more than one encounter form set up (e.g. General vs. Surgery), you'll first pick which one to use.</p>
   <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>You don't need to fill out every field. Only the patient name, date of birth, site, and provider are required. Everything else is optional — fill in what's clinically relevant.</p>
+    <div class="callout-title">What's required</div>
+    <p>Most fields are optional — fill in what's clinically relevant. Saving requires: <strong>Given Name</strong>, <strong>Family Name</strong>, <strong>Site</strong>, <strong>Date</strong>, <strong>Sex</strong>, <strong>Date of Birth</strong> (unless you tick <code>Unknown</code>), and the <strong>MRN</strong> (which fills itself in). If any are missing, the app lists them when you try to save.</p>
   </div>
 
   <h2 id="demographics">Patient demographics &amp; auto-MRN generation</h2>
-  <p>At the top of the form, enter:</p>
+  <p>In the <code>Encounter</code> and <code>Patient</code> cards at the top, enter:</p>
   <ul>
-    <li><code>First name</code></li>
-    <li><code>Last name</code></li>
-    <li><code>Date of birth</code> (or estimated year)</li>
-    <li><code>Sex</code></li>
-    <li><code>Village</code> or location (optional)</li>
+    <li><code>Site</code> (a picker), <code>Date</code>, and the auto-filled <code>MRN</code></li>
+    <li><code>Given Name</code> and <code>Family Name</code></li>
+    <li><code>Sex</code> (Male / Female)</li>
+    <li><code>Date of Birth</code> — type it as DD/MM/YYYY, or tick <code>Unknown</code> and enter an estimated age instead</li>
+    <li><code>Phone</code> (optional)</li>
   </ul>
-  <p>The <code>MRN</code> field auto-generates from name and DOB the moment you fill those out. If the patient has been seen before in your organization, the app detects this and surfaces their prior MRN with a <code>Return Patient</code> badge — tap it to link this encounter to their existing record.</p>
+  <p>The <code>MRN</code> auto-generates from name and DOB as you fill them out. If the patient has been seen before in your organization, the app detects it and shows a <code>Return Patient</code> banner so you can carry their history forward.</p>
 
   <h2 id="vitals">Entering vitals</h2>
-  <p>The Vitals section accepts:</p>
+  <p>The Vitals card keeps to the essentials:</p>
   <ul>
-    <li><code>Temperature</code> — Celsius by default, with a toggle to Fahrenheit</li>
-    <li><code>Blood pressure</code> — systolic / diastolic in two side-by-side fields</li>
-    <li><code>Heart rate</code></li>
-    <li><code>Respiratory rate</code></li>
-    <li><code>Weight</code> — kg by default, toggle to lbs if needed</li>
-    <li><code>Height</code> — optional</li>
-    <li><code>SpO2</code></li>
+    <li><code>Temp (°C)</code> — a single number in Celsius (a fever reading is highlighted)</li>
+    <li><code>BP (mmHg)</code> — one free-text field, e.g. <code>120/80</code></li>
+    <li><code>Weight (kg)</code></li>
+    <li><code>Pregnant</code> — N/A / Yes / No</li>
+    <li><code>Breastfeeding</code> — N/A / Yes / No</li>
   </ul>
-  <p>Out-of-range values (very high BP, fever, low SpO2) are flagged with a colored highlight so they're easier to spot in the record later.</p>
+  <div class="callout">
+    <div class="callout-title">Need more vitals?</div>
+    <p>Heart rate, respiratory rate, SpO2, height, and anything else aren't built into the standard Vitals card. Your admin can add them as custom fields with the form builder (<code>Options → Encounter Forms</code>), and they'll appear on the encounter form for everyone.</p>
+  </div>
 
   <h2 id="labs">Recording labs</h2>
   <p>Labs use one-tap buttons to keep entry fast.</p>
 
   <h3>Binary tests (POS / NEG)</h3>
-  <p>For tests like malaria RDT, pregnancy, HIV rapid, and so on, tap <code>POS</code> or <code>NEG</code>. Tap again to clear. The app records the result and the timestamp.</p>
+  <p>For tests like malaria RDT, pregnancy, HIV rapid, and so on, tap <code>POS</code> or <code>NEG</code>. Tap again to clear.</p>
 
   <h3>Numeric tests</h3>
-  <p>For tests with a numeric result (hemoglobin, glucose, etc.), tap the test name to open a small numeric pad. Type the value and tap <code>Done</code>.</p>
+  <p>For tests with a numeric result (hemoglobin, glucose, etc.), enter the value in the test's field. There's also a free-text <code>Lab Comments</code> box for anything that doesn't fit.</p>
 
   <h3>Urinalysis</h3>
-  <p>Urinalysis has a dedicated dipstick panel — leukocytes, nitrites, protein, glucose, ketones, blood, etc. Tap each pad to cycle through Negative, Trace, 1+, 2+, 3+.</p>
+  <p>Open the <code>Urinalysis</code> panel inside the Labs card for a full dipstick: leukocytes, nitrite, urobilinogen, protein, pH, blood, specific gravity, ketones, bilirubin, and glucose. Tap the value for each pad.</p>
   <div class="callout">
     <div class="callout-title">Tip</div>
-    <p>Your admin can add custom lab tests in <code>Options → Lab Tests</code>. Anything you commonly run in your program can be turned into a one-tap button.</p>
+    <p>Your admin can add custom lab tests (POS/NEG or numeric) in <code>Options → Lab Tests</code>. Anything you commonly run can be turned into a one-tap button.</p>
   </div>
 
   <h2 id="diagnoses">Selecting diagnoses</h2>
-  <p>Tap <code>+ Add Diagnosis</code> to open the diagnosis picker. You can:</p>
+  <p>The Diagnosis card gives you a few ways to record a diagnosis:</p>
   <ul>
-    <li>Pick from a list of presets (your admin curates these)</li>
-    <li>Search by typing a few letters of the condition name</li>
-    <li>Use the text override to type a free-text diagnosis if it's not in your presets</li>
-    <li>Mark a diagnosis as <code>Confirmed</code>, <code>Suspected</code>, or <code>Rule out</code></li>
-    <li>Add multiple diagnoses for one encounter</li>
+    <li>Tap one or more <strong>diagnosis preset</strong> buttons (your admin curates these). Use the <code>Most Used</code> / <code>A-Z</code> / <code>By System</code> tabs to find them fast.</li>
+    <li>Type into the <strong>Working Diagnosis</strong> field for anything not in your presets, or to add detail.</li>
+    <li>Optionally add structured <strong>ICD-10 codes</strong> using the code picker.</li>
   </ul>
+  <p>There's no "Confirmed / Suspected / Rule out" status flag — capture that wording in the Working Diagnosis text if you need it.</p>
 
   <h2 id="medications">Adding medications</h2>
   <p>There are two ways to add medications, optimized for different situations.</p>
 
   <h3>Rx presets (fastest)</h3>
-  <p>Rx presets are pre-built prescription bundles for common scenarios — for example, "Malaria — adult" might add artemether-lumefantrine with the right dose, frequency, and duration in one tap. Tap a preset to add the whole bundle to the encounter, then adjust as needed.</p>
+  <p>Rx presets are pre-built prescription bundles for common scenarios — for example, "Malaria — adult" adds the drug(s) with the right dose, frequency, and duration in one tap. Tap a preset in the <code>Rx Presets</code> card to drop the whole bundle into the medication builder, then adjust as needed.</p>
 
   <h3>Medication builder</h3>
-  <p>For one-off prescriptions or anything not in a preset, tap <code>+ Build Medication</code>. The builder walks through:</p>
+  <p>For one-off prescriptions or anything not in a preset, tap <code>+ Add Medication</code> in the Medications card. Each line has:</p>
   <ol>
-    <li>Drug name (search the formulary)</li>
-    <li>Dose (with weight-based calculator if a weight is on file)</li>
-    <li>Route — PO, IM, IV, topical, etc.</li>
-    <li>Frequency — once, BID, TID, QID, q4h, etc.</li>
-    <li>Duration — number of days</li>
-    <li>Notes — anything specific to this patient</li>
+    <li><strong>Drug</strong> — picked from the formulary (grouped by category; the default dose pre-fills)</li>
+    <li><strong>Dose</strong></li>
+    <li><strong>Frequency</strong> — once, BID, TID, QID, etc.</li>
+    <li><strong>Duration</strong></li>
   </ol>
-  <p>The builder checks the formulary in <code>Options → Formulary</code> for available stock or known forms.</p>
+  <p>The app computes an approximate quantity to dispense from those values. There's no route step and no stock checking — the formulary just supplies the drug list and default doses. Use <code>Additional Treatment Notes</code> below the builder for injections, wound care, or anything patient-specific.</p>
 
   <h2 id="procedures">Procedures, imaging, surgical encounters</h2>
-  <p>Below the Rx section there are three optional blocks:</p>
+  <p>Further down the form are these optional blocks:</p>
   <ul>
-    <li><code>Procedures</code> — pick from your preset list (incision &amp; drainage, suturing, dressing, etc.) and add notes</li>
-    <li><code>Imaging</code> — record what was ordered or done (X-ray, ultrasound) and the finding</li>
-    <li><code>Surgical Encounters</code> — for OR cases. Pick the procedure, surgeon, anesthesia type, and a status (Planned, In Progress, Completed)</li>
+    <li><code>Procedures</code> — tap the procedures performed from your preset list (incision &amp; drainage, suturing, dressing, etc.)</li>
+    <li><code>Imaging</code> — a collapsible card. Choose <code>Ultrasound</code>, pick the ultrasound type (Abdominal, Pelvic, OB/Pregnancy, FAST, etc.), and type the findings. (Ultrasound is the only imaging modality; there's no X-ray option.)</li>
+    <li><code>Surgical Encounter</code> — a collapsible card. Switch it to <code>Surgery Performed</code>, then enter the <strong>Type of Surgery</strong> and <strong>Surgical Notes</strong>. (There's no separate surgeon, anesthesia, or status field.)</li>
   </ul>
 
   <h2 id="referrals">Setting referrals with dates</h2>
-  <p>Tap <code>+ Add Referral</code> to record any onward referral — surgery day, follow-up clinic, hospital transfer, etc.</p>
-  <ul>
-    <li>Pick the <code>Referral Type</code> from your presets</li>
-    <li>Set a <code>Scheduled Date</code> if you have one</li>
-    <li>Add a destination or specialty</li>
-    <li>Add notes for the receiving team</li>
-  </ul>
-  <p>Open referrals show up in <code>Scheduling</code> so the team can plan around them.</p>
+  <p>In the Referral card, tap the <code>Referral Type</code> that applies (surgery, follow-up clinic, hospital transfer, etc. — your admin sets the list). Picking a type other than <code>None</code> reveals a <code>Scheduled Date</code> field; set it if you have a date. There's no separate destination or specialty field — add anything extra in the encounter's Notes.</p>
+  <p>Referrals with a type other than None show up in <code>Scheduling</code> so the team can plan around them.</p>
 
   <h2 id="save-next">Save &amp; Next workflow for batch entry</h2>
-  <p>If you're entering a stack of paper forms after a clinic day, use <code>Save &amp; Next</code> at the bottom of the form instead of <code>Save</code>. This:</p>
+  <p>If you're entering a stack of paper forms after a clinic day, use <code>Save &amp; Next</code> (also shown as <code>+ Save &amp; Next Patient</code>) instead of <code>Save &amp; Close</code>. This:</p>
   <ol>
     <li>Saves the current encounter</li>
-    <li>Clears the form</li>
-    <li>Pre-fills site, provider, and date from your last entry</li>
-    <li>Puts focus back at the top so you can start typing the next patient</li>
+    <li>Opens a fresh form of the same type</li>
+    <li>Carries the <strong>site</strong> and <strong>date</strong> forward from your last entry</li>
+    <li>Scrolls back to the top so you can start typing the next patient</li>
   </ol>
   <div class="callout">
     <div class="callout-title">Tip</div>
-    <p>Most teams enter a 4-day clinic of 300+ patients in a few hours using Save &amp; Next. Get into a rhythm and don't switch between mouse and keyboard if you can help it.</p>
+    <p>Most teams enter a 4-day clinic of 300+ patients in a few hours using Save &amp; Next. Get into a rhythm and keep your hands on the keyboard.</p>
   </div>
 
   <h2 id="searching">Searching records</h2>
@@ -179,24 +171,17 @@
     <li>Medication</li>
     <li>Site</li>
   </ul>
-  <p>Below the search box, filter chips let you narrow by date range, provider, site, or diagnosis. Filters stack — so "all malaria-positive patients seen by Dr. Okafor at Site 3" is one search.</p>
+  <p>A <code>Site</code> dropdown sits next to the search box. Tap <code>Filters</code> to reveal more: a <strong>From</strong>/<strong>To</strong> date range, <strong>Provider</strong>, and <strong>Referral Type</strong>, plus a <code>Today's Patients</code> shortcut. Filters stack — so "everyone seen by Dr. Okafor at Site 3 this week" is one search.</p>
 
   <h2 id="history">Viewing patient history (multi-visit support)</h2>
-  <p>Tap any patient in the records list to see their full chart. Multiple visits show up in chronological order with a summary card for each visit:</p>
-  <ul>
-    <li>Date and site</li>
-    <li>Chief complaint</li>
-    <li>Diagnoses</li>
-    <li>Medications prescribed</li>
-    <li>Open referrals</li>
-  </ul>
-  <p>Tap a visit card to open the full encounter as it was originally written. From the patient header, tap <code>+ New Visit</code> to start a fresh encounter linked to the same MRN — useful for return patients.</p>
+  <p>Tap any patient in the records list to open their chart. All of that patient's visits (matched by MRN) appear newest-first, each as a full block showing that visit's vitals, history, access-to-care, labs, diagnosis, medications, referral, and physician. When there are two or more visits, a small <strong>vitals trend</strong> table (temp, BP, weight across visits) appears at the top.</p>
+  <p>Tap <code>Edit</code> on any visit to reopen that encounter. From the patient header, tap <code>+ New Visit</code> to start a fresh encounter linked to the same MRN — useful for return patients.</p>
 
-  <h2 id="mark-complete">Marking referrals complete</h2>
-  <p>When a referral is fulfilled — surgery happens, patient is seen at follow-up, hospital transfer is complete — open the patient's chart and find the referral on their visit. Tap the referral card and choose <code>Mark Complete</code>. You can add an outcome note. The referral disappears from the open queue in <code>Scheduling</code>.</p>
+  <h2 id="mark-complete">Tracking referral status</h2>
+  <p>Referrals are tracked from the <code>Scheduling</code> screen, not the patient chart. Pick a day on the weekly calendar to list its referrals grouped by type. Each row has a <strong>status dropdown</strong> — set it to <code>Pending</code>, <code>Completed</code>, <code>No Show</code>, or <code>Cancelled</code> as things happen. The day's tally of completed vs. pending updates as you go.</p>
   <div class="callout">
     <div class="callout-title">Tip</div>
-    <p>From the Scheduling screen, you can mark referrals complete in bulk by tapping each one in the list and choosing the action — useful at the end of a surgery day.</p>
+    <p>Work down a surgery day's list on the Scheduling screen, flipping each referral to <code>Completed</code> or <code>No Show</code> as patients are seen. Tap a patient's name in that list to jump straight to their record.</p>
   </div>
 </main>
 
@@ -222,6 +207,7 @@
           <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+          <li><a href="/guides/release-notes/">Release Notes</a></li>
         </ul>
       </div>
       <div>

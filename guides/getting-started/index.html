@@ -44,7 +44,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
     </div>
   </div>
 </header>
@@ -87,7 +87,7 @@
 
   <h2 id="install">2. Install the app</h2>
   <p>First, open the app in your browser:</p>
-  <p><a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a></p>
+  <p><a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a></p>
   <p>Then add it to your home screen so it opens like a normal app and works offline:</p>
 
   <h3>iPad &amp; iPhone (Safari)</h3>
@@ -147,7 +147,8 @@
     <li>Copy the entire block below, paste it into the editor, and click <strong>Run</strong>. You should see "Success."</li>
   </ol>
 
-  <pre class="code">-- DH Field EMR — Supabase setup (run once). Safe to re-run.
+  <pre class="code">-- DH Field EMR — Supabase setup (run once). Safe to re-run:
+-- every policy is dropped-then-created, so a second run won't error.
 CREATE TABLE IF NOT EXISTS records (
   id UUID PRIMARY KEY,
   device_id TEXT, site TEXT, date TEXT, mrn TEXT,
@@ -179,20 +180,46 @@ CREATE INDEX IF NOT EXISTS idx_records_mrn ON records (mrn);
 ALTER TABLE records ENABLE ROW LEVEL SECURITY;
 ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE config  ENABLE ROW LEVEL SECURITY;
+-- Drop-then-create each policy so re-running never errors on duplicates.
+DROP POLICY IF EXISTS "anon_read_records"   ON records;
 CREATE POLICY "anon_read_records"   ON records FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_insert_records" ON records;
 CREATE POLICY "anon_insert_records" ON records FOR INSERT WITH CHECK (
   device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+DROP POLICY IF EXISTS "anon_update_records" ON records;
 CREATE POLICY "anon_update_records" ON records FOR UPDATE USING (
   device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+DROP POLICY IF EXISTS "anon_read_devices"   ON devices;
 CREATE POLICY "anon_read_devices"   ON devices FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_insert_devices" ON devices;
 CREATE POLICY "anon_insert_devices" ON devices FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_update_devices" ON devices;
 CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true);
+DROP POLICY IF EXISTS "anon_read_config"   ON config;
 CREATE POLICY "anon_read_config"   ON config FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_write_config"  ON config;
 CREATE POLICY "anon_write_config"  ON config FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_update_config" ON config;
 CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true);
+DROP POLICY IF EXISTS "no_delete_records" ON records;
 CREATE POLICY "no_delete_records" ON records FOR DELETE USING (false);
+DROP POLICY IF EXISTS "no_delete_devices" ON devices;
 CREATE POLICY "no_delete_devices" ON devices FOR DELETE USING (false);
-CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);</pre>
+DROP POLICY IF EXISTS "no_delete_config"  ON config;
+CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);
+-- Server-side timestamp on every write; incremental pull depends on this.
+CREATE OR REPLACE FUNCTION update_synced_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.synced_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS trg_records_synced_at ON records;
+CREATE TRIGGER trg_records_synced_at
+  BEFORE INSERT OR UPDATE ON records
+  FOR EACH ROW
+  EXECUTE FUNCTION update_synced_at();</pre>
 
 
   <h2 id="connect">5. Connect the app</h2>
@@ -275,6 +302,7 @@ CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);</pre>
           <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+          <li><a href="/guides/release-notes/">Release Notes</a></li>
         </ul>
       </div>
       <div>

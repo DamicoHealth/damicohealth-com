@@ -37,7 +37,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-next/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
     </div>
   </div>
 </header>
@@ -50,7 +50,7 @@
     <div class="toc-title">On this page</div>
     <ul>
       <li><a href="#roles">Admin vs Standard devices</a></li>
-      <li><a href="#admin-password">Setting an admin password</a></li>
+      <li><a href="#admin-password">Claiming admin access &amp; the admin password</a></li>
       <li><a href="#presets">Customizing presets</a></li>
       <li><a href="#sites">Sites</a></li>
       <li><a href="#physicians">Physicians</a></li>
@@ -61,11 +61,13 @@
       <li><a href="#labs">Lab tests</a></li>
       <li><a href="#rx-presets">Rx presets</a></li>
       <li><a href="#referrals">Referral types</a></li>
+      <li><a href="#form-builder">Building custom form sections</a></li>
       <li><a href="#hide-presets">Show/hide without deleting</a></li>
       <li><a href="#cloud">Cloud sync (your Supabase)</a></li>
       <li><a href="#sharing-code">Adding team devices</a></li>
-      <li><a href="#sync">Sync workflow</a></li>
+      <li><a href="#sync">How sync works</a></li>
       <li><a href="#backup">Backups</a></li>
+      <li><a href="#new-ipad">Moving to a new iPad / replacing a device</a></li>
       <li><a href="#donor-reports">Generating donor reports</a></li>
     </ul>
   </nav>
@@ -73,93 +75,93 @@
   <h2 id="roles">Admin vs Standard device roles</h2>
   <p>Every device in your organization is one of two roles:</p>
   <ul>
-    <li><strong>Admin</strong> — can edit presets and forms, manage cloud sync, run backups, and generate donor reports. Typically the team lead's device or the backend laptop.</li>
-    <li><strong>Standard</strong> — can create encounters, view records, and run analytics. Cannot change configuration or the formulary. Can be promoted to admin by an existing admin.</li>
+    <li><strong>Admin</strong> — can edit presets and forms, manage the cloud connection, run backups, and generate donor reports. Typically the team lead's device or the backend laptop.</li>
+    <li><strong>Standard</strong> — can create encounters, view records, and run analytics. Cannot change configuration or the formulary — those editors show up read-only, and the encounter form uses whatever the admin device set up.</li>
   </ul>
-  <p>The first device that creates the organization automatically becomes the admin. Additional admin devices are promoted from <code>Admin → Devices → [device name] → Promote to Admin</code>.</p>
+  <p>The first device that creates the organization (via the <strong>New Organization</strong> wizard) automatically becomes the admin. Any other device can become admin by claiming admin access with the admin password (next section). A device can also step down again with <code>Admin → Admin Access → Release Admin Role</code>.</p>
 
-  <h2 id="admin-password">Setting an admin password</h2>
-  <p>The admin password protects the <code>Options</code> screen and the <code>Admin</code> configuration sections. Without it, even an admin device can't change presets.</p>
+  <h2 id="admin-password">Claiming admin access &amp; the admin password</h2>
+  <p>The admin password is set once, on the admin device, when you first create the organization (the wizard's "Set Admin Password" step). Any Standard device can then use that password to promote itself to Admin — there is no per-device "promote" list.</p>
+  <p><strong>To make another device an admin:</strong></p>
   <ol>
-    <li>Open <code>Admin → Security</code></li>
-    <li>Tap <code>Set Admin Password</code></li>
-    <li>Enter and confirm your password</li>
-    <li>Save</li>
+    <li>On that device, open the <code>Admin</code> tab.</li>
+    <li>Under <strong>Admin Access</strong>, type the admin password into <code>Admin Password</code>.</li>
+    <li>Tap <code>Claim Admin Access</code>. The device becomes Admin and the preset editors unlock.</li>
   </ol>
+  <p><strong>To change the password</strong> (from any admin device): <code>Admin → Admin Access → Change Admin Password</code>.</p>
   <div class="callout warning">
     <div class="callout-title">Important</div>
-    <p>Forgotten admin passwords can only be reset by another admin device on the same organization. If every admin device loses the password, contact <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</p>
+    <p>The admin password is stored on the device, not synced. If you forget it, promote a device using another device that is already an admin, or reset it from an admin device via <code>Change Admin Password</code>. If every admin device has lost it, email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</p>
   </div>
 
   <h2 id="presets">Customizing presets</h2>
-  <p>Presets live in the <code>Options</code> tab. They control what shows up as one-tap buttons everywhere else in the app. Investing 30 minutes in good presets pays off across hundreds of patient encounters.</p>
+  <p>Presets live in the <code>Options</code> tab (editable only on an Admin device). They control what shows up as one-tap buttons on the encounter form. Changes <strong>save automatically</strong> and sync to every device. Investing 30 minutes in good presets pays off across hundreds of patient encounters.</p>
 
-  <h3 id="sites">Sites</h3>
-  <p>Each clinic location your team works at. Add a name, optional location notes, and an active/inactive toggle. Sites appear as a picker on every encounter form.</p>
+  <h3 id="sites">Sites / Communities</h3>
+  <p>Each clinic location or community your team works at. A site is just a <strong>name</strong> — tap <code>+ Add Site</code>, type it, and save. Sites appear in the <code>Site</code> picker on every encounter form. (Removing a site that older records reference doesn't change those records — the app warns you and keeps their site label.)</p>
 
   <h3 id="physicians">Physicians</h3>
-  <p>The clinicians on your team. Add name, role (MD, NP, PA, RN, etc.), and any credentials you want printed on records or reports.</p>
+  <p>The clinicians on your team. A physician is just a <strong>name</strong> — tap <code>+ Add Physician</code> and type it (e.g. "Dr. Smith"). Names appear as one-tap buttons in the encounter's <code>Physician</code> block.</p>
 
   <h3 id="formulary">Formulary (medications)</h3>
-  <p>Your medication list. For each medication, capture:</p>
+  <p>Your medication list, which feeds the medication builder and Rx presets. For each medication (<code>+ Add Medication</code>) you set:</p>
   <ul>
-    <li>Drug name (generic and brand)</li>
-    <li>Available forms (tablet, suspension, injection)</li>
-    <li>Strengths in stock</li>
-    <li>Default dosing notes (adult and pediatric)</li>
-    <li>Common indications</li>
+    <li><strong>Medication Name</strong> (e.g. "Amoxicillin 500mg")</li>
+    <li><strong>Default Dose</strong> (e.g. "500mg") — pre-fills when the drug is picked</li>
+    <li><strong>Unit</strong> — tabs, caps, mg, ml, g, IU, vial, sachet, drops, cream</li>
+    <li><strong>Category</strong> — Antibiotics, Antimalarials, Analgesics, etc. (used to group the drug picker)</li>
+    <li><strong>Controlled Substance</strong> — a checkbox that flags the drug with a warning marker wherever it appears</li>
   </ul>
-  <p>The formulary feeds the medication builder during encounters.</p>
+  <p>The app does not track stock levels or separate pediatric dosing — dose is adjusted per patient in the encounter's medication builder.</p>
 
   <h3 id="procedures">Procedures</h3>
-  <p>The procedures your team performs. Examples: incision and drainage, suturing, dressing change, foreign body removal. Each procedure can have a default note template.</p>
+  <p>The procedures your team performs — incision &amp; drainage, suturing, dressing change, foreign body removal, etc. A procedure is just a <strong>name</strong> (<code>+ Add Procedure</code>); it appears as a one-tap button in the encounter's Procedures block.</p>
 
   <h3 id="chief-complaints">Chief complaints</h3>
-  <p>Common presenting complaints — fever, abdominal pain, cough, rash. Used as one-tap buttons on the encounter form. Add ones specific to your program (e.g. snake bite, road traffic injury).</p>
+  <p>Common presenting complaints — fever, abdominal pain, cough, rash. Each is a single name and shows as a one-tap button in the Chief Concern section. Add ones specific to your program (e.g. snake bite, road traffic injury).</p>
 
   <h3 id="dx-presets">Diagnosis presets</h3>
-  <p>The diagnoses your team commonly makes. For each preset:</p>
-  <ul>
-    <li>Diagnosis name</li>
-    <li>Optional ICD-10 code</li>
-    <li>Default linked medications (so picking the diagnosis can suggest typical Rx)</li>
-  </ul>
+  <p>The diagnoses your team commonly makes. Each preset is a single <strong>diagnosis name</strong> (<code>+ Add Diagnosis</code>) that becomes a one-tap button next to the free-text Working Diagnosis field. (An optional ICD-10 code picker is available on the encounter form itself, separate from these presets.)</p>
 
   <h3 id="labs">Lab tests (custom POS/NEG or numeric)</h3>
-  <p>Add the labs your program runs. For each:</p>
+  <p>Add the labs your program runs (<code>+ Add Lab Test</code>). For each:</p>
   <ul>
-    <li>Test name</li>
-    <li>Type — <code>POS/NEG</code>, <code>numeric</code>, or <code>urinalysis dipstick</code></li>
-    <li>For numeric: units, reference range, and out-of-range flagging thresholds</li>
+    <li><strong>Test Name</strong></li>
+    <li><strong>Result Type</strong> — either <code>POS / NEG</code> or <code>Numeric Value</code></li>
+    <li>For numeric tests, an optional <strong>Unit</strong> (e.g. mg/dL, g/dL, mmol/L)</li>
   </ul>
+  <p>Built-in tests can't be edited but can be hidden; custom tests you add can be renamed or removed. Urinalysis is a fixed dipstick panel on the encounter form, not a lab-test entry here.</p>
 
   <h3 id="rx-presets">Rx presets (prescription bundles)</h3>
-  <p>This is one of the biggest time savers. An Rx preset bundles a full prescription — drug, dose, route, frequency, duration — into one tap. Examples:</p>
-  <ul>
-    <li><code>Malaria — adult</code> → artemether-lumefantrine 80/480, PO, BID, 3 days</li>
-    <li><code>UTI — adult</code> → nitrofurantoin 100mg, PO, BID, 5 days</li>
-    <li><code>Strep throat — pediatric</code> → amoxicillin 50 mg/kg/day, PO, divided BID, 10 days</li>
-  </ul>
-  <p>Build a library of presets that match your program's most common prescriptions. The builder still lets you adjust on a per-patient basis.</p>
+  <p>One of the biggest time savers. An Rx preset bundles one or more medications — each with a drug (from your formulary), dose, frequency, and duration — into a single one-tap button, plus optional treatment notes. Build them in <code>Options → Rx Presets</code>:</p>
+  <ol>
+    <li>Tap <code>+ Add Rx Preset</code> and give it a name (e.g. "H. pylori Triple Therapy").</li>
+    <li>Add one or more medication lines: pick the drug, set dose, frequency, and duration.</li>
+    <li>Optionally add treatment notes, then save. The app builds a readable prescription summary automatically.</li>
+  </ol>
+  <p>On the encounter form, tapping a preset drops the whole bundle into the medication builder, where you can still adjust it per patient.</p>
 
   <h3 id="referrals">Referral types</h3>
-  <p>The kinds of referrals your team makes. Examples: surgery day, hospital transfer, follow-up clinic, OB/GYN, dental, ophthalmology. Each type can have a default destination.</p>
+  <p>The kinds of referrals your team makes — surgery, hospital transfer, follow-up clinic, OB/GYN, dental, ophthalmology, etc. Each type is a single name and appears as a one-tap button in the encounter's Referral block; picking one reveals an optional <strong>Scheduled Date</strong>. There is no separate "destination" field. (The built-in <code>None</code> option can't be removed.)</p>
+
+  <h3 id="form-builder">Building custom form sections</h3>
+  <p>Beyond presets, the <strong>Encounter Forms</strong> builder at the top of <code>Options</code> lets you add your own sections and questions, and even create multiple encounter forms (e.g. General, Surgery, Dental). This is where you add anything the built-in form doesn't cover — for example extra vitals like heart rate, respiratory rate, or SpO2 — as custom fields. When more than one form is active, clinicians pick which to use when they start a new encounter. Changes save automatically and sync to every device.</p>
 
   <h3 id="hide-presets">Show/hide presets without deleting</h3>
-  <p>Most preset editors have a <code>Visible</code> toggle. Turn it off to hide a preset from the encounter form without losing it — useful for seasonal items (e.g. specific antimalarials only relevant in certain trips) or items you might want to bring back.</p>
+  <p>Procedures, chief complaints, diagnosis presets, Rx presets, referral types, and lab tests each have an <strong>eye icon</strong> next to their edit/delete buttons. Tap it to hide that preset from the encounter form without deleting it — useful for seasonal items (e.g. antimalarials only relevant on certain trips) or items you might bring back. Hidden rows stay in the editor, just dimmed.</p>
   <div class="callout">
     <div class="callout-title">Tip</div>
-    <p>Avoid deleting presets that have already been used in encounters. Hiding preserves historical records that reference the preset by name. Deleting may leave older encounters without a clean linked label.</p>
+    <p>Prefer hiding over deleting for anything already used in encounters. Hiding keeps the preset out of the way while preserving the labels on historical records. (Sites and physicians don't have an eye icon — if you remove one that older records use, the app warns you first and leaves those records' labels untouched.)</p>
   </div>
 
   <h2 id="cloud">Cloud sync with your own Supabase</h2>
   <p>To share records across devices and keep an off-device copy, connect the app to a free Supabase project that your organization owns. The full walkthrough — creating the project and running the setup SQL — is in the <a href="/guides/getting-started/#supabase">Setup Guide</a>.</p>
   <ol>
-    <li>Set this up during the first-run wizard ("New Organization"), or later from <code>Admin → Cloud Connection</code>.</li>
-    <li>Paste your <strong>Supabase Project URL</strong> and <strong>anon key</strong> (from Supabase → Settings → API).</li>
-    <li>Save. The app verifies the connection and starts syncing.</li>
+    <li>Set this up during the first-run wizard ("New Organization"), or later from <code>Admin → Cloud Connection</code> (a device that started in Standalone mode gets a <strong>Connect to Cloud</strong> button here).</li>
+    <li>Paste your <strong>Supabase Project URL</strong> and <strong>anon key</strong> (from Supabase → Settings → API) under <code>Edit Connection Settings</code>.</li>
+    <li>Save &amp; Connect. The app verifies the connection and starts syncing.</li>
   </ol>
-  <p>Once connected, the screen shows sync status — last successful sync, anything still pending, and any errors.</p>
+  <p>Once connected, the <code>Admin → Cloud Connection</code> section shows the current status, and the top-bar indicator shows <strong>Connected / Syncing / Error</strong> plus how many records are still pending and how long ago the last sync ran.</p>
   <div class="callout warning">
     <div class="callout-title">Use the anon / publishable key</div>
     <p>Never enter or share your Supabase <strong>service_role</strong> / secret key — only the <strong>anon</strong> (publishable) key, which is the one meant for the app.</p>
@@ -170,51 +172,67 @@
   <ol>
     <li>Install the app on the new device and open it.</li>
     <li>In the setup wizard, choose <strong>Join Existing Setup</strong>.</li>
-    <li>Paste your Supabase URL and anon key — the device pulls down your presets and history automatically.</li>
+    <li>Paste your Supabase URL and anon key — the device pulls down your presets and history automatically. It joins as a <strong>Standard</strong> device; promote it later if needed (see <a href="#admin-password">Claiming admin access</a>).</li>
   </ol>
   <div class="callout">
     <div class="callout-title">Keep your credentials handy — and private</div>
     <p>Your Supabase URL + anon key are the "key" to your shared data. Keep them where your team can find them, and don't post them publicly.</p>
   </div>
 
-  <h2 id="sync">Manual sync workflow (sync at end of day)</h2>
-  <p>The app syncs automatically when internet is available, but most field teams prefer to control when sync happens — usually at the end of each clinic day when you're back at the lodge with reliable wifi.</p>
-  <ol>
-    <li>From <code>Admin → Sync</code>, set sync mode to <code>Manual</code></li>
-    <li>Each device works offline during the day</li>
-    <li>At end of day, gather devices in one place with internet</li>
-    <li>On each device, tap <code>Sync Now</code></li>
-    <li>The backend Mac (or admin device) merges everything and pushes to the cloud</li>
-    <li>Other devices pull the merged result</li>
-  </ol>
-  <p>The sync log on the Cloud Connection screen shows progress, conflicts, and any errors.</p>
+  <h2 id="sync">How sync works</h2>
+  <p>Sync is <strong>automatic and always on</strong> whenever the device has internet — there is no manual/automatic mode setting and no separate sync log to manage. Each device pushes its own new and edited records to your Supabase and pulls everyone else's, so every device converges on the same set of records.</p>
+  <ul>
+    <li>The app syncs on a light schedule and on the events that matter: shortly after you save or delete, when the device reconnects, and when you bring the app back to the foreground.</li>
+    <li>You can <strong>force a sync right now</strong> by tapping the sync indicator in the top bar, or with <code>Admin → Cloud Connection → Sync Now</code>.</li>
+    <li>When a device is offline, records save locally and sync the next time it's online — nothing is lost.</li>
+    <li>Conflicts use last-write-wins, with the server's timestamp as the authority; a local edit that hasn't synced yet is always kept.</li>
+  </ul>
+  <div class="callout">
+    <div class="callout-title">End-of-day habit</div>
+    <p>You don't need to "run" sync — but it's still worth gathering devices somewhere with reliable wifi at the end of a clinic day and tapping the sync indicator on each, so everything is up in your Supabase before anyone travels or powers down.</p>
+  </div>
 
   <h2 id="backup">Backups</h2>
-  <p>Whether or not you use cloud sync, download a backup at least once per clinic day. From <code>Admin → Backup</code>:</p>
+  <p>Whether or not you use cloud sync, download a backup at least once per clinic day. From <code>Admin → Backup &amp; Restore</code>:</p>
   <ol>
     <li>Tap <code>Download Backup</code></li>
     <li>Save the <code>.json</code> file — to your Files app, AirDrop to a teammate, or copy it to a laptop</li>
-    <li>The file contains all encounters, presets, and configuration</li>
+    <li>The file contains all records and settings</li>
   </ol>
-  <p>Restore on any device via <code>Admin → Backup → Restore from File</code>. Restoring <strong>merges</strong> records in — it never wipes existing data.</p>
+  <p>Restore on any device via <code>Admin → Backup &amp; Restore → Restore from File</code>. Restoring <strong>merges</strong> into the device — it never deletes existing records.</p>
   <div class="callout">
     <div class="callout-title">Why backups matter</div>
-    <p>A downloaded file is the one copy a device can never clear on its own. On iPads especially, treat a daily backup (or cloud sync) as your real safety net.</p>
+    <p>A downloaded file is the one copy a device can never clear on its own — especially important in offline-only mode, where it's your only safety net. On iPads especially, treat a daily backup (or cloud sync) as your real safety net.</p>
+  </div>
+
+  <h2 id="new-ipad">Moving to a new iPad / replacing a device</h2>
+  <p>When you retire, lose, or replace a device, here's how to carry the data over.</p>
+  <h3>If you use cloud sync</h3>
+  <ol>
+    <li>On the <strong>old</strong> device (if you still have it), open the app while online and tap the sync indicator so its latest records are up in Supabase.</li>
+    <li>Install the app on the <strong>new</strong> device and open it.</li>
+    <li>In the setup wizard, choose <strong>Join Existing Setup</strong> and paste the same Supabase URL and anon key your team uses.</li>
+    <li>Name the device. It pulls down all records and presets on the first sync. Promote it to Admin if it needs to edit configuration.</li>
+  </ol>
+  <h3>If you are offline-only (Standalone)</h3>
+  <ol>
+    <li>On the <strong>old</strong> device, open <code>Admin → Backup &amp; Restore → Download Backup</code> and save the <code>.json</code> file somewhere you can get to it (Files, AirDrop, email, a laptop).</li>
+    <li>Install and open the app on the <strong>new</strong> device; in the wizard, choose <strong>Standalone (Offline Only)</strong> and name the device.</li>
+    <li>Open <code>Admin → Backup &amp; Restore → Restore from File</code> and pick the backup file. Records and settings are merged in.</li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-title">Don't wipe the old device until you've confirmed the new one</div>
+    <p>Open the new device and check that the expected records are present (and, for cloud teams, that the top-bar indicator shows <strong>Connected</strong>) before erasing or handing off the old one.</p>
   </div>
 
   <h2 id="donor-reports">Generating donor reports</h2>
-  <p>Donors typically want a one-page summary of activity. From <code>Analytics → Donor Report</code>:</p>
+  <p>The donor report is a one-tap PDF summary of activity, built from whatever filters are set on the <code>Analytics</code> screen. From <code>Analytics</code>:</p>
   <ol>
-    <li>Pick a date range (last trip, calendar year, custom)</li>
-    <li>Pick a site filter if needed (or leave empty for all)</li>
-    <li>Choose the sections to include — patient counts, age and sex breakdown, top diagnoses, lab volume, surgeries, referrals fulfilled</li>
-    <li>Tap <code>Generate Report</code></li>
-    <li>Export as PDF or CSV</li>
+    <li>Set the <strong>From</strong> / <strong>To</strong> dates and, if you want, a <strong>Site</strong> or <strong>Sex</strong> filter at the top of the screen.</li>
+    <li>Tap <code>Generate Donor Report</code>.</li>
+    <li>The app produces a formatted PDF covering the filtered period — total encounters and unique patients, age and sex breakdown, sites, top 10 diagnoses, lab positivity, top medications dispensed, and a referrals summary.</li>
   </ol>
-  <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>Save your most-used report configurations as templates. The next trip you can re-run the same report with one tap.</p>
-  </div>
+  <p>There's no separate "choose sections" dialog or saved report templates — the report always includes those sections for the current filter. For raw data, use <code>Export CSV</code> on the same screen and analyze it in any spreadsheet or stats tool.</p>
 
   <h2 id="open">Free &amp; supported</h2>
   <p>DH Field EMR is free, with every feature included. Beyond the in-app customization (forms, presets, encounter types), we're happy to help your team get the most out of it.</p>
@@ -246,6 +264,7 @@
           <li><a href="/guides/getting-started/">Setup Guide</a></li>
           <li><a href="/guides/user-guide/">User Guide</a></li>
           <li><a href="/guides/admin-guide/">Admin Guide</a></li>
+          <li><a href="/guides/release-notes/">Release Notes</a></li>
         </ul>
       </div>
       <div>

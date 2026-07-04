@@ -141,20 +141,49 @@ CREATE TABLE IF NOT EXISTS config (
 ALTER TABLE records ENABLE ROW LEVEL SECURITY;
 ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE config  ENABLE ROW LEVEL SECURITY;
+-- Drop-then-create each policy so re-running never errors on duplicates.
+DROP POLICY IF EXISTS "anon_read_records"   ON records;
 CREATE POLICY "anon_read_records"   ON records FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_insert_records" ON records;
 CREATE POLICY "anon_insert_records" ON records FOR INSERT WITH CHECK (
   device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+DROP POLICY IF EXISTS "anon_update_records" ON records;
 CREATE POLICY "anon_update_records" ON records FOR UPDATE USING (
   device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
+DROP POLICY IF EXISTS "anon_read_devices"   ON devices;
 CREATE POLICY "anon_read_devices"   ON devices FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_insert_devices" ON devices;
 CREATE POLICY "anon_insert_devices" ON devices FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_update_devices" ON devices;
 CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true);
+DROP POLICY IF EXISTS "anon_read_config"   ON config;
 CREATE POLICY "anon_read_config"   ON config FOR SELECT USING (true);
+DROP POLICY IF EXISTS "anon_write_config"  ON config;
 CREATE POLICY "anon_write_config"  ON config FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_update_config" ON config;
 CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true);
+DROP POLICY IF EXISTS "no_delete_records" ON records;
+CREATE POLICY "no_delete_records" ON records FOR DELETE USING (false);
+DROP POLICY IF EXISTS "no_delete_devices" ON devices;
+CREATE POLICY "no_delete_devices" ON devices FOR DELETE USING (false);
+DROP POLICY IF EXISTS "no_delete_config"  ON config;
+CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);
+-- Server-side timestamp on every write; incremental pull depends on this trigger.
+CREATE OR REPLACE FUNCTION update_synced_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.synced_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS trg_records_synced_at ON records;
+CREATE TRIGGER trg_records_synced_at
+  BEFORE INSERT OR UPDATE ON records
+  FOR EACH ROW
+  EXECUTE FUNCTION update_synced_at();
 ```
 
-This is safe to re-run (every statement uses `IF NOT EXISTS` or `CREATE POLICY`). If a policy already exists and a re-run errors on it, that policy is simply already there — ignore that specific error.
+This is safe to re-run: tables and columns use `IF NOT EXISTS`, and every policy is dropped before it is re-created, so a second run will not error on already-existing policies. (An earlier version of this script used bare `CREATE POLICY`, which *would* error on a re-run and abort the whole transaction — if you have that older version saved anywhere, replace it with the block above.)
 
 ---
 
@@ -239,7 +268,8 @@ Do this at the end of each clinic day if you are not syncing.
 | "JWT" / "invalid API key" / 401 | Wrong or truncated key | Re-copy the **entire** anon key (200+ chars); paste again with no spaces |
 | Records save locally but never reach the cloud | Device not registered, or RLS blocking inserts | Make sure setup SQL ran (the `devices` table + policies must exist); the device registers itself on first cloud connect |
 | "permission denied for table records" / "row-level security" | The RLS policies weren't created, or the device row is missing | Re-run the **setup SQL** (Section 4a); confirm the device appears in the `devices` table |
-| "relation 'records' does not exist" / column errors | The setup SQL never ran, or an older partial schema | Run the full **setup SQL** in the SQL Editor; it's safe to re-run |
+| "relation 'records' does not exist" / column errors | The setup SQL never ran, or an older partial schema is missing columns | Run the full **setup SQL** (Section 4a) in the SQL Editor. It is safe to re-run and its `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` lines add the newer columns (`custom_fields`, `template_id`, `template_name`, `diagnosis_codes`) an older database may be missing |
+| Records never sync / rows pushed but other devices never pull them | The `synced_at` trigger is missing (older setup SQL) | Re-run the full **setup SQL** (Section 4a) — it creates the `update_synced_at()` trigger that incremental pull depends on |
 | Other devices don't see new records | They're on a different project, or haven't synced | Confirm identical URL + key on every device; tap Sync; check the `records` table in Supabase has the rows |
 | Free Supabase project "paused" | Free projects pause after ~1 week of no activity | Open the Supabase dashboard and **Resume** the project; then sync |
 | Worried data is exposed | The anon key allows read/write per the policies | Keep the URL + key private (treat like a password); for stricter control, restrict policies to admin devices |
@@ -276,7 +306,7 @@ Use these to go beyond this document. Prefer fetching the official pages; fall b
 **Project links**
 
 - Website and guides: https://damicohealth.com  and  https://damicohealth.com/guides/
-- Launch the app: https://damicohealth.github.io/dh-field-emr/pwa-next/
+- Launch the app: https://damicohealth.github.io/dh-field-emr/pwa/
 - Support and reporting issues: md@damicohealth.org
 - Contact: md@damicohealth.org
 
