@@ -125,6 +125,9 @@ section { padding: 80px 0; }
   font-size: .95rem;
 }
 .nav-links a:hover { color: var(--orange); }
+/* Extra links surfaced only inside the mobile dropdown: the .nav-cta ghost
+   buttons are hidden under 860px and were otherwise unreachable on phones. */
+.nav-mobile-only { display: none; }
 .nav-cta { display: flex; gap: 10px; align-items: center; }
 .nav-toggle { display: none; background: none; border: 0; padding: 6px; cursor: pointer; }
 .nav-toggle span {
@@ -146,6 +149,7 @@ section { padding: 80px 0; }
     border-bottom: 1px solid var(--border);
     gap: 14px;
   }
+  .nav.open .nav-links .nav-mobile-only { display: block; }
 }
 
 /* Buttons */
@@ -197,6 +201,14 @@ section { padding: 80px 0; }
   box-shadow: var(--shadow-md);
 }
 .btn-light:hover { background: var(--cream); color: var(--orange-dark); }
+
+/* Outline button for use on the dark/coloured final-CTA band */
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.btn-outline-light:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; }
 .btn-lg { padding: 16px 30px; font-size: 1.05rem; }
 
 /* Hero */

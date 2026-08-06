@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>DH Field EMR</title>
+  <script>window.APP_BUILD="2026-08-06 13:44";</script>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="DH Field EMR">
+  <meta name="theme-color" content="#F68630">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pwa-responsive.css">
+<script>window.DH_DEMO=true;window.DH_STORAGE_SUFFIX="-demo";</script>
+</head>
+<body>
+
+<!-- Setup Wizard Overlay -->
+<div class="wizard-overlay" id="setupWizard" style="display:none;">
+  <div class="wizard-card">
+    <div class="wizard-progress" id="wizardProgress"></div>
+    <div id="wizardContent"></div>
+    <div class="wizard-nav" id="wizardNav"></div>
+  </div>
+</div>
+
+<!-- Device Sign-In Overlay -->
+<div class="device-signin-overlay" id="deviceSignIn" style="display:none;">
+  <div class="device-signin-card">
+    <svg class="topbar-logo" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:48px;height:48px;margin-bottom:12px;">
+      <rect width="34" height="34" rx="8" fill="#F68630"/>
+      <text x="17" y="23" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="-apple-system,sans-serif">D</text>
+    </svg>
+    <h2 style="margin:0 0 4px;">DH Field EMR</h2>
+    <p style="color:var(--gray-500);font-size:13px;margin:0 0 20px;">Enter a name for this device to get started.</p>
+    <div class="form-group" style="width:100%;max-width:300px;">
+      <label>Device Name</label>
+      <input type="text" id="deviceNameInput" placeholder="e.g. Laptop 1, Clinic iPad" style="text-align:center;">
+    </div>
+    <button class="btn btn-primary" id="btnDeviceStart" style="margin-top:8px;padding:10px 40px;">Start</button>
+  </div>
+</div>
+
+<div class="topbar">
+  <svg class="topbar-logo" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="34" height="34" rx="8" fill="#F68630"/>
+    <text x="17" y="23" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="-apple-system,sans-serif">D</text>
+  </svg>
+  <span class="topbar-title">DH Field EMR</span>
+  <div class="nav-btns">
+    <button class="nav-btn active" data-screen="records">Records</button>
+    <button class="nav-btn" data-screen="scheduling">Scheduling</button>
+    <button class="nav-btn" data-screen="analytics">Analytics</button>
+    <button class="nav-btn" data-screen="formulary">Options</button>
+    <button class="nav-btn" data-screen="admin">&#128274; Admin</button>
+  </div>
+  <div class="sync-indicator" id="syncIndicator" title="Tap to sync now" role="button" tabindex="0" style="cursor:pointer;">
+    <span class="sync-dot" id="syncDot"></span>
+    <span class="sync-status-label" id="syncStatusLabel">Disabled</span>
+    <span class="sync-pending-label" id="syncPendingLabel"></span>
+    <span class="sync-time-label" id="syncTimeLabel"></span>
+  </div>
+  <button class="btn-new" id="btnNewEncounter">+ New Encounter</button>
+</div>
+
+<div class="main">
+  <div class="screen active" id="screen-records">
+    <div class="stats-bar" id="statsBar"></div>
+    <div class="search-row">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search name, MRN, concern, diagnosis...">
+      <select class="filter-select" id="siteFilter"><option value="">All Sites</option></select>
+      <button class="btn btn-secondary btn-sm" id="btnToggleFilters" style="white-space:nowrap;font-size:12px;">Filters &#9660;</button>
+    </div>
+    <div class="advanced-filters" id="advancedFilters" style="display:none;">
+      <div class="filter-row">
+        <div class="form-group" style="margin:0;min-width:130px;">
+          <label style="font-size:11px;">From Date</label>
+          <input type="date" id="filterDateFrom" class="form-input" style="font-size:12px;padding:5px 8px;">
+        </div>
+        <div class="form-group" style="margin:0;min-width:130px;">
+          <label style="font-size:11px;">To Date</label>
+          <input type="date" id="filterDateTo" class="form-input" style="font-size:12px;padding:5px 8px;">
+        </div>
+        <div class="form-group" style="margin:0;min-width:130px;">
+          <label style="font-size:11px;">Provider</label>
+          <select class="filter-select" id="filterProvider" style="font-size:12px;padding:5px 8px;"><option value="">All Providers</option></select>
+        </div>
+        <div class="form-group" style="margin:0;min-width:130px;">
+          <label style="font-size:11px;">Referral Type</label>
+          <select class="filter-select" id="filterReferralType" style="font-size:12px;padding:5px 8px;"><option value="">All Referrals</option></select>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btnTodayPatients" style="align-self:flex-end;font-size:12px;white-space:nowrap;">Today's Patients</button>
+        <button class="btn btn-secondary btn-sm" id="btnResetFilters" style="align-self:flex-end;font-size:12px;white-space:nowrap;">Reset Filters</button>
+      </div>
+    </div>
+    <div class="records-list" id="recordsList"></div>
+  </div>
+
+  <div class="screen" id="screen-scheduling">
+    <!-- Week Navigator -->
+    <div class="week-nav">
+      <button class="btn btn-secondary btn-sm" id="weekPrev">&larr; Previous Week</button>
+      <h3 id="weekLabel" style="margin:0;font-size:15px;"></h3>
+      <button class="btn btn-secondary btn-sm" id="weekNext">Next Week &rarr;</button>
+    </div>
+    <!-- Weekly Calendar Grid -->
+    <div class="week-calendar" id="weekCalendar"></div>
+    <!-- Referral Type Filter -->
+    <div style="display:flex;gap:12px;align-items:center;margin:12px 0;">
+      <label style="font-size:12px;font-weight:600;color:var(--gray-500);">Filter:</label>
+      <select class="filter-select" id="scheduleType" style="width:auto;">
+        <option value="">All Referrals</option>
+      </select>
+    </div>
+    <!-- Day Detail -->
+    <div id="scheduleStats" style="margin-bottom:8px;font-size:13px;color:var(--gray-500);"></div>
+    <div class="schedule-list" id="scheduleList">
+      <div class="empty-state">Click a day in the calendar above to view its schedule.</div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-analytics">
+    <div class="analytics-controls">
+      <div class="form-group"><label>From</label><input type="date" id="analyticsFrom"></div>
+      <div class="form-group"><label>To</label><input type="date" id="analyticsTo"></div>
+      <div class="form-group"><label>Site</label>
+        <select class="filter-select" id="analyticsSite"><option value="">All Sites</option></select>
+      </div>
+      <div class="form-group"><label>Sex</label>
+        <select class="filter-select" id="analyticsSex"><option value="">All</option><option value="M">Male</option><option value="F">Female</option></select>
+      </div>
+      <button class="btn btn-secondary" id="analyticsReset">Reset</button>
+      <button class="btn btn-primary" id="analyticsExport">Export CSV</button>
+      <button class="btn btn-primary" id="btnDonorReport" style="background:var(--primary-dark);">Generate Donor Report</button>
+    </div>
+    <div class="analytics-summary" id="analyticsSummary"></div>
+    <div class="chart-grid" id="chartGrid"></div>
+  </div>
+
+  <div class="screen" id="screen-formulary">
+    <div class="config-lock-banner" id="configLockBanner" style="display:none;">
+      &#128274; This device is in <strong>Standard</strong> mode. Configuration is managed by the Admin device and synced automatically. Go to the <strong>Admin</strong> tab to claim admin access.
+    </div>
+    <!-- Encounter Form Builder -->
+    <div class="provider-section" id="formBuilderSection" style="margin-bottom:24px;">
+      <div class="formulary-header"><h3>Encounter Forms</h3></div>
+      <p class="fb-help">Build one or more encounter forms (e.g. General, Surgery, Dental). Pick a form to edit its sections, or add a new one from a starter. <strong>Changes save automatically</strong> and sync to all devices.</p>
+      <div id="formBuilderBody"></div>
+    </div>
+    <div class="formulary-header">
+      <h3>Medication Formulary</h3>
+      <button class="btn btn-primary" id="btnAddMed">+ Add Medication</button>
+    </div>
+    <table class="formulary-table" id="formularyTable">
+      <thead><tr><th>Name</th><th>Default Dose</th><th>Category</th><th>Controlled</th><th>Actions</th></tr></thead>
+      <tbody id="formularyBody"></tbody>
+    </table>
+    <!-- Sites Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Sites / Communities</h3>
+        <button class="btn btn-primary" id="btnAddSite">+ Add Site</button>
+      </div>
+      <table class="provider-table" id="siteTable">
+        <thead><tr><th>Site Name</th><th>Actions</th></tr></thead>
+        <tbody id="siteBody"></tbody>
+      </table>
+    </div>
+    <!-- Rx Presets Editor Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Rx Presets</h3>
+        <button class="btn btn-primary" id="btnAddRxPreset">+ Add Rx Preset</button>
+      </div>
+      <table class="provider-table" id="rxPresetTable">
+        <thead><tr><th>Name</th><th>Prescription Summary</th><th>Actions</th></tr></thead>
+        <tbody id="rxPresetBody"></tbody>
+      </table>
+    </div>
+    <!-- Procedures Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Procedures</h3>
+        <button class="btn btn-primary" id="btnAddProcedureOption">+ Add Procedure</button>
+      </div>
+      <table class="provider-table" id="procedureTable">
+        <thead><tr><th>Procedure Name</th><th>Actions</th></tr></thead>
+        <tbody id="procedureBody"></tbody>
+      </table>
+    </div>
+    <!-- Physician Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Physicians</h3>
+        <button class="btn btn-primary" id="btnAddProvider">+ Add Physician</button>
+      </div>
+      <table class="provider-table" id="providerTable">
+        <thead><tr><th>Name</th><th>Actions</th></tr></thead>
+        <tbody id="providerBody"></tbody>
+      </table>
+    </div>
+    <!-- Chief Complaints Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Chief Complaints</h3>
+        <button class="btn btn-primary" id="btnAddComplaint">+ Add Complaint</button>
+      </div>
+      <table class="provider-table" id="complaintTable">
+        <thead><tr><th>Complaint</th><th>Actions</th></tr></thead>
+        <tbody id="complaintBody"></tbody>
+      </table>
+    </div>
+    <!-- Referral Types Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Referral Types</h3>
+        <button class="btn btn-primary" id="btnAddReferralType">+ Add Referral Type</button>
+      </div>
+      <table class="provider-table" id="referralTypeTable">
+        <thead><tr><th>Referral Type</th><th>Actions</th></tr></thead>
+        <tbody id="referralTypeBody"></tbody>
+      </table>
+    </div>
+    <!-- Dx Presets Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Diagnosis Presets</h3>
+        <button class="btn btn-primary" id="btnAddDxPreset">+ Add Diagnosis</button>
+      </div>
+      <table class="provider-table" id="dxPresetTable">
+        <thead><tr><th>Diagnosis</th><th>Actions</th></tr></thead>
+        <tbody id="dxPresetBody"></tbody>
+      </table>
+    </div>
+    <!-- Lab Tests Visibility Section -->
+    <div class="provider-section">
+      <div class="formulary-header">
+        <h3>Lab Tests</h3>
+        <button class="btn btn-primary" id="btnAddLabTest">+ Add Lab Test</button>
+      </div>
+      <table class="provider-table" id="labTestTable">
+        <thead><tr><th>Lab Test</th><th>Actions</th></tr></thead>
+        <tbody id="labTestBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Admin Screen -->
+  <div class="screen" id="screen-admin">
+    <div id="adminContent"></div>
+  </div>
+</div>
+
+<!-- Encounter Panel - SINGLE PAGE FORM -->
+<div class="encounter-panel" id="encounterPanel">
+  <div class="panel-header">
+    <h3 id="panelTitle">New Encounter</h3>
+    <div class="panel-header-actions">
+      <button class="btn btn-success btn-sm" id="btnSaveNextTop" onclick="saveRecord(true)">+ Save &amp; Next</button>
+      <button class="btn btn-primary btn-sm" id="btnSaveCloseTop" onclick="saveRecord(false)">&#10003; Save &amp; Close</button>
+      <button class="panel-close-btn" onclick="closePanel()" title="Close without saving">&times;</button>
+    </div>
+  </div>
+  <div class="panel-body single-page-form" id="encounterPanelBody">
+    <!-- VIEW MODE (record viewer) -->
+    <div class="view-mode-content" id="viewModeContent" style="display:none;">
+      <div id="viewRecordContent"></div>
+      <div class="tab-nav" id="viewTabNav">
+        <button class="btn btn-danger" id="btnDeleteRecordView" style="display:none;" onclick="deleteRecord()">Delete</button>
+        <button class="btn btn-secondary" id="btnExportPDF" onclick="exportRecordPDF()">Export PDF</button>
+        <span style="flex:1;"></span>
+        <button class="btn btn-primary" onclick="editRecord()">Edit</button>
+      </div>
+    </div>
+
+    <!-- EDIT/NEW MODE (single-page form) -->
+    <div class="edit-mode-content" id="editModeContent">
+      <div class="return-patient-banner" id="returnPatientBanner" style="display:none;"></div>
+
+      <!-- ENCOUNTER (Site, Date, MRN) -->
+      <div class="encounter-card">
+        <div class="card-header">Encounter</div>
+        <div class="encounter-row">
+          <div class="form-group"><label>Site</label><select id="fSite"><option value="">Select Site</option></select></div>
+          <div class="form-group"><label>Date</label><input type="date" id="fDate"></div>
+          <div class="form-group"><label>MRN</label><input type="text" id="fMRN" readonly placeholder="Auto" class="mrn-display"></div>
+        </div>
+      </div>
+
+      <!-- PATIENT | VITALS (2 columns on wide screens, 1 on narrow) -->
+      <div class="two-col-grid">
+        <div class="encounter-card">
+          <div class="card-header">Patient</div>
+          <div class="form-group"><label>Given Name</label><input type="text" id="fGivenName" placeholder="First name"></div>
+          <div class="form-group"><label>Family Name</label><input type="text" id="fFamilyName" placeholder="Last name"></div>
+          <div class="form-group"><label>Sex</label><div class="btn-toggle-group" id="sexToggle"><button type="button" class="btn-toggle" data-val="M">Male</button><button type="button" class="btn-toggle" data-val="F">Female</button></div></div>
+          <div class="form-group">
+            <label>Date of Birth <span id="ageDisplay" style="font-weight:700;text-transform:none;letter-spacing:0;font-size:11px;"></span></label>
+            <div class="dob-unknown-row">
+              <input type="text" id="fDOB" placeholder="DD/MM/YYYY" inputmode="numeric" maxlength="10" autocomplete="off" style="flex:1;">
+              <label class="dob-unknown-label"><input type="checkbox" id="fDOBUnknown"> Unknown</label>
+            </div>
+            <div id="ageInputContainer" style="display:none;margin-top:4px;">
+              <input type="number" id="fAgeEstimate" min="0" max="120" placeholder="Estimated age (years)" class="age-est-input">
+            </div>
+          </div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="fPhone" placeholder="256..."></div>
+        </div>
+        <div class="encounter-card">
+          <div class="card-header">Vitals</div>
+          <div class="form-group">
+            <label>Temp (&deg;C)</label>
+            <div class="numeric-with-interp">
+              <input type="number" id="fTemp" step="0.1" min="30" max="45" placeholder="e.g. 37.5" class="numeric-input">
+              <span id="tempInterp" class="numeric-interp"></span>
+            </div>
+          </div>
+          <div class="form-group"><label>BP (mmHg)</label><input type="text" id="fBP" placeholder="e.g. 120/80" style="max-width:140px;"></div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <div class="numeric-with-interp">
+              <input type="number" id="fWeight" step="0.1" min="0" max="300" placeholder="e.g. 65" class="numeric-input">
+              <span class="numeric-interp" style="color:var(--gray-500);">kg</span>
+            </div>
+          </div>
+          <div class="form-group"><label>Pregnant</label><div class="btn-toggle-group" id="pregnantToggle"><button type="button" class="btn-toggle active" data-val="N/A">N/A</button><button type="button" class="btn-toggle" data-val="Yes">Yes</button><button type="button" class="btn-toggle" data-val="No">No</button></div></div>
+          <div class="form-group"><label>Breastfeeding</label><div class="btn-toggle-group" id="bfToggle"><button type="button" class="btn-toggle active" data-val="N/A">N/A</button><button type="button" class="btn-toggle" data-val="Yes">Yes</button><button type="button" class="btn-toggle" data-val="No">No</button></div></div>
+        </div>
+      </div>
+
+      <!-- ACCESS TO CARE -->
+      <div class="encounter-card">
+        <div class="card-header">Access to Care</div>
+        <div class="access-grid">
+          <!-- Q1 -->
+          <div class="access-q">
+            <div class="access-q-label">Was there any care you needed today that we could not provide?</div>
+            <div class="btn-toggle-group" id="accCareNotProvided">
+              <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+              <button type="button" class="btn-toggle" data-val="No">No</button>
+            </div>
+            <div id="accCareNotProvidedNoteRow" style="display:none;margin-top:6px;">
+              <input type="text" id="accCareNotProvidedNote" placeholder="What care?" class="access-text-input">
+            </div>
+          </div>
+          <!-- Q2 -->
+          <div class="access-q">
+            <div class="access-q-label">Pain Level (0-10)</div>
+            <div class="pain-row" id="painLevelRow"></div>
+          </div>
+          <!-- Q3 -->
+          <div class="access-q">
+            <div class="access-q-label">Have you sought care for this problem before today?</div>
+            <div class="btn-toggle-group" id="accSoughtCareBefore">
+              <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+              <button type="button" class="btn-toggle" data-val="No">No</button>
+            </div>
+            <div id="accCareLocationsRow" style="display:none;margin-top:6px;">
+              <div class="access-q-sublabel">Where?</div>
+              <div class="pill-row" id="accCareLocations"></div>
+              <div id="accCareLocationOtherRow" style="display:none;margin-top:6px;">
+                <input type="text" id="accCareLocationOther" placeholder="Specify other location" class="access-text-input">
+              </div>
+            </div>
+          </div>
+          <!-- Q4 -->
+          <div class="access-q">
+            <div class="access-q-label">What made it difficult to get care earlier?</div>
+            <div class="pill-row" id="accCareBarriers"></div>
+            <div id="accCareBarrierOtherRow" style="display:none;margin-top:6px;">
+              <input type="text" id="accCareBarrierOther" placeholder="Specify other barrier" class="access-text-input">
+            </div>
+          </div>
+          <!-- Q5 -->
+          <div class="access-q">
+            <div class="access-q-label">Did you delay seeking care for this problem?</div>
+            <div class="btn-toggle-group" id="accDelayedCare">
+              <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+              <button type="button" class="btn-toggle" data-val="No">No</button>
+            </div>
+            <div id="accDelayReasonsRow" style="display:none;margin-top:6px;">
+              <div class="inline-yn">
+                <span class="access-q-sublabel">Due to cost?</span>
+                <div class="btn-toggle-group" id="accDelayedDueToCost">
+                  <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+                  <button type="button" class="btn-toggle" data-val="No">No</button>
+                </div>
+              </div>
+              <div class="inline-yn" style="margin-top:4px;">
+                <span class="access-q-sublabel">Due to distance/transport?</span>
+                <div class="btn-toggle-group" id="accDelayedDueToDistance">
+                  <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+                  <button type="button" class="btn-toggle" data-val="No">No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Q6 -->
+          <div class="access-q">
+            <div class="access-q-label">Have you run out of medications in the past 3 months?</div>
+            <div class="btn-toggle-group" id="accRanOutOfMeds">
+              <button type="button" class="btn-toggle" data-val="Yes">Yes</button>
+              <button type="button" class="btn-toggle" data-val="No">No</button>
+            </div>
+          </div>
+          <!-- Q7 -->
+          <div class="access-q">
+            <div class="access-q-label">Travel distance to clinic</div>
+            <div class="pill-row" id="accTravelDistance"></div>
+          </div>
+          <!-- Q8 -->
+          <div class="access-q">
+            <div class="access-q-label">Travel time</div>
+            <div class="pill-row" id="accTravelTime"></div>
+          </div>
+          <!-- Q9 -->
+          <div class="access-q">
+            <div class="access-q-label">Transport type</div>
+            <div class="pill-row" id="accTransportType"></div>
+            <div id="accTransportTypeOtherRow" style="display:none;margin-top:6px;">
+              <input type="text" id="accTransportTypeOther" placeholder="Specify other transport" class="access-text-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY (Allergies | Current Meds | PMH) -->
+      <div class="encounter-card">
+        <div class="card-header">History</div>
+        <div class="history-grid">
+          <div class="form-group"><label>Allergies</label><div class="quick-fill-row"><button type="button" class="quick-fill-btn" onclick="quickFill('fAllergies','NKDA')">NKDA</button></div><textarea id="fAllergies" class="history-textarea" placeholder="Known allergies"></textarea></div>
+          <div class="form-group"><label>Current Medications</label><div class="quick-fill-row"><button type="button" class="quick-fill-btn" onclick="quickFill('fCurrentMeds','None')">None</button></div><textarea id="fCurrentMeds" class="history-textarea" placeholder="Current medications"></textarea></div>
+          <div class="form-group"><label>PMH</label><div class="quick-fill-row"><button type="button" class="quick-fill-btn" onclick="quickFill('fPMH','None')">None</button></div><textarea id="fPMH" class="history-textarea" placeholder="Past medical history"></textarea></div>
+        </div>
+      </div>
+
+      <!-- CHIEF CONCERN -->
+      <div class="encounter-card">
+        <div class="card-header">Chief Concern</div>
+        <div class="complaint-grid" id="complaintGrid"></div>
+        <textarea id="fChiefConcern" rows="2" placeholder="Primary complaint" style="margin-top:8px;"></textarea>
+      </div>
+
+      <!-- LABS | DIAGNOSIS (2 columns) -->
+      <div class="two-col-grid">
+        <div class="encounter-card">
+          <div class="card-header">Labs</div>
+          <div class="lab-grid" id="labGrid"></div>
+          <div class="ua-section" id="uaSection" data-section="urinalysis" style="margin-top:8px;">
+            <button type="button" class="ua-collapse-btn" id="uaCollapseBtn" onclick="toggleUrinalysisCollapse()">Urinalysis &#9654;</button>
+            <div class="ua-collapsible" id="uaCollapsible" style="display:none;">
+              <div class="ua-grid">
+                <div class="ua-row"><label>Leukocytes</label><div class="btn-toggle-group" id="ua-leukocytes"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Trace">Trace</button><button class="btn-toggle" data-val="Small">Small</button><button class="btn-toggle" data-val="Moderate">Mod</button><button class="btn-toggle" data-val="Large">Large</button></div></div>
+                <div class="ua-row"><label>Nitrite</label><div class="btn-toggle-group" id="ua-nitrite"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Pos">Pos</button></div></div>
+                <div class="ua-row"><label>Urobilinogen</label><div class="btn-toggle-group" id="ua-urobilinogen"><button class="btn-toggle" data-val="Normal">Normal</button><button class="btn-toggle" data-val="Abnormal">Abnormal</button></div></div>
+                <div class="ua-row"><label>Protein</label><div class="btn-toggle-group" id="ua-protein"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Trace">Trace</button><button class="btn-toggle" data-val="1+">1+</button><button class="btn-toggle" data-val="2+">2+</button><button class="btn-toggle" data-val="3+">3+</button></div></div>
+                <div class="ua-row"><label>pH</label><div class="btn-toggle-group" id="ua-ph"><button class="btn-toggle" data-val="5.0">5.0</button><button class="btn-toggle" data-val="5.5">5.5</button><button class="btn-toggle" data-val="6.0">6.0</button><button class="btn-toggle" data-val="6.5">6.5</button><button class="btn-toggle" data-val="7.0">7.0</button><button class="btn-toggle" data-val="7.5">7.5</button><button class="btn-toggle" data-val="8.0">8.0</button><button class="btn-toggle" data-val="8.5">8.5</button></div></div>
+                <div class="ua-row"><label>Blood</label><div class="btn-toggle-group" id="ua-blood"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Trace">Trace</button><button class="btn-toggle" data-val="Small">Small</button><button class="btn-toggle" data-val="Moderate">Mod</button><button class="btn-toggle" data-val="Large">Large</button></div></div>
+                <div class="ua-row"><label>Specific Gravity</label><div class="btn-toggle-group" id="ua-sg"><button class="btn-toggle" data-val="1.005">1.005</button><button class="btn-toggle" data-val="1.010">1.010</button><button class="btn-toggle" data-val="1.015">1.015</button><button class="btn-toggle" data-val="1.020">1.020</button><button class="btn-toggle" data-val="1.025">1.025</button><button class="btn-toggle" data-val="1.030">1.030</button></div></div>
+                <div class="ua-row"><label>Ketones</label><div class="btn-toggle-group" id="ua-ketones"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Trace">Trace</button><button class="btn-toggle" data-val="Small">Small</button><button class="btn-toggle" data-val="Moderate">Mod</button><button class="btn-toggle" data-val="Large">Large</button></div></div>
+                <div class="ua-row"><label>Bilirubin</label><div class="btn-toggle-group" id="ua-bilirubin"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="1+">1+</button><button class="btn-toggle" data-val="2+">2+</button><button class="btn-toggle" data-val="3+">3+</button></div></div>
+                <div class="ua-row"><label>Glucose</label><div class="btn-toggle-group" id="ua-glucose"><button class="btn-toggle" data-val="Neg">Neg</button><button class="btn-toggle" data-val="Trace">Trace</button><button class="btn-toggle" data-val="1+">1+</button><button class="btn-toggle" data-val="2+">2+</button><button class="btn-toggle" data-val="3+">3+</button><button class="btn-toggle" data-val="4+">4+</button></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:8px;">
+            <label>Lab Comments</label>
+            <textarea id="fLabComments" rows="2" placeholder="Additional lab notes"></textarea>
+          </div>
+        </div>
+        <div class="encounter-card">
+          <div class="card-header">Diagnosis</div>
+          <div class="dx-sort-bar" id="dxSortBar">
+            <button class="dx-sort-btn active" data-sort="popular">Most Used</button>
+            <button class="dx-sort-btn" data-sort="alpha">A-Z</button>
+            <button class="dx-sort-btn" data-sort="system">By System</button>
+          </div>
+          <div class="presets-grid" id="dxPresetsGrid"></div>
+          <div class="form-group" style="margin-top:8px;">
+            <label>Working Diagnosis</label>
+            <textarea id="fDiagnosis" rows="2" placeholder="Working diagnosis"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- RX PRESETS -->
+      <div class="encounter-card">
+        <div class="card-header">Rx Presets</div>
+        <div class="rx-presets-grid" id="rxPresetsGrid"></div>
+      </div>
+
+      <!-- MEDICATION BUILDER -->
+      <div class="encounter-card">
+        <div class="card-header">Medications</div>
+        <div class="med-builder" id="medBuilder"></div>
+        <button class="btn-add-med" id="btnAddMedLine">+ Add Medication</button>
+        <div class="form-group" style="margin-top:8px;">
+          <label>Additional Treatment Notes</label>
+          <textarea id="fTreatmentNotes" rows="2" placeholder="Injections, wound care details..."></textarea>
+        </div>
+      </div>
+
+      <!-- PROCEDURES | REFERRAL | PROVIDER (3 columns) -->
+      <div class="three-col-grid">
+        <div class="encounter-card">
+          <div class="card-header">Procedures</div>
+          <div class="procedure-grid" id="procedureGrid"></div>
+        </div>
+        <div class="encounter-card">
+          <div class="card-header">Referral</div>
+          <div class="referral-btn-grid" id="referralBtnGrid"></div>
+          <div id="referralDateRow" style="display:none;margin-top:8px;">
+            <label style="font-size:11px;color:var(--gray-500);">Scheduled Date</label>
+            <input type="date" id="fReferralDate" class="form-input" style="max-width:200px;">
+          </div>
+        </div>
+        <div class="encounter-card">
+          <div class="card-header">Physician</div>
+          <div class="provider-grid" id="providerGrid"></div>
+        </div>
+      </div>
+
+      <!-- IMAGING / SURGICAL (collapsed) -->
+      <div class="two-col-grid">
+        <div class="encounter-card collapsible-card">
+          <button type="button" class="collapsible-header" id="imagingCollapseBtn" onclick="toggleImagingCollapse()">
+            <span class="collapse-arrow" id="imagingArrow">&#9654;</span>
+            <span>Imaging</span>
+          </button>
+          <div class="collapsible-body" id="imagingCollapsible" style="display:none;">
+            <div class="btn-toggle-group" id="imagingToggle" style="margin-bottom:8px;">
+              <button type="button" class="btn-toggle active" data-val="">None</button>
+              <button type="button" class="btn-toggle" data-val="Ultrasound">Ultrasound</button>
+            </div>
+            <div id="imagingDetails" style="display:none;">
+              <label style="font-size:11px;color:var(--gray-500);margin-bottom:4px;">Ultrasound Type</label>
+              <div class="imaging-type-grid" id="imagingTypeGrid">
+                <button type="button" class="complaint-btn" data-val="Abdominal">Abdominal</button>
+                <button type="button" class="complaint-btn" data-val="Pelvic">Pelvic</button>
+                <button type="button" class="complaint-btn" data-val="OB/Pregnancy">OB/Pregnancy</button>
+                <button type="button" class="complaint-btn" data-val="Renal">Renal</button>
+                <button type="button" class="complaint-btn" data-val="Thyroid">Thyroid</button>
+                <button type="button" class="complaint-btn" data-val="MSK/Soft Tissue">MSK/Soft Tissue</button>
+                <button type="button" class="complaint-btn" data-val="FAST (Trauma)">FAST (Trauma)</button>
+                <button type="button" class="complaint-btn" data-val="Cardiac (Echo)">Cardiac (Echo)</button>
+                <button type="button" class="complaint-btn" data-val="Lung">Lung</button>
+              </div>
+              <div style="margin-top:8px;">
+                <label style="font-size:11px;color:var(--gray-500);">Findings</label>
+                <textarea id="fImagingFindings" rows="2" placeholder="Describe ultrasound findings..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="encounter-card collapsible-card">
+          <button type="button" class="collapsible-header" id="surgeryCollapseBtn" onclick="toggleSurgeryCollapse()">
+            <span class="collapse-arrow" id="surgeryArrow">&#9654;</span>
+            <span>Surgical Encounter</span>
+          </button>
+          <div class="collapsible-body" id="surgeryCollapsible" style="display:none;">
+            <div class="btn-toggle-group" id="surgeryToggle" style="margin-bottom:8px;">
+              <button type="button" class="btn-toggle active" data-val="">None</button>
+              <button type="button" class="btn-toggle" data-val="Yes">Surgery Performed</button>
+            </div>
+            <div id="surgeryDetails" style="display:none;">
+              <div style="margin-bottom:8px;">
+                <label style="font-size:11px;color:var(--gray-500);">Type of Surgery</label>
+                <input type="text" id="fSurgeryType" placeholder="e.g. Hernia Repair, Lipoma Excision, Abscess Drainage">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--gray-500);">Surgical Notes</label>
+                <textarea id="fSurgeryNotes" rows="2" placeholder="Brief surgical notes, findings, complications..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div class="encounter-card">
+        <div class="card-header">Notes</div>
+        <textarea id="fNotes" rows="3" placeholder="Any additional notes"></textarea>
+      </div>
+
+      <!-- Custom (admin-defined) sections render here -->
+      <div id="customSectionsContainer"></div>
+
+      <!-- BOTTOM SAVE BUTTONS -->
+      <div class="bottom-save-row">
+        <button class="btn btn-danger" id="btnDeleteRecord" style="display:none;" onclick="deleteRecord()">Delete</button>
+        <span style="flex:1;"></span>
+        <button class="btn btn-secondary" onclick="saveRecord(false)">&#10003; Save &amp; Close</button>
+        <button class="btn btn-success" id="btnSaveNewRecord" onclick="saveRecord(true)">+ Save &amp; Next Patient</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulary Modal -->
+<div class="modal-overlay" id="formularyModal">
+  <div class="modal">
+    <h3 id="formularyModalTitle">Add Medication</h3>
+    <div class="form-group"><label>Medication Name</label><input type="text" id="fmName" placeholder="e.g. Amoxicillin 500mg"></div>
+    <div class="form-group"><label>Default Dose</label><input type="text" id="fmDose" placeholder="e.g. 500mg"></div>
+    <div class="form-group"><label>Unit</label>
+      <select id="fmUnit"><option value="tabs">tabs</option><option value="caps">caps</option><option value="mg">mg</option><option value="ml">ml</option><option value="g">g</option><option value="IU">IU</option><option value="vial">vial</option><option value="sachet">sachet</option><option value="drops">drops</option><option value="cream">cream</option></select>
+    </div>
+    <div class="form-group"><label>Category</label>
+      <select id="fmCategory"><option>Antibiotics</option><option>Antimalarials</option><option>Antifungals</option><option>Antiparasitic</option><option>Analgesics</option><option>GI</option><option>Allergy/Steroid</option><option>Antiviral</option><option>Vitamins</option><option>Surgical/Procedural</option></select>
+    </div>
+    <div class="form-group"><label style="display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="checkbox" id="fmControlled"> Controlled Substance</label></div>
+    <div class="modal-actions"><button class="btn btn-secondary" id="fmCancel">Cancel</button><button class="btn btn-primary" id="fmSave">Save</button></div>
+  </div>
+</div>
+
+<!-- Provider Modal -->
+<div class="modal-overlay" id="providerModal">
+  <div class="modal">
+    <h3 id="providerModalTitle">Add Physician</h3>
+    <div class="form-group"><label>Physician Name</label><input type="text" id="pmName" placeholder="e.g. Dr. Smith"></div>
+    <div class="modal-actions"><button class="btn btn-secondary" id="pmCancel">Cancel</button><button class="btn btn-primary" id="pmSave">Save</button></div>
+  </div>
+</div>
+
+<!-- Site Modal -->
+<div class="modal-overlay" id="siteModal">
+  <div class="modal">
+    <h3 id="siteModalTitle">Add Site</h3>
+    <div class="form-group"><label>Site / Community Name</label><input type="text" id="smName" placeholder="e.g. Kampala"></div>
+    <div class="modal-actions"><button class="btn btn-secondary" id="smCancel">Cancel</button><button class="btn btn-primary" id="smSave">Save</button></div>
+  </div>
+</div>
+
+<!-- Procedure Modal -->
+<div class="modal-overlay" id="procedureModal">
+  <div class="modal">
+    <h3 id="procedureModalTitle">Add Procedure</h3>
+    <div class="form-group"><label>Procedure Name</label><input type="text" id="procmName" placeholder="e.g. I&D"></div>
+    <div class="modal-actions"><button class="btn btn-secondary" id="procmCancel">Cancel</button><button class="btn btn-primary" id="procmSave">Save</button></div>
+  </div>
+</div>
+
+<!-- Rx Preset Editor Modal -->
+<div class="modal-overlay" id="rxPresetModal">
+  <div class="modal" style="width:560px;">
+    <h3 id="rxPresetModalTitle">Add Rx Preset</h3>
+    <div class="form-group"><label>Preset Name</label><input type="text" id="rpmName" placeholder="e.g. H. pylori Triple Therapy"></div>
+    <label style="font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.3px;margin-top:8px;display:block;">Medications</label>
+    <div class="med-builder" id="rpmMedBuilder"></div>
+    <button class="btn-add-med" id="btnAddRpmMedLine" style="margin-top:6px;">+ Add Medication</button>
+    <div class="form-group" style="margin-top:12px;"><label>Treatment Notes (optional)</label><textarea id="rpmNotes" rows="2" placeholder="Optional treatment notes"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-secondary" id="rpmCancel">Cancel</button><button class="btn btn-primary" id="rpmSave">Save</button></div>
+  </div>
+</div>
+
+<!-- Add Lab Test Modal -->
+<div class="modal-overlay" id="labTestModal">
+  <div class="modal" style="max-width:420px;">
+    <h3 id="labTestModalTitle">Add Lab Test</h3>
+    <div class="form-group" style="margin-top:12px;">
+      <label>Test Name</label>
+      <input type="text" id="ltmName" placeholder="e.g. Dengue Rapid Test">
+    </div>
+    <div class="form-group">
+      <label>Result Type</label>
+      <div class="toggle-group" id="ltmTypeToggle" style="display:flex;gap:6px;">
+        <button class="toggle-btn active" data-value="toggle" onclick="selectLabTestType('toggle')">POS / NEG</button>
+        <button class="toggle-btn" data-value="numeric" onclick="selectLabTestType('numeric')">Numeric Value</button>
+      </div>
+    </div>
+    <div class="form-group" id="ltmUnitGroup" style="display:none;">
+      <label>Unit</label>
+      <input type="text" id="ltmUnit" placeholder="e.g. mg/dL, g/dL, mmol/L">
+    </div>
+    <div id="ltmError" class="wizard-error" style="display:none;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="ltmCancel">Cancel</button>
+      <button class="btn btn-primary" id="ltmSave">Add Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Prompt Dialog -->
+<div class="modal-overlay" id="customPromptModal">
+  <div class="modal" style="max-width:400px;">
+    <h3 id="customPromptTitle">Input</h3>
+    <div class="form-group" style="margin-top:12px;">
+      <input type="text" id="customPromptInput" placeholder="">
+    </div>
+    <div id="customPromptExtra"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="customPromptCancel">Cancel</button>
+      <button class="btn btn-primary" id="customPromptOk">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Welcome Modal — kept for "install to home screen" hint on iPad. -->
+<!-- Starts hidden; only revealed for repeat-visit iPad Safari users who -->
+<!-- have already finished setup but haven't installed to the home screen yet. -->
+<div class="modal-overlay" id="demoModal" style="z-index:9000;display:none;">
+  <div class="modal" style="max-width:480px;text-align:center;">
+    <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:64px;height:64px;margin-bottom:12px;">
+      <rect width="512" height="512" rx="80" fill="#F68630"/>
+      <text x="256" y="380" text-anchor="middle" fill="white" font-size="360" font-weight="bold" font-family="Arial, Helvetica, sans-serif">D</text>
+    </svg>
+    <h3 style="color:var(--primary-dark);margin-bottom:12px;">Welcome to DH Field EMR</h3>
+    <p style="font-size:14px;color:var(--gray-600);margin-bottom:8px;">This app works <strong>offline</strong> on your iPad. Add to Home Screen for the best experience.</p>
+    <div style="background:var(--gray-50, #f9fafb);border:1px solid var(--border, #e5e7eb);border-radius:8px;padding:12px 16px;margin-bottom:12px;text-align:left;">
+      <p style="font-size:13px;color:var(--gray-600);margin:0 0 6px;font-weight:600;">Install as App:</p>
+      <p style="font-size:13px;color:var(--gray-500);margin:0;">1. Tap the <strong>Share</strong> button (square with arrow)</p>
+      <p style="font-size:13px;color:var(--gray-500);margin:4px 0 0;">2. Scroll down and tap <strong>Add to Home Screen</strong></p>
+    </div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">All data is stored locally on this device with optional cloud sync.</p>
+    <button class="btn btn-primary" id="btnDemoContinue" style="padding:10px 40px;min-height:44px;font-size:15px;">Get Started</button>
+  </div>
+</div>
+
+<script>
+  // Welcome modal: never auto-shown anymore. The setup wizard handles
+  // first-launch UX. This modal is only kept as a manual fallback in
+  // case we want to surface the "Add to Home Screen" hint later.
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('btnDemoContinue');
+    var modal = document.getElementById('demoModal');
+    if (btn && modal) {
+      btn.addEventListener('click', function() {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+        try { localStorage.setItem('dhemr_welcomeSeen', '1'); } catch (e) {}
+      });
+    }
+  });
+</script>
+<script src="native-storage.js"></script>
+<script src="idb-storage.js"></script>
+<script src="pwa-sync.js"></script>
+<script src="platform.js"></script>
+<!-- demo-data.js removed - production PWA -->
+<script src="helpers.js"></script>
+<script src="state.js"></script>
+<script src="form-schema.js"></script>
+<script src="form-builder.js"></script>
+<script src="form-nav.js"></script>
+<script src="backup.js"></script>
+<script src="labs.js"></script>
+<script src="med-builder.js"></script>
+<script src="dx-presets.js"></script>
+<script src="rx-presets.js"></script>
+<script src="records.js"></script>
+<script src="encounter.js"></script>
+<script src="analytics.js"></script>
+<script src="formulary.js"></script>
+<script src="config.js"></script>
+<script src="csv-export.js"></script>
+<script src="form-generator.js"></script>
+<script src="scheduling.js"></script>
+<script src="sync-ui.js"></script>
+<script src="admin.js"></script>
+<script src="setup-wizard.js"></script>
+<script src="storage-health.js"></script>
+<script src="pwa-touch.js"></script>
+<script src="demo-mode.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
