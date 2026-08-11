@@ -12,13 +12,30 @@ const pwaSync = (function() {
   let supabaseKey = null;
   let _statusCallbacks = [];
 
+  /**
+   * Headers for a Supabase REST call.
+   *
+   * Two kinds of key exist. The legacy anon key is a JWT and PostgREST accepts
+   * it in either header. The current publishable key (sb_publishable_...) is
+   * NOT a JWT, and sending it as `Authorization: Bearer` makes PostgREST try to
+   * parse it as one and reject the request. Only the legacy key gets a Bearer
+   * header, so the same code works with either.
+   *
+   * This matters beyond tidiness: rotating a leaked legacy key means rotating
+   * the project's JWT secret, which invalidates service_role at the same time.
+   * Moving to a publishable key lets a compromised key be deleted on its own.
+   */
+  function supabaseHeaders(key, extra) {
+    const k = key || supabaseKey;
+    const headers = { 'apikey': k, ...(extra || {}) };
+    // A JWT is three dot-separated base64url segments. Publishable and secret
+    // keys are prefixed instead, and must not be sent as a bearer token.
+    if (k && !/^sb_(publishable|secret)_/.test(k)) headers['Authorization'] = `Bearer ${k}`;
+    return headers;
+  }
+
   function supabaseFetch(url, options = {}) {
-    const headers = {
-      'apikey': supabaseKey,
-      'Authorization': `Bearer ${supabaseKey}`,
-      ...(options.headers || {})
-    };
-    return fetch(url, { ...options, headers });
+    return fetch(url, { ...options, headers: supabaseHeaders(supabaseKey, options.headers) });
   }
 
   async function fetchWithRetry(url, options, maxRetries = 3) {
@@ -612,7 +629,7 @@ const pwaSync = (function() {
       const tables = ['records', 'devices', 'config'];
       for (const table of tables) {
         const res = await fetch(`${url || supabaseUrl}/rest/v1/${table}?limit=0`, {
-          headers: { 'apikey': key || supabaseKey, 'Authorization': `Bearer ${key || supabaseKey}` }
+          headers: supabaseHeaders(key || supabaseKey)
         });
         if (res.status === 404) {
           return { ok: false, error: `Table "${table}" not found. Please run the SQL setup script first.` };
@@ -651,12 +668,10 @@ const pwaSync = (function() {
 
       const res = await fetch(`${url}/rest/v1/config`, {
         method: 'POST',
-        headers: {
-          'apikey': key,
-          'Authorization': `Bearer ${key}`,
+        headers: supabaseHeaders(key, {
           'Content-Type': 'application/json',
           'Prefer': 'resolution=merge-duplicates'
-        },
+        }),
         body: JSON.stringify(configItems)
       });
 
@@ -685,12 +700,10 @@ const pwaSync = (function() {
       try {
         await fetch(`${targetUrl}/rest/v1/devices`, {
           method: 'POST',
-          headers: {
-            'apikey': targetKey,
-            'Authorization': `Bearer ${targetKey}`,
+          headers: supabaseHeaders(targetKey, {
             'Content-Type': 'application/json',
             'Prefer': 'resolution=merge-duplicates'
-          },
+          }),
           body: JSON.stringify({
             id: deviceId,
             name: name,

@@ -69,7 +69,11 @@ function calcMedQty(medId, dose, freqVal, duration) {
   const tabsMatch = dose.match(/^(\d+)\s*tab/i);
   if (tabsMatch) return { qty: parseInt(tabsMatch[1]) * dpd * days, unit: med.unit, tabsPerDose: parseInt(tabsMatch[1]), dpd, days };
   const prescribedMg = parseDoseToMg(dose);
-  const unitMg = parseDoseToMg(med.name);
+  // Strength can live in the NAME ("Paracetamol 500mg") or in a separate
+  // `dose` field, which is what the config admin UI produces. Reading only the
+  // name meant every drug in a config-defined formulary fell back to 1 unit
+  // per dose. Kept identical to packages/pwa-react/src/clinical/medQty.ts.
+  const unitMg = parseDoseToMg(med.name) || parseDoseToMg(med.dose || '');
   const tabsPerDose = (prescribedMg && unitMg && unitMg > 0) ? Math.ceil(prescribedMg / unitMg) : 1;
   return { qty: tabsPerDose * dpd * days, unit: med.unit, tabsPerDose, dpd, days };
 }

@@ -86,7 +86,7 @@ function renderWizardStep() {
         <div class="wizard-step-title">Step 1: Create a Supabase Project</div>
         <ol style="font-size:14px;line-height:2.2;margin:8px 0 0 20px;">
           <li>Go to <strong>supabase.com</strong> and create a free account</li>
-          <li>Click <strong>"New Project"</strong> — pick any name and a strong database password</li>
+          <li>Click <strong>"New Project"</strong> - pick any name and a strong database password</li>
           <li>Select the region closest to you, then click <strong>"Create new project"</strong></li>
           <li>Wait for the project to finish setting up (takes ~1 minute)</li>
           <li>In the left sidebar, click <strong>Settings</strong> (gear icon at the bottom)</li>
@@ -94,16 +94,16 @@ function renderWizardStep() {
         </ol>
         <p style="margin-top:12px;">You'll need two values from this page:</p>
         <ul style="font-size:13px;color:var(--gray-600);margin:4px 0 0 20px;line-height:2;">
-          <li><strong>Project URL</strong> — at the top, looks like <code>https://xxxxx.supabase.co</code></li>
-          <li><strong>Anon Key</strong> — on the Data API page, you'll see <strong>"Project API keys"</strong>. You may see "Publishable" and "Secret" keys by default. Look for a toggle or link that says <strong>"Legacy anon, service_role API keys"</strong> — click it to reveal the legacy keys. Copy the <strong>anon</strong> key (the long string starting with <code>eyJ</code>). If you only see a "Publishable" key, that will work too.</li>
+          <li><strong>Project URL</strong> - at the top, looks like <code>https://xxxxx.supabase.co</code></li>
+          <li><strong>Anon Key</strong> - on the Data API page, you'll see <strong>"Project API keys"</strong>. You may see "Publishable" and "Secret" keys by default. Look for a toggle or link that says <strong>"Legacy anon, service_role API keys"</strong> - click it to reveal the legacy keys. Copy the <strong>anon</strong> key (the long string starting with <code>eyJ</code>). If you only see a "Publishable" key, that will work too.</li>
         </ul>
         <div style="margin-top:12px;padding:10px;background:var(--blue-50, #eff6ff);border-radius:8px;font-size:12px;color:var(--gray-600);">
           <strong>&#9432; Quick tips:</strong>
           <ul style="margin:4px 0 0 16px;line-height:1.8;">
-            <li>Ignore any prompts about Row Level Security (RLS) — the next steps handle that</li>
-            <li>Ignore the database password — you won't need it for this app</li>
-            <li>The Project URL looks like <code>https://abcdefg.supabase.co</code> — make sure to copy the full URL</li>
-            <li>The anon key is very long (200+ characters) — make sure you copy the entire thing</li>
+            <li>Ignore any prompts about Row Level Security (RLS) - the next steps handle that</li>
+            <li>Ignore the database password - you won't need it for this app</li>
+            <li>The Project URL looks like <code>https://abcdefg.supabase.co</code> - make sure to copy the full URL</li>
+            <li>The anon key is very long (200+ characters) - make sure you copy the entire thing</li>
           </ul>
         </div>`;
       nav.innerHTML = `<button class="btn btn-secondary" onclick="wizardBack()">Back</button><button class="btn btn-primary" onclick="wizardNext()">I Have My Credentials</button>`;
@@ -131,12 +131,25 @@ function renderWizardStep() {
           <li>Click <strong>"New Query"</strong> (top-left area)</li>
           <li>Click the button below to copy the SQL, then paste it into the editor</li>
           <li>Click the green <strong>"Run"</strong> button (or press Ctrl/Cmd+Enter)</li>
-          <li>You should see <strong>"Success. No rows returned"</strong> — that means it worked!</li>
+          <li>You should see <strong>"Success. No rows returned"</strong> - that means it worked!</li>
         </ol>
         <button class="btn btn-primary" onclick="copyWizardSql()" style="margin-top:12px;">Copy SQL to Clipboard</button>
         <div id="wizardCopyMsg" style="color:var(--green);font-size:12px;margin-top:4px;display:none;">&#10003; Copied! Now paste it into the Supabase SQL Editor.</div>
         <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:12px;color:var(--gray-500);">Preview SQL (optional)</summary><code id="wizardSqlCode" style="margin-top:8px;font-size:11px;">${esc(SETUP_SQL)}</code></details>
-        <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">&#9432; This creates 3 tables (records, devices, config) and sets up security policies. If Supabase asks about RLS, you can ignore it — it's already handled.</p>`;
+        <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">&#9432; This creates 3 tables (records, devices, config) and sets up security policies. If Supabase asks about RLS, you can ignore it - it's already handled.</p>
+-- Live updates: Postgres only emits change events for published tables.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+    IF NOT EXISTS (SELECT 1 FROM pg_publication_tables WHERE pubname='supabase_realtime' AND schemaname='public' AND tablename='records') THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.records;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_publication_tables WHERE pubname='supabase_realtime' AND schemaname='public' AND tablename='config') THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.config;
+    END IF;
+  END IF;
+END $$;
+`;
       nav.innerHTML = `<button class="btn btn-secondary" onclick="wizardBack()">Back</button><button class="btn btn-primary" onclick="wizardNext()">I've Run the SQL</button>`;
       break;
 
@@ -152,7 +165,7 @@ function renderWizardStep() {
       content.innerHTML = `
         <div class="wizard-step-title">Step 5: Seed Default Configuration</div>
         <p>This will upload the default configuration to your cloud database: medications, diagnosis presets, procedures, referral types, chief complaints, and sample site names.</p>
-        <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">You can customize all of these later in the <strong>Options</strong> tab — add your own sites, physicians, medications, and more.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">You can customize all of these later in the <strong>Options</strong> tab - add your own sites, physicians, medications, and more.</p>
         <div id="wizardSeedResult" style="margin-top:12px;"></div>`;
       nav.innerHTML = `<button class="btn btn-secondary" onclick="wizardBack()">Back</button><button class="btn btn-primary" id="btnWizardSeed" onclick="wizardSeedConfig()">Seed Config</button>`;
       break;
@@ -195,7 +208,7 @@ function renderWizardStep() {
             <ul style="margin:6px 0 0 16px;line-height:2;">
               <li>Go to <strong>Options</strong> to customize sites, physicians, medications, and more</li>
               <li>To add more computers, download the app on each and choose <strong>"Join Existing Setup"</strong></li>
-              <li>Share your Supabase URL and anon key with other devices — they'll need it to connect</li>
+              <li>Share your Supabase URL and anon key with other devices - they'll need it to connect</li>
               <li>Use <strong>"Sync Now"</strong> to upload/download records between devices</li>
             </ul>
           </div>`;
@@ -279,7 +292,7 @@ async function wizardTestConnection() {
   } catch (err) {
     let msg = `Connection failed: ${err.message}`;
     if (err.message.includes('401') || err.message.includes('403')) {
-      msg += '\n\nDouble-check your anon key — make sure you copied the entire key (it\'s very long, starting with "eyJ"). Also try the "Publishable" key if the legacy anon key doesn\'t work.';
+      msg += '\n\nDouble-check your anon key - make sure you copied the entire key (it\'s very long, starting with "eyJ"). Also try the "Publishable" key if the legacy anon key doesn\'t work.';
     } else if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
       msg += '\n\nCould not reach the server. Check your internet connection and make sure the URL is correct (should look like https://abcdefg.supabase.co).';
     }
@@ -399,12 +412,27 @@ async function wizardFinish() {
 }
 
 // SQL that users paste into Supabase SQL Editor.
-// This MUST stay identical in effect to supabase/setup.sql — the app pushes
+// This MUST stay identical in effect to supabase/setup.sql - the app pushes
 // custom_fields, template_id, template_name, and diagnosis_codes on every
 // record, and incremental pull relies on the synced_at trigger. Omitting any of
 // them permanently breaks record sync for orgs created via this wizard.
-const SETUP_SQL = `-- DH Field EMR — Supabase setup (run once). Safe to re-run.
--- Paste this ENTIRE block into your Supabase SQL Editor and click Run.
+const SETUP_SQL = `-- Paste this ENTIRE block into your Supabase SQL Editor and click Run.
+-- Generated from supabase/setup.sql at build time; do not edit here.
+
+-- ==========================================
+-- DH Field EMR - Supabase setup (run once)
+-- ==========================================
+-- Copy this ENTIRE file into your Supabase project's SQL Editor and click Run.
+-- It creates the three tables the app needs (records, devices, config), the
+-- security rules, indexes, and the synced_at trigger that incremental pull
+-- relies on. Tables/columns/indexes use "IF NOT EXISTS", and every policy is
+-- dropped-then-created, so this whole file is SAFE TO RE-RUN - running it again
+-- will not error on already-existing policies.
+--
+-- After it succeeds: open Settings -> API in Supabase, copy your Project URL
+-- and your anon (or "publishable") key, and paste them into the app's setup
+-- wizard ("New Organization").
+-- ==========================================
 
 -- ---------- Patient encounter records ----------
 CREATE TABLE IF NOT EXISTS records (
@@ -483,8 +511,13 @@ CREATE TABLE IF NOT EXISTS devices (
   role TEXT DEFAULT 'standard',
   org_name TEXT,
   last_sync_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  -- Kill switch for a lost or stolen device. NULL means active. Set it and the
+  -- device can no longer write records; only the SQL editor can clear it.
+  revoked_at TIMESTAMPTZ
 );
+-- Present on projects created before v3.0.
+ALTER TABLE devices ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMPTZ;
 
 -- ---------- Config (presets, form definitions, settings) ----------
 CREATE TABLE IF NOT EXISTS config (
@@ -493,38 +526,129 @@ CREATE TABLE IF NOT EXISTS config (
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- ==========================================
 -- Row Level Security
+-- ==========================================
 ALTER TABLE records ENABLE ROW LEVEL SECURITY;
 ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE config  ENABLE ROW LEVEL SECURITY;
 
 -- Each policy is dropped first so this file is safe to re-run: a duplicate
 -- CREATE POLICY would otherwise error and abort the whole transaction.
+
+-- ------------------------------------------------- device policy enforcement ---
+-- RLS cannot compare OLD and NEW, so the rules that need that live here.
+--
+-- Deliberately NOT security definer. Inside a SECURITY DEFINER function
+-- current_user is the function OWNER, not the caller, so the bypass check below
+-- would match on every call and the trigger would enforce nothing at all. As
+-- security invoker, current_user is 'anon' for a device and 'postgres' or
+-- 'service_role' from the SQL editor, which is exactly the distinction needed.
+-- Counting admins works either way: anon_read_devices already grants SELECT.
+CREATE OR REPLACE FUNCTION dh_enforce_device_rules()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  other_admins INT;
+BEGIN
+  -- The SQL editor and service_role are trusted: this is how Alec promotes a
+  -- device, demotes one, or clears a revocation.
+  IF current_user NOT IN ('anon', 'authenticated') THEN
+    RETURN NEW;
+  END IF;
+
+  IF TG_OP = 'INSERT' THEN
+    -- A brand new device may register as admin ONLY if the project has no
+    -- admin yet. That is the genuine first-run case: the person setting the
+    -- org up needs an admin device without opening the SQL editor. Every
+    -- device after that registers as standard.
+    IF COALESCE(NEW.role, 'standard') = 'admin' THEN
+      SELECT count(*) INTO other_admins
+        FROM devices WHERE role = 'admin' AND revoked_at IS NULL;
+      IF other_admins > 0 THEN
+        NEW.role := 'standard';
+      END IF;
+    END IF;
+    -- A device cannot register itself pre-revoked, or pre-dated.
+    NEW.revoked_at := NULL;
+    RETURN NEW;
+  END IF;
+
+  -- UPDATE from here down.
+
+  -- Identity is immutable. Rewriting a device id would orphan every record
+  -- that points at it.
+  IF NEW.id IS DISTINCT FROM OLD.id THEN
+    RAISE EXCEPTION 'A device id cannot be changed.';
+  END IF;
+
+  -- A revoked device stays revoked until someone with real access clears it.
+  -- Without this the kill switch is decorative.
+  IF OLD.revoked_at IS NOT NULL AND NEW.revoked_at IS NULL THEN
+    RAISE EXCEPTION 'This device has been revoked. Only an administrator can restore it.';
+  END IF;
+
+  -- Self-promotion. Demotion to standard is allowed: it can only reduce access,
+  -- and it is useful when handing a device on.
+  IF NEW.role IS DISTINCT FROM OLD.role AND NEW.role = 'admin' THEN
+    SELECT count(*) INTO other_admins
+      FROM devices WHERE role = 'admin' AND revoked_at IS NULL AND id <> NEW.id;
+    IF other_admins > 0 THEN
+      RAISE EXCEPTION
+        'Only an administrator can make another device an admin. Ask whoever set up this project.';
+    END IF;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_devices_rules ON devices;
+CREATE TRIGGER trg_devices_rules
+  BEFORE INSERT OR UPDATE ON devices
+  FOR EACH ROW EXECUTE FUNCTION dh_enforce_device_rules();
+
+-- Records: readable by the project; writable only for a registered, non-revoked
+-- device.
 DROP POLICY IF EXISTS "anon_read_records"   ON records;
 CREATE POLICY "anon_read_records"   ON records FOR SELECT USING (true);
 DROP POLICY IF EXISTS "anon_insert_records" ON records;
 CREATE POLICY "anon_insert_records" ON records FOR INSERT WITH CHECK (
-  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id)
+  device_id IS NOT NULL
+  AND EXISTS (SELECT 1 FROM devices d WHERE d.id = device_id AND d.revoked_at IS NULL)
 );
 DROP POLICY IF EXISTS "anon_update_records" ON records;
-CREATE POLICY "anon_update_records" ON records FOR UPDATE USING (
-  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id)
+-- WITH CHECK is spelled out rather than left implicit, so a later edit to USING
+-- cannot silently widen what may be written.
+CREATE POLICY "anon_update_records" ON records FOR UPDATE
+USING (
+  device_id IS NOT NULL
+  AND EXISTS (SELECT 1 FROM devices d WHERE d.id = device_id AND d.revoked_at IS NULL)
+)
+WITH CHECK (
+  device_id IS NOT NULL
+  AND EXISTS (SELECT 1 FROM devices d WHERE d.id = device_id AND d.revoked_at IS NULL)
 );
 
+-- Devices: anyone can register; existing rows can update.
 DROP POLICY IF EXISTS "anon_read_devices"   ON devices;
 CREATE POLICY "anon_read_devices"   ON devices FOR SELECT USING (true);
 DROP POLICY IF EXISTS "anon_insert_devices" ON devices;
 CREATE POLICY "anon_insert_devices" ON devices FOR INSERT WITH CHECK (true);
 DROP POLICY IF EXISTS "anon_update_devices" ON devices;
-CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true);
+CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true) WITH CHECK (true);
 
+-- Config: readable + writable by the project.
 DROP POLICY IF EXISTS "anon_read_config"   ON config;
 CREATE POLICY "anon_read_config"   ON config FOR SELECT USING (true);
 DROP POLICY IF EXISTS "anon_write_config"  ON config;
 CREATE POLICY "anon_write_config"  ON config FOR INSERT WITH CHECK (true);
 DROP POLICY IF EXISTS "anon_update_config" ON config;
-CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true);
+CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true) WITH CHECK (true);
 
+-- No hard deletes (records use a soft-delete flag instead).
 DROP POLICY IF EXISTS "no_delete_records" ON records;
 CREATE POLICY "no_delete_records" ON records FOR DELETE USING (false);
 DROP POLICY IF EXISTS "no_delete_devices" ON devices;
@@ -532,8 +656,9 @@ CREATE POLICY "no_delete_devices" ON devices FOR DELETE USING (false);
 DROP POLICY IF EXISTS "no_delete_config"  ON config;
 CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);
 
--- Server-side timestamp on every write (field device clocks are unreliable).
--- Incremental pull depends on this trigger keeping synced_at fresh.
+-- ==========================================
+-- Server-side timestamp on every write (field device clocks are unreliable)
+-- ==========================================
 CREATE OR REPLACE FUNCTION update_synced_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -546,4 +671,32 @@ DROP TRIGGER IF EXISTS trg_records_synced_at ON records;
 CREATE TRIGGER trg_records_synced_at
   BEFORE INSERT OR UPDATE ON records
   FOR EACH ROW
-  EXECUTE FUNCTION update_synced_at();`;
+  EXECUTE FUNCTION update_synced_at();
+
+-- Done. Now paste your Project URL + anon key into the app's setup wizard.
+
+
+-- ===========================================================================
+-- LIVE UPDATES (optional but recommended)
+-- ===========================================================================
+-- Postgres only emits change events for tables in the supabase_realtime
+-- publication. Without this a device subscribes successfully and shows "Live"
+-- while never receiving anything, so records only move on the periodic sync.
+-- Safe to re-run: adding a table that is already published is ignored.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM pg_publication_tables
+      WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'records'
+    ) THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.records;
+    END IF;
+    IF NOT EXISTS (
+      SELECT 1 FROM pg_publication_tables
+      WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'config'
+    ) THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.config;
+    END IF;
+  END IF;
+END $$;`;

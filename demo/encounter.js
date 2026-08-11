@@ -701,14 +701,21 @@ function collectFormData() {
     })(),
     customFields: (function () {
       const collected = window.FormSchema ? window.FormSchema.collectCustomFields() : {};
-      // MERGE onto the record's existing custom answers. collectCustomFields only
-      // reads fields currently rendered, so answers in a now-hidden/deleted section
-      // (or a different template) would otherwise be silently erased on resave.
       const prev = editingRecordId ? records.find((r) => r.id === editingRecordId) : null;
-      if (prev && prev.customFields && typeof prev.customFields === 'object') {
-        return Object.assign({}, prev.customFields, collected);
+      if (!prev || !prev.customFields || typeof prev.customFields !== 'object') return collected;
+      // Preserve prior answers ONLY for fields NOT in the currently rendered schema
+      // (a hidden/deleted section, or a different template). Fields that ARE
+      // rendered are authoritative from `collected`, so clearing a visible field
+      // truly clears it — instead of the old value being merged back in.
+      const activeIds = (window.FormSchema && window.FormSchema.getActiveCustomFieldIds)
+        ? new Set(window.FormSchema.getActiveCustomFieldIds(currentEncounterTemplateId))
+        : null;
+      const merged = {};
+      for (const k in prev.customFields) {
+        if (!activeIds || !activeIds.has(k)) merged[k] = prev.customFields[k];
       }
-      return collected;
+      Object.assign(merged, collected);
+      return merged;
     })(),
     savedAt: new Date().toISOString()
   };

@@ -29,6 +29,12 @@
   // Did the last records read genuinely succeed? Used to refuse a destructive
   // wholesale overwrite when the store was merely unreadable (not truly empty).
   let _lastLoadOk = false;
+  /**
+   * Set when a mirror recovery was refused because the mirror is behind.
+   * Null at all other times. The UI reads this to explain the blocked state and
+   * to offer adoptMirror() as a deliberate, human-confirmed choice.
+   */
+  let _mirrorRefusal = null;
 
   // Single-writer queue. EVERY read-modify-write of the records blob — save,
   // delete, and cloud sync push/pull — chains through this promise, so two
@@ -57,13 +63,47 @@
     let arr = Array.isArray(data) ? data : [];
     // Safety net: if IndexedDB came back empty but a localStorage mirror has
     // data (e.g. iOS cleared IDB but not localStorage), recover from the mirror.
+    //
+    // But ONLY if the mirror is actually current. idbSetRecords sets
+    // records_mirror_stale whenever the mirror write fails, which is what
+    // happens on every save once the array outgrows the ~5MB localStorage
+    // quota. Adopting a stale mirror here is not a recovery, it is the
+    // mechanism of permanent loss: the app would silently drop back to a
+    // months-old truncated dataset and then write it back over IndexedDB as
+    // authoritative. records_meta is written in the same step as a SUCCESSFUL
+    // mirror write, so meta.count and mirror.length agree exactly when fresh.
+    _mirrorRefusal = null;
     if (arr.length === 0) {
       const mirror = lsGet('records', null);
       if (Array.isArray(mirror) && mirror.length > 0) {
-        console.warn('[platform] recovered', mirror.length, 'records from localStorage mirror');
-        arr = mirror;
-        loadOk = true;
-        try { await idbStore.setItem(IDB_RECORDS_KEY, arr); } catch {}
+        const stale = (() => { try { return localStorage.getItem(PREFIX + 'records_mirror_stale') === '1'; } catch { return true; } })();
+        const meta = lsGet('records_meta', null);
+        const expected = meta && typeof meta.count === 'number' ? meta.count : null;
+        // A mirror from a build that predates the sidecar has no expected
+        // count. Allow it: that device never had the quota failure mode.
+        const short = expected !== null && mirror.length < expected;
+        if (stale || short) {
+          console.error('[platform] REFUSED to recover from a stale localStorage mirror',
+            { mirrorCount: mirror.length, expected, stale });
+          _mirrorRefusal = {
+            mirrorCount: mirror.length,
+            expectedCount: expected,
+            stale,
+            mirrorAt: (meta && meta.at) || null,
+            newest: (meta && meta.newest) || null
+          };
+          // Leave the store looking UNREADABLE, not empty. The IndexedDB read
+          // itself resolved (iOS evicted the data rather than erroring), so
+          // loadOk would otherwise be true and the wipe guard in saveRecord
+          // would not fire - the clinician would see zero records and be free
+          // to save over the only remaining copy.
+          loadOk = false;
+        } else {
+          console.warn('[platform] recovered', mirror.length, 'records from localStorage mirror');
+          arr = mirror;
+          loadOk = true;
+          try { await idbStore.setItem(IDB_RECORDS_KEY, arr); } catch {}
+        }
       }
     }
     _recordsCache = arr;
@@ -424,7 +464,38 @@
     withLock: withRecordsLock,
     getAll: () => idbGetRecords(),
     setAll: (arr) => idbSetRecords(arr),
-    invalidate: invalidateCache
+    invalidate: invalidateCache,
+
+    /**
+     * Details of a refused mirror recovery, or null.
+     *
+     * Non-null means: IndexedDB came back empty, a localStorage mirror exists,
+     * and that mirror is provably behind. Saving is blocked by the wipe guard
+     * until this is resolved. Call after a read.
+     */
+    mirrorRefusal: () => (_mirrorRefusal ? { ..._mirrorRefusal } : null),
+
+    /**
+     * Deliberately adopt the stale mirror anyway.
+     *
+     * The ONLY correct time to call this is after a human has been told exactly
+     * how many records the mirror holds versus how many the device last had,
+     * and has chosen it over losing everything. Restoring a backup file is
+     * always the better option and should be offered first. Returns the number
+     * of records adopted.
+     */
+    adoptMirror: async () => withRecordsLock(async () => {
+      const mirror = lsGet('records', null);
+      if (!Array.isArray(mirror) || mirror.length === 0) {
+        throw new Error('There is no local backup copy on this device to recover from.');
+      }
+      console.warn('[platform] adopting stale mirror by explicit confirmation:', mirror.length, 'records');
+      // Goes through idbSetRecords, so IndexedDB, the mirror, the sidecar and
+      // the staleness flag all end up consistent with each other again.
+      await idbSetRecords(mirror);
+      _mirrorRefusal = null;
+      return mirror.length;
+    })
   };
 
   // Honest, current name for the data/platform layer. New code should use

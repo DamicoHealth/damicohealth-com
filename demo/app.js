@@ -348,16 +348,23 @@ function setupEventListeners() {
     renderReferralTypesEditor();
     renderDxPresetsEditor();
     renderLabTestsEditor();
-    renderProviderButtons();
-    renderProcedureButtons();
-    renderRxPresets();
-    renderDxPresets();
     // These were missing, so synced changes to chief complaints, lab tests,
     // and form templates never refreshed on other devices until a full reload.
     renderComplaintsEditor();
-    renderComplaintButtons();
-    renderLabGrid();
     renderFormBuilder();
+    // Widgets INSIDE the encounter form rebuild their DOM from scratch, which
+    // would wipe a clinician's in-progress entry (the lab grid holds POS/NEG and
+    // typed values only in the DOM). Only refresh them when no encounter is open;
+    // they re-render anyway the next time the form is opened.
+    const _enc = document.getElementById('encounterPanel');
+    if (!_enc || !_enc.classList.contains('open')) {
+      renderProviderButtons();
+      renderProcedureButtons();
+      renderRxPresets();
+      renderDxPresets();
+      renderComplaintButtons();
+      renderLabGrid();
+    }
     // Section visibility removed — all sections always visible
   });
 }

@@ -486,11 +486,28 @@
     saveTemplateSchema(templateId, raw);
   }
 
+  // Ids of every custom (non-builtin) field currently in the active/effective
+  // schema for a template — i.e. the fields that ARE rendered on the form. Used
+  // so a resave can tell "cleared a visible field" from "field belongs to a
+  // hidden/other-template section" and merge correctly.
+  function getActiveCustomFieldIds(templateId) {
+    try {
+      const schema = getEffectiveSchema(templateId || getActiveTemplateId());
+      const ids = [];
+      (schema.sections || []).forEach((s) => {
+        if (s.builtin) return;
+        (s.fields || []).forEach((f) => { if (f && f.id) ids.push(f.id); });
+      });
+      return ids;
+    } catch (e) { return []; }
+  }
+
   // Public API
   window.FormSchema = {
     BUILTIN_SECTIONS,
     FIELD_TYPES,
     STARTERS,
+    getActiveCustomFieldIds,
     // templates
     getTemplates,
     getActiveTemplates,

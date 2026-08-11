@@ -2,7 +2,7 @@
 // DH Field EMR — Service Worker (Offline-First)
 // ==========================================
 // Bump cache version on every release so existing PWAs pick up fixes.
-const CACHE_NAME = 'dh-emr-v8-2.2.1-role-fix-build20260806134411';
+const CACHE_NAME = 'dh-emr-v9-2.3.0-storage-guard-build20260811164046';
 const BASE = self.registration.scope;
 // Prod (/dh-field-emr/pwa/) and staging (/dh-field-emr/pwa-next/) share one
 // origin. Namespace the cache by the SW's registration scope so activating one

@@ -152,15 +152,28 @@ function updateSexDependentFields() {
 
 // MRN generation: First 2 letters of given + first 2 of family + DDMMYYYY (no dashes)
 // Example: John Smith born 15 March 1990 -> JOSM15031990
+function twoInitials(name) {
+  // Same rule as packages/pwa-react/src/data/PatientRecord.ts - the two apps
+  // must never disagree about an MRN.
+  // STEP 1 is the ORIGINAL rule on the ORIGINAL string, so every MRN ever
+  // generated still generates identically. Normalising first would re-key a
+  // patient whose name STARTS with an accented letter and split their chart.
+  const ascii = name.replace(/[^a-zA-Z]/g, '');
+  if (ascii.length >= 2) return ascii.substring(0, 2).toUpperCase();
+  // STEP 2 only runs where the original returned '' and the patient could not
+  // be filed at all, so it cannot change an existing MRN.
+  const flat = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const flatAscii = flat.replace(/[^a-zA-Z]/g, '');
+  if (flatAscii.length >= 2) return flatAscii.substring(0, 2).toUpperCase();
+  const letters = Array.from(flat).filter(ch => /\p{L}/u.test(ch));
+  return letters.length >= 2 ? letters.slice(0, 2).join('').toUpperCase() : '';
+}
+
 function generateBaseMRN(given, family, dob) {
   if (!given || !family || !dob) return '';
-  // Strip non-alpha for initials, then take first 2 of given/family
-  const cleanGiven = given.replace(/[^a-zA-Z]/g, '');
-  const cleanFamily = family.replace(/[^a-zA-Z]/g, '');
-  if (cleanGiven.length < 2 || cleanFamily.length < 2) return '';
-  const g = cleanGiven.substring(0, 2).toUpperCase();
-  const f = cleanFamily.substring(0, 2).toUpperCase();
-  // DOB is ISO yyyy-mm-dd
+  const g = twoInitials(given);
+  const f = twoInitials(family);
+  if (!g || !f) return '';
   const dobParts = dob.split('-');
   if (dobParts.length !== 3) return '';
   const dobStr = dobParts[2] + dobParts[1] + dobParts[0]; // DDMMYYYY
