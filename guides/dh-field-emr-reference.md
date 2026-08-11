@@ -1,4 +1,14 @@
-# DH Field EMR — Complete Reference & Troubleshooting Guide
+> **This reference is out of date and has been retired.**
+>
+> It documents the previous version of the app and refers to screens and buttons
+> that no longer exist ("New Encounter", the admin password, the Setup Wizard).
+> Following it will waste your time.
+>
+> The current documentation is at
+> [damicohealth.com/guides](https://damicohealth.com/guides/): Setup Guide,
+> User Guide and Admin Guide. They are kept in step with the app.
+
+# DH Field EMR - Complete Reference & Troubleshooting Guide
 
 ## How to use this document
 
@@ -14,12 +24,12 @@ The AI can then use everything below to walk you through installation, fix Supab
 
 ## For the AI assistant reading this
 
-**Your role:** You are helping someone — often non-technical — install, troubleshoot, or customize DH Field EMR. Be patient and give concrete, click-by-click steps.
+**Your role:** You are helping someone - often non-technical - install, troubleshoot, or customize DH Field EMR. Be patient and give concrete, click-by-click steps.
 
 **Confirm these three things before diagnosing:**
 
-1. **Device & browser** — iPad/iPhone (Safari), Android (Chrome), or laptop (Chrome/Edge).
-2. **Mode** — Standalone (offline-only) or Cloud (synced to their own Supabase).
+1. **Device & browser** - iPad/iPhone (Safari), Android (Chrome), or laptop (Chrome/Edge).
+2. **Mode** - Standalone (offline-only) or Cloud (synced to their own Supabase).
 3. **The exact on-screen error text**, and the app's **version label** (shown next to the title, e.g. `v2026-05-30`).
 
 **Method:**
@@ -33,7 +43,7 @@ The AI can then use everything below to walk you through installation, fix Supab
 
 - **Never** ask the user to paste or share their Supabase **service_role / secret** key, their database password, or any patient data. Only the **anon / publishable** key belongs in the app.
 - If the user mentions possible **data loss**, first help them **export a backup** (Admin then Backup then Download Backup) and/or check **Supabase then Table Editor then records** *before* any step that could delete data.
-- DH Field EMR is a documentation tool, **not a medical device** — never give medical advice; clinical decisions belong to the clinician.
+- DH Field EMR is a documentation tool, **not a medical device** - never give medical advice; clinical decisions belong to the clinician.
 
 **If you cannot resolve it:** point the user to **md@damicohealth.org** (Section 14).
 
@@ -45,7 +55,7 @@ DH Field EMR is a **free electronic medical record** built for international med
 
 **Key architecture facts (important for troubleshooting):**
 
-- It is a **PWA (Progressive Web App)** — a web app that runs in the browser and can be "installed" to the home screen. There is **no app store**.
+- It is a **PWA (Progressive Web App)** - a web app that runs in the browser and can be "installed" to the home screen. There is **no app store**.
 - All patient data is stored **on the device** in the browser's local database (IndexedDB), so it **works fully offline**.
 - Optionally, devices **sync** to a **Supabase** cloud database that **you create and own**. We (Damico Health) never host or see your data.
 - When online, records sync automatically; when offline, they save locally and sync later.
@@ -57,7 +67,7 @@ DH Field EMR is a **free electronic medical record** built for international med
 |---|---|---|
 | Device (browser storage) | Where records live day-to-day | App restarts; can rarely be cleared by the OS (esp. iOS) |
 | Your Supabase project | Your cloud copy; shared across devices | Until you delete it; the real off-device safety net |
-| Backup file (.json) | A file you download from the app | Forever — a normal file you control |
+| Backup file (.json) | A file you download from the app | Forever - a normal file you control |
 
 ---
 
@@ -69,7 +79,7 @@ Open the app in a browser first (the launch link is on **damicohealth.com**), th
 1. Open the link in **Safari** (Chrome on iOS cannot install PWAs).
 2. Tap the **Share** button (square with an up-arrow).
 3. Tap **Add to Home Screen**, then **Add**.
-4. Always open the app from the **new home-screen icon** afterward — this is what makes offline storage reliable.
+4. Always open the app from the **new home-screen icon** afterward - this is what makes offline storage reliable.
 
 **Android (Chrome):**
 1. Open the link in **Chrome**.
@@ -81,9 +91,9 @@ Open the app in a browser first (the launch link is on **damicohealth.com**), th
 2. Click the **Install** icon in the address bar (a small monitor with a down-arrow), or menu → **Install**.
 
 **Getting updates / making sure you're on the latest version:**
-- When a new version ships, a small **"Update now"** bar appears at the bottom — tap it.
+- When a new version ships, a small **"Update now"** bar appears at the bottom - tap it.
 - Check the **version label** next to the app title. If it's old, fully close and reopen the app, or tap "Update now."
-- To force a clean update on iPad: delete the home-screen icon, reopen the link in Safari, and Add to Home Screen again. (This clears local test data — fine for a fresh start, but back up first if you have real data only on that device.)
+- To force a clean update on iPad: delete the home-screen icon, reopen the link in Safari, and Add to Home Screen again. (This clears local test data - fine for a fresh start, but back up first if you have real data only on that device.)
 
 ---
 
@@ -91,9 +101,9 @@ Open the app in a browser first (the launch link is on **damicohealth.com**), th
 
 On first launch a short wizard offers three options:
 
-- **Standalone (Offline Only)** — all data stays on this one device; no cloud; no setup. Best for trying it out or a single device.
-- **New Organization** — the **first** device for a team; you create your own Supabase and become the admin.
-- **Join Existing Setup** — an **additional** device joining a team; you paste the same Supabase URL + key the team already uses.
+- **Standalone (Offline Only)** - all data stays on this one device; no cloud; no setup. Best for trying it out or a single device.
+- **New Organization** - the **first** device for a team; you create your own Supabase and become the admin.
+- **Join Existing Setup** - an **additional** device joining a team; you paste the same Supabase URL + key the team already uses.
 
 You can switch from Standalone to Cloud later in **Admin → Cloud Connection**.
 
@@ -183,7 +193,7 @@ CREATE TRIGGER trg_records_synced_at
   EXECUTE FUNCTION update_synced_at();
 ```
 
-This is safe to re-run: tables and columns use `IF NOT EXISTS`, and every policy is dropped before it is re-created, so a second run will not error on already-existing policies. (An earlier version of this script used bare `CREATE POLICY`, which *would* error on a re-run and abort the whole transaction — if you have that older version saved anywhere, replace it with the block above.)
+This is safe to re-run: tables and columns use `IF NOT EXISTS`, and every policy is dropped before it is re-created, so a second run will not error on already-existing policies. (An earlier version of this script used bare `CREATE POLICY`, which *would* error on a re-run and abort the whole transaction - if you have that older version saved anywhere, replace it with the block above.)
 
 ---
 
@@ -193,7 +203,7 @@ For every other phone/tablet/laptop:
 1. Install the app and open it.
 2. In the wizard choose **Join Existing Setup**.
 3. Paste the **same Supabase URL and anon key** the first device used.
-4. Name the device — it pulls down your presets and history.
+4. Name the device - it pulls down your presets and history.
 
 Keep the URL + key somewhere your team can find them. They are the "key" to your shared data; don't post them publicly.
 
@@ -201,18 +211,18 @@ Keep the URL + key somewhere your team can find them. They are the "key" to your
 
 ## 6. Using the EMR (feature reference)
 
-- **Records screen** — the home base. Search, filter, open patients, start new encounters.
-- **New Encounter** — tap **+ New Encounter**. Enter name + date of birth → the **MRN auto-generates**. If the patient was seen before, a **Return Patient** indicator carries forward their history, allergies, and meds.
-- **Vitals** — temperature, BP, weight, etc. Out-of-range values highlight.
-- **Labs** — one-tap **POS/NEG** buttons, numeric entry, and a urinalysis dipstick panel. Admins can add custom tests.
-- **Diagnosis** — pick from presets or type a free-text working diagnosis.
-- **Medications** — **Rx presets** (one-tap bundles like "Malaria — adult") or the **medication builder** (drug, dose with weight-based math, route, frequency, duration).
-- **Procedures / Imaging / Surgery** — optional blocks for OR cases, ultrasounds, etc.
-- **Referrals** — record onward referrals with a scheduled date; they show in **Scheduling**.
-- **Save & Next** — saves and immediately opens a fresh form (and returns to the top) for fast batch entry. **Save & Close** returns to the records list.
-- **Search & filters** — by name, MRN, diagnosis, medication, site; stackable filters by date/provider/site.
-- **Patient history** — tap a patient to see all visits in order; start a new visit linked to the same MRN.
-- **Analytics** — live dashboards (patient volume, disease burden, lab positivity, provider productivity) and a **one-tap donor report**; **CSV export** for any spreadsheet.
+- **Records screen** - the home base. Search, filter, open patients, start new encounters.
+- **New Encounter** - tap **+ New Encounter**. Enter name + date of birth → the **MRN auto-generates**. If the patient was seen before, a **Return Patient** indicator carries forward their history, allergies, and meds.
+- **Vitals** - temperature, BP, weight, etc. Out-of-range values highlight.
+- **Labs** - one-tap **POS/NEG** buttons, numeric entry, and a urinalysis dipstick panel. Admins can add custom tests.
+- **Diagnosis** - pick from presets or type a free-text working diagnosis.
+- **Medications** - **Rx presets** (one-tap bundles like "Malaria - adult") or the **medication builder** (drug, dose with weight-based math, route, frequency, duration).
+- **Procedures / Imaging / Surgery** - optional blocks for OR cases, ultrasounds, etc.
+- **Referrals** - record onward referrals with a scheduled date; they show in **Scheduling**.
+- **Save & Next** - saves and immediately opens a fresh form (and returns to the top) for fast batch entry. **Save & Close** returns to the records list.
+- **Search & filters** - by name, MRN, diagnosis, medication, site; stackable filters by date/provider/site.
+- **Patient history** - tap a patient to see all visits in order; start a new visit linked to the same MRN.
+- **Analytics** - live dashboards (patient volume, disease burden, lab positivity, provider productivity) and a **one-tap donor report**; **CSV export** for any spreadsheet.
 
 ---
 
@@ -220,9 +230,9 @@ Keep the URL + key somewhere your team can find them. They are the "key" to your
 
 In **Options** / **Admin** (admin device, behind the admin password):
 
-- **Form builder** — add your own **sections** and **questions**. Field types: text, single-select, multi-select, number, numeric range, yes/no, date. Changes sync to all devices.
-- **Multiple encounter forms** — create more than one form (e.g. general vs. surgical vs. dental). A picker appears at "New Encounter" only when more than one exists.
-- **Presets** — edit sites, providers, medications (formulary), diagnoses, procedures, lab tests, Rx bundles, referral types, chief complaints. Most have a show/hide toggle (hide instead of delete to keep old records' labels intact).
+- **Form builder** - add your own **sections** and **questions**. Field types: text, single-select, multi-select, number, numeric range, yes/no, date. Changes sync to all devices.
+- **Multiple encounter forms** - create more than one form (e.g. general vs. surgical vs. dental). A picker appears at "New Encounter" only when more than one exists.
+- **Presets** - edit sites, providers, medications (formulary), diagnoses, procedures, lab tests, Rx bundles, referral types, chief complaints. Most have a show/hide toggle (hide instead of delete to keep old records' labels intact).
 
 ---
 
@@ -230,7 +240,7 @@ In **Options** / **Admin** (admin device, behind the admin password):
 
 - **Online:** records sync to your Supabase automatically (on save, on reconnect, on app foreground, and on a light interval). The cloud copy is your real safety net.
 - **Offline:** records save to the device and sync once you're back online. Conflicts use last-write-wins, with the server's timestamp as the authority.
-- **A subtle but important point about offline + force-quit:** when you tap Save, the device may take a few seconds to fully write the record to permanent storage. If you **force-quit the app within a second or two of saving**, that very last record can be lost before it's flushed to disk. In normal use (charting through a clinic day, not force-quitting between patients) this does not happen — which is why heavy field use works fine. **Best practice:** give a save a few seconds before force-closing, and sync or back up regularly.
+- **A subtle but important point about offline + force-quit:** when you tap Save, the device may take a few seconds to fully write the record to permanent storage. If you **force-quit the app within a second or two of saving**, that very last record can be lost before it's flushed to disk. In normal use (charting through a clinic day, not force-quitting between patients) this does not happen - which is why heavy field use works fine. **Best practice:** give a save a few seconds before force-closing, and sync or back up regularly.
 - **iOS reality:** Apple can occasionally clear a web app's local storage. Installed (home-screen) apps are far safer than a Safari tab, but **the guaranteed protection is cloud sync (when online) and a daily downloaded backup.** Android does not have this aggressive behavior.
 
 ---
@@ -245,7 +255,7 @@ Do this at the end of each clinic day if you are not syncing.
 
 ---
 
-## 10. Troubleshooting — the EMR app
+## 10. Troubleshooting - the EMR app
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
@@ -260,7 +270,7 @@ Do this at the end of each clinic day if you are not syncing.
 
 ---
 
-## 11. Troubleshooting — Supabase & sync
+## 11. Troubleshooting - Supabase & sync
 
 | Symptom / error | Likely cause | Fix |
 |---|---|---|
@@ -269,7 +279,7 @@ Do this at the end of each clinic day if you are not syncing.
 | Records save locally but never reach the cloud | Device not registered, or RLS blocking inserts | Make sure setup SQL ran (the `devices` table + policies must exist); the device registers itself on first cloud connect |
 | "permission denied for table records" / "row-level security" | The RLS policies weren't created, or the device row is missing | Re-run the **setup SQL** (Section 4a); confirm the device appears in the `devices` table |
 | "relation 'records' does not exist" / column errors | The setup SQL never ran, or an older partial schema is missing columns | Run the full **setup SQL** (Section 4a) in the SQL Editor. It is safe to re-run and its `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` lines add the newer columns (`custom_fields`, `template_id`, `template_name`, `diagnosis_codes`) an older database may be missing |
-| Records never sync / rows pushed but other devices never pull them | The `synced_at` trigger is missing (older setup SQL) | Re-run the full **setup SQL** (Section 4a) — it creates the `update_synced_at()` trigger that incremental pull depends on |
+| Records never sync / rows pushed but other devices never pull them | The `synced_at` trigger is missing (older setup SQL) | Re-run the full **setup SQL** (Section 4a) - it creates the `update_synced_at()` trigger that incremental pull depends on |
 | Other devices don't see new records | They're on a different project, or haven't synced | Confirm identical URL + key on every device; tap Sync; check the `records` table in Supabase has the rows |
 | Free Supabase project "paused" | Free projects pause after ~1 week of no activity | Open the Supabase dashboard and **Resume** the project; then sync |
 | Worried data is exposed | The anon key allows read/write per the policies | Keep the URL + key private (treat like a password); for stricter control, restrict policies to admin devices |
@@ -280,7 +290,7 @@ Do this at the end of each clinic day if you are not syncing.
 
 ## 12. FAQ
 
-- **Is it really free?** Yes — no subscriptions or fees. Optional donations only.
+- **Is it really free?** Yes - no subscriptions or fees. Optional donations only.
 - **Do you see our patient data?** No. It lives on your devices and in **your** Supabase project, which we don't host or access.
 - **Can it work with no internet for days?** Yes for charting; the data stays on the device. For guaranteed safety, sync whenever you get a connection and keep daily backups.
 - **iPad vs Android?** Both work. Android storage is more forgiving offline; on iPad, install to the Home Screen and rely on sync/backups.
@@ -290,12 +300,12 @@ Do this at the end of each clinic day if you are not syncing.
 
 ## 13. Glossary
 
-- **PWA** — a web app you install to the home screen; runs offline.
-- **MRN** — Medical Record Number; auto-generated from name + date of birth.
-- **Supabase** — the free cloud database service you create to sync/back up data.
-- **anon / publishable key** — the public API key the app uses; safe for client apps. (Never use the secret/service_role key.)
-- **RLS (Row Level Security)** — database rules controlling who can read/write; set up by the setup SQL.
-- **Standalone vs Cloud** — offline-only on one device vs synced to your Supabase across devices.
+- **PWA** - a web app you install to the home screen; runs offline.
+- **MRN** - Medical Record Number; auto-generated from name + date of birth.
+- **Supabase** - the free cloud database service you create to sync/back up data.
+- **anon / publishable key** - the public API key the app uses; safe for client apps. (Never use the secret/service_role key.)
+- **RLS (Row Level Security)** - database rules controlling who can read/write; set up by the setup SQL.
+- **Standalone vs Cloud** - offline-only on one device vs synced to your Supabase across devices.
 
 ---
 
@@ -306,11 +316,11 @@ Use these to go beyond this document. Prefer fetching the official pages; fall b
 **Project links**
 
 - Website and guides: https://damicohealth.com  and  https://damicohealth.com/guides/
-- Launch the app: https://damicohealth.github.io/dh-field-emr/pwa/
+- Launch the app: https://damicohealth.github.io/dh-field-emr/pwa-react/
 - Support and reporting issues: md@damicohealth.org
 - Contact: md@damicohealth.org
 
-**Supabase — official docs to fetch when needed**
+**Supabase - official docs to fetch when needed**
 
 - Docs home: https://supabase.com/docs
 - Getting started / new project: https://supabase.com/docs/guides/getting-started

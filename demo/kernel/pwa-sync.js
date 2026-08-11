@@ -1,5 +1,5 @@
 // ==========================================
-// PWA SYNC ENGINE — Supabase cloud sync for IndexedDB
+// PWA SYNC ENGINE - Supabase cloud sync for IndexedDB
 // Replicates desktop sync.js logic using browser fetch()
 // ==========================================
 const pwaSync = (function() {
@@ -79,7 +79,7 @@ const pwaSync = (function() {
       supabaseUrl = url;
       supabaseKey = key;
       // 'idle' = connected but not yet synced this session. Do NOT claim 'synced'
-      // here — that faked a "Last sync: just now" on every launch, even offline.
+      // here - that faked a "Last sync: just now" on every launch, even offline.
       setStatus('idle');
     }
   }
@@ -125,7 +125,7 @@ const pwaSync = (function() {
   // --- Record helpers ---
   async function getAllRecordsRaw() {
     // Prefer the platform layer so sync shares its cache AND its single-writer
-    // queue (see lockedRecordsUpdate) — no clobbering local saves.
+    // queue (see lockedRecordsUpdate) - no clobbering local saves.
     if (typeof window !== 'undefined' && window.platformRecords) {
       return await window.platformRecords.getAll();
     }
@@ -145,7 +145,7 @@ const pwaSync = (function() {
   }
 
   // Atomic read-modify-write on the platform's single-writer queue: re-reads the
-  // freshest array, applies the mutator in place, then writes it back — so a
+  // freshest array, applies the mutator in place, then writes it back - so a
   // record saved during an in-flight sync is never lost to a stale snapshot.
   async function lockedRecordsUpdate(mutator) {
     const run = async () => {
@@ -233,7 +233,7 @@ const pwaSync = (function() {
       throw new Error(`Push config failed: ${res.status} ${errText}`);
     }
     // Remember exactly what we pushed per key (do NOT blindly bump the pull
-    // cursor — that skipped other admins' changes written in between).
+    // cursor - that skipped other admins' changes written in between).
     for (const it of items) { await idbSettingSet('cfgPushed_' + it.key, it._raw); }
     console.log(`[pwa-sync] Pushed ${items.length} changed config keys`);
   }
@@ -243,12 +243,12 @@ const pwaSync = (function() {
   // point where record conflict policy lives. Currently last-write-wins: the
   // server's pulled copy wins. To add live multi-user collaboration later,
   // upgrade this to a field-level merge (per-field timestamps / version vectors)
-  // — callers (pullRecords) won't need to change.
+  // - callers (pullRecords) won't need to change.
   function mergeRecords(local, remote) {
     // Conflict policy (single source of truth). Previously an unconditional
     // whole-row overwrite, which let a stale device clobber newer edits and
     // let deletions resurrect. Now:
-    //  1. If the local copy has an unsynced edit, keep it — the next push sends it.
+    //  1. If the local copy has an unsynced edit, keep it - the next push sends it.
     //  2. Otherwise prefer whichever copy has the newer saved_at.
     if ((local.sync_version || 1) > (local.synced_version || 0)) {
       return local;
@@ -371,7 +371,7 @@ const pwaSync = (function() {
 
     const BATCH_SIZE = 50;
     // Ids that reached the server, WITH the sync_version we pushed. We do NOT
-    // hold the whole array across the network — writing that stale snapshot back
+    // hold the whole array across the network - writing that stale snapshot back
     // afterward was deleting encounters saved during the sync window.
     const pushed = [];
 
@@ -410,7 +410,7 @@ const pwaSync = (function() {
     }
 
     // Mark the pushed records synced on a FRESH copy, under the single-writer
-    // lock — but only if the record hasn't been edited again since we pushed it
+    // lock - but only if the record hasn't been edited again since we pushed it
     // (its sync_version still matches), so a mid-sync edit stays "unsynced".
     if (pushed.length) {
       await lockedRecordsUpdate(all => {
@@ -446,7 +446,7 @@ const pwaSync = (function() {
     // rows that share a synced_at (a whole batch import shares one timestamp).
     // The device_id echo filter was REMOVED: cross-device updates that keep the
     // original creator's device_id (e.g. a referral marked Completed elsewhere)
-    // must reach that device too. Our own echoes are harmless — mergeRecords
+    // must reach that device too. Our own echoes are harmless - mergeRecords
     // keeps any local unsynced edit and otherwise merges identical data.
     let cursorTs = lastPull;
     let cursorId = '';
@@ -661,7 +661,7 @@ const pwaSync = (function() {
       };
 
       for (const [k, v] of Object.entries(defaults)) {
-        // value column is JSONB — pass the raw value, NOT a JSON.stringify'd
+        // value column is JSONB - pass the raw value, NOT a JSON.stringify'd
         // string. Pre-stringifying causes double-encoding on pull.
         configItems.push({ key: k, value: v, updated_at: new Date().toISOString() });
       }

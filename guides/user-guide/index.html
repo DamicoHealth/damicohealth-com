@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
-<title>User Guide — DH Field EMR</title>
-<meta name="description" content="Daily-use guide for clinicians using DH Field EMR. Encounter workflow, vitals, labs, diagnoses, medications, referrals, and patient history." />
+<title>User Guide - DH Field EMR</title>
+<meta name="description" content="Daily-use guide for clinicians using DH Field EMR. Recording a visit, the patient number, vitals, labs, prescribing, finding a patient again, and working offline." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://damicohealth.com/guides/user-guide/" />
 
-<meta property="og:title" content="User Guide — DH Field EMR" />
+<meta property="og:title" content="User Guide - DH Field EMR" />
 <meta property="og:description" content="Daily-use guide for clinicians using DH Field EMR." />
 <meta property="og:url" content="https://damicohealth.com/guides/user-guide/" />
 <meta property="og:type" content="article" />
@@ -41,152 +41,198 @@
     <div class="nav-cta">
       <a class="btn btn-ghost" href="/demo/">Try the Demo</a>
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-react/">Launch the App</a>
     </div>
   </div>
 </header>
 
 <main class="guide-page">
   <h1>User Guide</h1>
-  <p class="guide-subtitle">Daily clinic workflow for clinicians. How to document encounters fast and find what you need later.</p>
+  <p class="guide-subtitle">For the clinician using the app in clinic. How to record a visit, find a patient again, and keep working when there is no signal.</p>
 
   <nav class="toc" aria-label="Table of contents">
     <div class="toc-title">On this page</div>
     <ul>
-      <li><a href="#new-encounter">Creating a new encounter</a></li>
-      <li><a href="#demographics">Patient demographics &amp; MRN</a></li>
-      <li><a href="#vitals">Entering vitals</a></li>
-      <li><a href="#labs">Recording labs</a></li>
-      <li><a href="#diagnoses">Selecting diagnoses</a></li>
-      <li><a href="#medications">Adding medications</a></li>
-      <li><a href="#procedures">Procedures, imaging, surgery</a></li>
-      <li><a href="#referrals">Setting referrals</a></li>
-      <li><a href="#save-next">Save &amp; Next workflow</a></li>
-      <li><a href="#searching">Searching records</a></li>
-      <li><a href="#history">Patient history</a></li>
-      <li><a href="#mark-complete">Tracking referral status</a></li>
+      <li><a href="#new-visit">Starting a visit</a></li>
+      <li><a href="#patient-number">The patient number</a></li>
+      <li><a href="#vitals">Vitals</a></li>
+      <li><a href="#history">History and chief concern</a></li>
+      <li><a href="#labs">Labs</a></li>
+      <li><a href="#diagnosis">Diagnosis</a></li>
+      <li><a href="#medications">Medications and the quantity to dispense</a></li>
+      <li><a href="#other-sections">Procedures, imaging, surgery, referral</a></li>
+      <li><a href="#saving">Saving, and Save &amp; next patient</a></li>
+      <li><a href="#finding">Finding a patient again</a></li>
+      <li><a href="#chart">The chart and the vitals trend</a></li>
+      <li><a href="#second-visit">A second visit for a patient you already have</a></li>
+      <li><a href="#offline">When the device is offline</a></li>
+      <li><a href="#warnings">Messages you may see</a></li>
+      <li><a href="#next">Where to go next</a></li>
     </ul>
   </nav>
 
-  <h2 id="new-encounter">Creating a new encounter</h2>
-  <p>From the <code>Records</code> screen, tap <code>+ New Encounter</code>. The encounter form is a single page covering everything from demographics to notes. Scroll down to fill in each section, or jump between them using the section bar. If your team has more than one encounter form set up (e.g. General vs. Surgery), you'll first pick which one to use.</p>
+  <p>This page assumes the app is already installed and set up on the device in your hand. If it is not, start with the <a href="/guides/getting-started/">Setup Guide</a>.</p>
+  <p>DH Field EMR is not a certified EHR and is not HIPAA-compliant. It is built for global health field work outside the United States. Follow whatever your own organization and country require for patient records.</p>
+
+  <h2 id="new-visit">Starting a visit</h2>
+  <p>Open the <code>Records</code> tab. This is the tab the app opens on. Tap <code>+ New visit</code>.</p>
+  <p>The visit form opens over the patient list. It is one long page. Scroll down and fill in what is clinically relevant. Some sections start closed to keep the page short: <code>Procedures</code>, <code>Referral</code>, <code>Imaging</code>, <code>Surgical Encounter</code> and <code>Notes</code>. Tap the heading to open one.</p>
+  <p>Your organisation can rename sections, hide the ones it does not use, change their order, and add its own questions. So the form on your device may not match this list exactly. The names in this guide are the ones the app ships with. On an admin device this form is edited under <code>Form setup</code>, where it is called the encounter form; it is the same form.</p>
+  <p>To leave without recording anything, tap <code>Cancel</code> at the top or the bottom. If you have typed something, the app asks <code>Discard this visit? Anything you have entered will be lost.</code> Tapping the dark area outside the form does not close it, so a stray tap cannot lose your work.</p>
   <div class="callout">
-    <div class="callout-title">What's required</div>
-    <p>Most fields are optional — fill in what's clinically relevant. Saving requires: <strong>Given Name</strong>, <strong>Family Name</strong>, <strong>Site</strong>, <strong>Date</strong>, <strong>Sex</strong>, <strong>Date of Birth</strong> (unless you tick <code>Unknown</code>), and the <strong>MRN</strong> (which fills itself in). If any are missing, the app lists them when you try to save.</p>
+    <div class="callout-title">What you must fill in</div>
+    <p>Six things: <code>Given name</code>, <code>Family name</code>, <code>Site</code>, <code>Date</code>, <code>Sex</code>, and either <code>Date of birth</code> or an <code>Estimated age</code>. Everything else is optional. If one is missing the save does not go through. A red box headed <code>Check 2 fields</code>, or <code>Check 1 field</code> when only one is missing, lists exactly what is wrong, and the form jumps to the first bad field.</p>
   </div>
 
-  <h2 id="demographics">Patient demographics &amp; auto-MRN generation</h2>
-  <p>In the <code>Encounter</code> and <code>Patient</code> cards at the top, enter:</p>
-  <ul>
-    <li><code>Site</code> (a picker), <code>Date</code>, and the auto-filled <code>MRN</code></li>
-    <li><code>Given Name</code> and <code>Family Name</code></li>
-    <li><code>Sex</code> (Male / Female)</li>
-    <li><code>Date of Birth</code> — type it as DD/MM/YYYY, or tick <code>Unknown</code> and enter an estimated age instead</li>
-    <li><code>Phone</code> (optional)</li>
-  </ul>
-  <p>The <code>MRN</code> auto-generates from name and DOB as you fill them out. If the patient has been seen before in your organization, the app detects it and shows a <code>Return Patient</code> banner so you can carry their history forward.</p>
-
-  <h2 id="vitals">Entering vitals</h2>
-  <p>The Vitals card keeps to the essentials:</p>
-  <ul>
-    <li><code>Temp (°C)</code> — a single number in Celsius (a fever reading is highlighted)</li>
-    <li><code>BP (mmHg)</code> — one free-text field, e.g. <code>120/80</code></li>
-    <li><code>Weight (kg)</code></li>
-    <li><code>Pregnant</code> — N/A / Yes / No</li>
-    <li><code>Breastfeeding</code> — N/A / Yes / No</li>
-  </ul>
-  <div class="callout">
-    <div class="callout-title">Need more vitals?</div>
-    <p>Heart rate, respiratory rate, SpO2, height, and anything else aren't built into the standard Vitals card. Your admin can add them as custom fields with the form builder (<code>Options → Encounter Forms</code>), and they'll appear on the encounter form for everyone.</p>
+  <h2 id="patient-number">The patient number, and why you cannot type it</h2>
+  <p>Near the bottom of the <code>Patient</code> section is <code>Patient number (MRN)</code>. The box is read only and the hint under it says <code>generated automatically</code>. You do not type it and you cannot change it.</p>
+  <p>The number is built from the first two letters of the given name, the first two letters of the family name, and the date of birth as DDMMYYYY. Grace Achieng, born 12 March 1991, becomes <code>GRAC12031991</code>. Until you have entered enough, the line under the form title reads <code>Patient number generates from name + date of birth</code>.</p>
+  <p>This matters in the field. Nobody has to keep a register, hand out cards, or look up a number before seeing the patient. Enter the same name and the same date of birth and you get the same number, on any device, in any clinic, even on a device that has never seen that patient. That is how a return visit joins the visits already recorded.</p>
+  <p>If two different patients share the same initials and the same date of birth, the second one gets a letter added to the end, first <code>B</code>, then <code>C</code>. Numbers stay unique. Names in Amharic, Arabic, Cyrillic and other scripts generate a number normally.</p>
+  <div class="callout warning">
+    <div class="callout-title">Spelling decides whether the chart joins up</div>
+    <p>The app matches a returning patient on the name and the date of birth. A name spelled differently, or a different guessed date of birth, produces a different number and a separate chart. Before you invent a spelling, check whether a blue <code>Returning patient</code> box appears, and search for the patient in <code>Records</code> first.</p>
   </div>
 
-  <h2 id="labs">Recording labs</h2>
-  <p>Labs use one-tap buttons to keep entry fast.</p>
-
-  <h3>Binary tests (POS / NEG)</h3>
-  <p>For tests like malaria RDT, pregnancy, HIV rapid, and so on, tap <code>POS</code> or <code>NEG</code>. Tap again to clear.</p>
-
-  <h3>Numeric tests</h3>
-  <p>For tests with a numeric result (hemoglobin, glucose, etc.), enter the value in the test's field. There's also a free-text <code>Lab Comments</code> box for anything that doesn't fit.</p>
-
-  <h3>Urinalysis</h3>
-  <p>Open the <code>Urinalysis</code> panel inside the Labs card for a full dipstick: leukocytes, nitrite, urobilinogen, protein, pH, blood, specific gravity, ketones, bilirubin, and glucose. Tap the value for each pad.</p>
-  <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>Your admin can add custom lab tests (POS/NEG or numeric) in <code>Options → Lab Tests</code>. Anything you commonly run can be turned into a one-tap button.</p>
-  </div>
-
-  <h2 id="diagnoses">Selecting diagnoses</h2>
-  <p>The Diagnosis card gives you a few ways to record a diagnosis:</p>
+  <h2 id="vitals">Vitals</h2>
   <ul>
-    <li>Tap one or more <strong>diagnosis preset</strong> buttons (your admin curates these). Use the <code>Most Used</code> / <code>A-Z</code> / <code>By System</code> tabs to find them fast.</li>
-    <li>Type into the <strong>Working Diagnosis</strong> field for anything not in your presets, or to add detail.</li>
-    <li>Optionally add structured <strong>ICD-10 codes</strong> using the code picker.</li>
+    <li><code>Temperature</code>, in °C</li>
+    <li><code>Blood pressure</code>, one free-text box, written the way you measured it, for example <code>120/80</code></li>
+    <li><code>Weight</code>, in kg</li>
+    <li><code>Pregnant</code> and <code>Breastfeeding</code>, Yes or No. These appear unless <code>Sex</code> is set to <code>M</code>.</li>
   </ul>
-  <p>There's no "Confirmed / Suspected / Rule out" status flag — capture that wording in the Working Diagnosis text if you need it.</p>
+  <p>Temperature is checked for plausibility on save. A value outside 25-45 °C is refused with <code>Temperature 101 °C is outside a plausible range (25-45 °C). Check whether it was entered in Fahrenheit.</code> This catches the most common vitals entry error before it reaches the record.</p>
+  <p>Heart rate, respiratory rate, SpO2 and height are not in the standard <code>Vitals</code> section, and they cannot be added inside it. In <code>Form setup</code> the built-in sections, <code>Vitals</code> among them, carry a <code>Built in</code> chip and have no <code>Questions</code> button. To add these readings, an admin device taps <code>+ Add a section</code> in <code>Form setup</code>, types a title over <code>New section</code>, then taps <code>Questions</code> on that new section and adds one question per reading. The new section can be dragged to sit next to <code>Vitals</code>, and it then appears for everyone.</p>
 
-  <h2 id="medications">Adding medications</h2>
-  <p>There are two ways to add medications, optimized for different situations.</p>
+  <h2 id="history">History and chief concern</h2>
+  <p>The <code>History</code> section holds three boxes: <code>Allergies</code>, <code>Current medications</code> and <code>Past medical history</code>. These describe the patient rather than today, so they can be carried forward from the last visit. See <a href="#second-visit">A second visit</a>.</p>
+  <p>The <code>Chief Concern</code> section has a <code>Chief concern</code> box and, under it, tappable pills of the complaints your organisation uses most. Tapping a pill <strong>adds</strong> the complaint to what is already written, separated by a semicolon. It never wipes what you typed. Tapping the same pill again takes that one complaint back out and leaves the rest alone. Tap two or three, then type the detail that matters.</p>
 
-  <h3>Rx presets (fastest)</h3>
-  <p>Rx presets are pre-built prescription bundles for common scenarios — for example, "Malaria — adult" adds the drug(s) with the right dose, frequency, and duration in one tap. Tap a preset in the <code>Rx Presets</code> card to drop the whole bundle into the medication builder, then adjust as needed.</p>
+  <h2 id="labs">Labs</h2>
+  <p>The <code>Labs</code> section shows the tests your organisation has configured.</p>
+  <ul>
+    <li>Tests with a yes or no answer are two buttons, <code>POS</code> and <code>NEG</code>. One tap.</li>
+    <li>Tests with a number take the value, and the app reads it against the range configured for that test.</li>
+    <li><code>Lab comments</code> takes anything that does not fit.</li>
+    <li>Under the subheading <code>Urinalysis</code> there are ten rows for a dipstick: leukocytes, nitrite, urobilinogen, protein, ph, blood, sg, ketones, bilirubin, glucose.</li>
+  </ul>
+  <p>The red <code>Lab+</code> badge in the records list comes from the <code>POS</code> and <code>NEG</code> tests only, and only when you ordered the test and marked it <code>POS</code>. So a positive malaria or HIV test is visible without opening the chart. A numeric result the app reads as abnormal does not set the badge, and neither does a urinalysis row such as nitrite <code>POS</code>. Those are recorded, but you have to open the chart to see them.</p>
 
-  <h3>Medication builder</h3>
-  <p>For one-off prescriptions or anything not in a preset, tap <code>+ Add Medication</code> in the Medications card. Each line has:</p>
+  <h2 id="diagnosis">Diagnosis</h2>
+  <p>One box, <code>Diagnosis</code>. Write the diagnosis in your own words. There is no code picker and no preset list to hunt through.</p>
+  <p>What you type is what appears under the patient's name in the records list, in the chart, and in the CSV export. Keep it short and consistent with the rest of your team so the export is usable later.</p>
+  <p>Records created in the older version of the app may already carry ICD-10 codes. Those still show in the chart as <code>Coded</code> and still export. They cannot be added or changed on this form.</p>
+
+  <h2 id="medications">Medications and the quantity to dispense</h2>
+  <p>Tap <code>+ Add medication</code> to add a line. Each line has:</p>
   <ol>
-    <li><strong>Drug</strong> — picked from the formulary (grouped by category; the default dose pre-fills)</li>
-    <li><strong>Dose</strong></li>
-    <li><strong>Frequency</strong> — once, BID, TID, QID, etc.</li>
-    <li><strong>Duration</strong></li>
+    <li>the drug, chosen from your formulary (<code>Select medication</code>)</li>
+    <li>the dose, in the box beside the drug. It has no label, only the grey hint <code>e.g. 500mg or 2 tabs</code>. Write a number of tabs or an amount in mg</li>
+    <li><code>Frequency</code>: <code>Once (single dose)</code>, <code>Once daily q24h</code>, <code>Twice daily q12h</code>, <code>Three times daily q8h</code>, <code>Four times daily q6h</code>, <code>At bedtime qhs</code>, <code>Twice daily topical</code>, <code>As needed PRN</code></li>
+    <li><code>Duration</code>: <code>Single dose</code>, <code>3d</code> through <code>28d</code>, <code>4 weeks</code>, <code>6 weeks</code>, or <code>Ongoing</code></li>
   </ol>
-  <p>The app computes an approximate quantity to dispense from those values. There's no route step and no stock checking — the formulary just supplies the drug list and default doses. Use <code>Additional Treatment Notes</code> below the builder for injections, wound care, or anything patient-specific.</p>
+  <p>Choosing a drug fills in its default dose from the formulary if the dose box is still empty. Change it if this patient needs something else. The <code>×</code> at the end of a line removes it.</p>
 
-  <h2 id="procedures">Procedures, imaging, surgical encounters</h2>
-  <p>Further down the form are these optional blocks:</p>
+  <h3>What the small number beside each line means</h3>
+  <p>Once a line is complete, a quantity appears next to it, for example <code>21 tabs</code>. That is how much to dispense: dose, times frequency, times duration. Read it before you count anything out of the box.</p>
+  <p>Three other things it can say:</p>
   <ul>
-    <li><code>Procedures</code> — tap the procedures performed from your preset list (incision &amp; drainage, suturing, dressing, etc.)</li>
-    <li><code>Imaging</code> — a collapsible card. Choose <code>Ultrasound</code>, pick the ultrasound type (Abdominal, Pelvic, OB/Pregnancy, FAST, etc.), and type the findings. (Ultrasound is the only imaging modality; there's no X-ray option.)</li>
-    <li><code>Surgical Encounter</code> — a collapsible card. Switch it to <code>Surgery Performed</code>, then enter the <strong>Type of Surgery</strong> and <strong>Surgical Notes</strong>. (There's no separate surgeon, anesthesia, or status field.)</li>
+    <li><code>21 tabs?</code> with a question mark. The app could not read your dose text, so it counted one tab per dose. The number may be wrong. Rewrite the dose as a plain number of tabs, such as <code>2 tabs</code>, or in mg, such as <code>500mg</code>, and the question mark goes away.</li>
+    <li><code>no qty</code>. There is nothing for the app to count, and rewriting the dose will not change it. You see this when the drug is not dispensed in tabs, caps or sachets, which covers every syrup, injection, cream and drop; or when <code>Frequency</code> is <code>As needed PRN</code> or <code>Twice daily topical</code>; or when <code>Duration</code> is <code>4 weeks</code> or <code>6 weeks</code>. Write the amount you are dispensing in <code>Treatment notes</code>.</li>
+    <li><code>ongoing</code>. <code>Duration</code> is <code>Ongoing</code>, so there is no fixed total to dispense.</li>
+  </ul>
+  <p>This is arithmetic, not a safety check. The app does not check your stock, and it does not check the dose against the patient's weight, age, pregnancy or allergies. Those remain your judgement.</p>
+  <p><code>Treatment notes</code>, below the lines, is for injections given, wound care, counselling, and anything else that is not a prescription line.</p>
+
+  <h2 id="other-sections">Procedures, imaging, surgery, referral</h2>
+  <ul>
+    <li><code>Procedures</code>: tap the procedures performed from your organisation's list. If your organisation has not configured any procedures, the section does not appear at all.</li>
+    <li><code>Imaging</code>: <code>Ultrasound type</code> and <code>Findings</code>. Ultrasound is the only modality, and it is recorded automatically. The type is free text, so write what you scanned.</li>
+    <li><code>Surgical Encounter</code>: tick <code>Surgery performed</code>. <code>Type</code> and <code>Notes</code> appear once it is ticked.</li>
+    <li><code>Referral</code>: pick a <code>Referral type</code>. The first option is <code>None</code>. Choosing anything else reveals <code>Scheduled date</code>. Referred patients carry an amber <code>Referred</code> badge in the records list.</li>
+    <li><code>Notes</code>: one free box at the bottom for anything the form does not have a place for.</li>
+  </ul>
+  <p>A referral is recorded on the visit itself. There is no separate screen listing referrals to work through. To see who has one, open <code>Filters</code> on the <code>Records</code> tab and set <code>Referral</code>.</p>
+
+  <h2 id="saving">Saving, and Save &amp; next patient</h2>
+  <p>At the bottom of the form: <code>Cancel</code>, then <code>Save &amp; next patient</code>, then <code>Save</code>.</p>
+  <p><code>Save</code> records the visit and closes the form.</p>
+  <p><code>Save &amp; next patient</code> appears only on a new visit, never when you are editing one. It records the visit, clears the form, keeps <code>Site</code>, <code>Date</code> and <code>Provider</code>, scrolls back to the top, and shows a green line: <code>Saved Grace Achieng (GRAC12031991). Ready for the next patient.</code> Use it when you are working through a stack of paper forms after clinic. You set the site and the date once.</p>
+  <p>Tapping <code>Save</code> twice cannot create two copies of the same visit.</p>
+  <p>If a save fails, a red <code>Not saved</code> box appears with the reason. A save never quietly reports success when nothing was written. Fix what it names and save again.</p>
+
+  <h2 id="finding">Finding a patient again</h2>
+  <p>Everything on this page is on the <code>Records</code> tab.</p>
+  <p>Four tiles across the top count what is on this device: <code>Visits</code>, <code>Patients</code>, <code>Today</code> and <code>Pediatric (&lt;18)</code>.</p>
+  <p>The search box reads <code>Search name, patient number, concern, diagnosis...</code>. It searches the name, the patient number, the chief concern, the diagnosis, the site and the provider. Part of a word is enough.</p>
+  <p>The <code>Filters</code> button opens <code>Site</code>, <code>Provider</code>, <code>Referral</code>, a <code>From</code> and <code>To</code> date range, and <code>Reset</code>. Filters stack, so "seen at Kabale by Grace last week" is one search. When filters are on, the button shows how many, like <code>Filters (2)</code>.</p>
+  <p>The list shows <strong>one card per patient</strong>, not one per visit, most recently seen first. Each card shows the latest site, the latest visit date, sex and age like <code>F/34y</code>, and <code>No. GRAC12031991</code>, then the latest diagnosis. Badges tell you the rest at a glance: <code>Lab+</code>, <code>Referred</code>, <code>Pregnant</code>, and <code>3 visits</code> for anyone seen more than once.</p>
+  <p>Long lists are cut off: <code>Showing the first 150 of 412 patients. Narrow your search to see the rest.</code> Type part of the name or the patient number rather than scrolling.</p>
+  <p>If nothing matches you see <code>No visits match those filters.</code> If the device has no records at all you see <code>No visits recorded on this device yet.</code> Remember that visits entered on another device only appear here after this device syncs.</p>
+
+  <h2 id="chart">The chart and the vitals trend</h2>
+  <p>Tap a patient card to open their chart. It slides in from the side and is read only, built from what was saved. The header shows the name, then <code>Patient number GRAC12031991 · F/34y · DOB 12/03/1991</code>. When the age was estimated rather than known, the date of birth is followed by <code>(est.)</code>. The buttons are <code>+ New visit</code> and <code>Close</code>.</p>
+
+  <h3>Reading the vitals trend</h3>
+  <p>When a patient has two or more visits, a <code>Vitals trend</code> table appears at the top of the chart. Columns run <code>V1</code>, <code>V2</code>, <code>V3</code> from the <strong>oldest</strong> visit to the newest, each with its date. Rows are <code>Temp</code>, <code>BP</code> and <code>Weight</code>. A dash means that value was not recorded at that visit.</p>
+  <p>Values are coloured against fixed thresholds: temperature amber from 37.5 °C and red from 38.5 °C, systolic blood pressure amber from 130 and red from 140. The colour is the same for every patient. It marks a number worth looking at, nothing more. It is not a judgement about this patient, and a value with no colour is not a normal result.</p>
+  <p>The table is most useful for the things a single reading cannot show: a weight falling across three visits, a blood pressure that is high every time rather than high once, a fever that has not settled since the last course of treatment.</p>
+
+  <h3>The visits themselves</h3>
+  <p>Below the table, each visit is a block, newest first: <code>Visit 3</code>, then the date, site and provider, then the vitals, history, labs, urinalysis, and the clinical detail (diagnosis, the medications written out in full, treatment notes, procedures, imaging, surgery, referral and notes). Questions your organisation added appear under <code>Additional</code>, with your organisation's own wording. Anything left blank is left out entirely, so a short block means a short visit, not missing data.</p>
+  <p>Each visit block has two buttons.</p>
+  <ul>
+    <li><code>Edit</code> reopens that visit and overwrites it when you save. Use it to correct what was recorded at that visit. Do not use it to record a new one.</li>
+    <li><code>Delete</code> removes that single visit. The app warns first: the visit is removed from this device and from every device that syncs with it, and this cannot be undone from inside the app. Only a backup taken before now can bring it back. Use it for a visit filed on the wrong patient or a duplicate, not for a correction.</li>
   </ul>
 
-  <h2 id="referrals">Setting referrals with dates</h2>
-  <p>In the Referral card, tap the <code>Referral Type</code> that applies (surgery, follow-up clinic, hospital transfer, etc. — your admin sets the list). Picking a type other than <code>None</code> reveals a <code>Scheduled Date</code> field; set it if you have a date. There's no separate destination or specialty field — add anything extra in the encounter's Notes.</p>
-  <p>Referrals with a type other than None show up in <code>Scheduling</code> so the team can plan around them.</p>
+  <h2 id="second-visit">A second visit for a patient you already have</h2>
+  <p>Do not create a new patient for a return visit. There are two ways in, and both put the visit in the same chart.</p>
+  <h3>From the chart</h3>
+  <p>Open the patient and tap <code>+ New visit</code> in the header. The form opens titled <code>New visit for Grace Achieng</code>. Name, sex, date of birth, phone and patient number are already there, and so are <code>Allergies</code>, <code>Past medical history</code> and <code>Current medications</code>. Everything clinical is blank. Check that the standing history is still true, then record today.</p>
+  <h3>From the records list</h3>
+  <p>Tap <code>+ New visit</code> and enter the name and date of birth as before. When they match a patient already on the device, a blue box appears reading <code>Returning patient</code>, with a line such as <code>2 previous visits · last seen 2026-03-14 · Malaria</code>, and a button <code>Copy allergies, history and medications forward</code>. Tap the button to bring those three forward. The patient's existing number is reused either way, so the visit joins their chart.</p>
+  <p>That one line writes the date the other way round, year first, as <code>2026-03-14</code>. Everywhere else in the app a date reads DD/MM/YYYY.</p>
 
-  <h2 id="save-next">Save &amp; Next workflow for batch entry</h2>
-  <p>If you're entering a stack of paper forms after a clinic day, use <code>Save &amp; Next</code> (also shown as <code>+ Save &amp; Next Patient</code>) instead of <code>Save &amp; Close</code>. This:</p>
-  <ol>
-    <li>Saves the current encounter</li>
-    <li>Opens a fresh form of the same type</li>
-    <li>Carries the <strong>site</strong> and <strong>date</strong> forward from your last entry</li>
-    <li>Scrolls back to the top so you can start typing the next patient</li>
-  </ol>
-  <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>Most teams enter a 4-day clinic of 300+ patients in a few hours using Save &amp; Next. Get into a rhythm and keep your hands on the keyboard.</p>
-  </div>
-
-  <h2 id="searching">Searching records</h2>
-  <p>From <code>Records</code>, the search box at the top accepts:</p>
+  <h2 id="offline">When the device is offline</h2>
+  <p>Every visit is written to the device the moment you save it. Nothing waits for a network. Working offline is the normal way to use the app, not a fallback, and a full day of clinic with no signal changes nothing about how you enter visits.</p>
+  <p>The button at the top right tells you where the records stand:</p>
   <ul>
-    <li>Patient name (partial matches work)</li>
-    <li>MRN</li>
-    <li>Diagnosis</li>
-    <li>Medication</li>
-    <li>Site</li>
+    <li><code>Offline only</code>, greyed out: this device is not connected to a cloud at all. Records stay here and go nowhere else. Someone must take a backup from the <code>Admin</code> tab at the end of each clinic day.</li>
+    <li><code>Connected</code>: this device is connected to your cloud but has not synced yet since the app was opened. This is often the first thing you see in the morning. A connected device syncs on its own a moment after opening, and the label then changes.</li>
+    <li><code>Synced</code>: all records are backed up to your cloud.</li>
+    <li><code>Pending</code>: changes are waiting to sync.</li>
+    <li><code>Offline</code>: saved on this device, and it will sync when you reconnect.</li>
+    <li><code>Syncing</code>: sending and receiving now.</li>
+    <li><code>Sync error</code>: tap to retry, or check the connection.</li>
   </ul>
-  <p>A <code>Site</code> dropdown sits next to the search box. Tap <code>Filters</code> to reveal more: a <strong>From</strong>/<strong>To</strong> date range, <strong>Provider</strong>, and <strong>Referral Type</strong>, plus a <code>Today's Patients</code> shortcut. Filters stack — so "everyone seen by Dr. Okafor at Site 3 this week" is one search.</p>
-
-  <h2 id="history">Viewing patient history (multi-visit support)</h2>
-  <p>Tap any patient in the records list to open their chart. All of that patient's visits (matched by MRN) appear newest-first, each as a full block showing that visit's vitals, history, access-to-care, labs, diagnosis, medications, referral, and physician. When there are two or more visits, a small <strong>vitals trend</strong> table (temp, BP, weight across visits) appears at the top.</p>
-  <p>Tap <code>Edit</code> on any visit to reopen that encounter. From the patient header, tap <code>+ New Visit</code> to start a fresh encounter linked to the same MRN — useful for return patients.</p>
-
-  <h2 id="mark-complete">Tracking referral status</h2>
-  <p>Referrals are tracked from the <code>Scheduling</code> screen, not the patient chart. Pick a day on the weekly calendar to list its referrals grouped by type. Each row has a <strong>status dropdown</strong> — set it to <code>Pending</code>, <code>Completed</code>, <code>No Show</code>, or <code>Cancelled</code> as things happen. The day's tally of completed vs. pending updates as you go.</p>
-  <div class="callout">
-    <div class="callout-title">Tip</div>
-    <p>Work down a surgery day's list on the Scheduling screen, flipping each referral to <code>Completed</code> or <code>No Show</code> as patients are seen. Tap a patient's name in that list to jump straight to their record.</p>
+  <p>On a connected device a chip such as <code>12 pending</code> sits next to the button and counts what has not gone up yet. It refreshes on its own.</p>
+  <p>You do not have to press anything. A connected device syncs shortly after the app opens, again as soon as signal comes back, again when you return to the app, and every two minutes while you work. Tapping the button forces a sync now.</p>
+  <p>If a sync you asked for did not work, the app says so, starting with <code>Not backed up.</code> and ending "Try again when you have signal. Do not wipe or hand on this device until this clears." Take that literally. Records that have not synced exist in one place only, on this device.</p>
+  <div class="callout warning">
+    <div class="callout-title">Before this device leaves your hands</div>
+    <p>Check that the button reads <code>Synced</code> and that there is no pending chip beside it. If it does not, today's visits are nowhere else yet. Do not hand the device on, wipe it, or pack it away until it clears or your admin has taken a backup.</p>
   </div>
+
+  <h2 id="warnings">Messages you may see</h2>
+  <ul>
+    <li><code>Recovered from where you left off.</code> The app closed before a visit was saved, from a flat battery or a browser reload. What you had typed was kept and is offered back. Check every field before you save it.</li>
+    <li>"This visit was changed on another device while you had it open." The message says "on this device" instead when the change came from this device, for example in another tab. Either way, saving now replaces those changes with what is on your screen. If you are not sure what was recorded, close without saving and open the visit again.</li>
+    <li>"This visit was DELETED on another device while you had it open." Saving now brings it back for everyone.</li>
+    <li><code>Could not read visits from this device.</code> Tap <code>Try again</code>. If it keeps happening, tell your admin.</li>
+    <li><code>Close the other tabs.</code> The app is open in more than one tab or window on this device, and work in one can overwrite the other. Close the others and keep working in one.</li>
+    <li><code>Back this device up today.</code> The second copy the device keeps of its records is out of date or was never written, so the records now exist in one place only. This is not about free space. Download a backup now, from <code>Download backup</code> on the <code>Admin</code> tab, and again at the end of every clinic day. Tell your admin, who can archive older visits off this device. Do not leave it until the next clinic day.</li>
+    <li><code>This device cannot read its records. Do not enter more patients here.</code> Stop entering visits on this device. Use paper for the rest of the clinic and give the device to your admin.</li>
+  </ul>
+
+  <h2 id="next">Where to go next</h2>
+  <ul>
+    <li>Installing the app on another iPad, and setting that device up: the <a href="/guides/getting-started/">Setup Guide</a>.</li>
+    <li>Taking a backup, restoring one, connecting a device to your cloud, changing the sites and clinicians, or adding questions to the form: the <a href="/guides/admin-guide/">Admin Guide</a>. Every device can take and restore a backup, not only an admin one.</li>
+    <li>Getting the visits out as a spreadsheet for a report: <a href="/guides/admin-guide/#export">Getting the data out</a> in the Admin Guide.</li>
+    <li>What changed in the last update: the <a href="/guides/release-notes/">Release Notes</a>.</li>
+    <li>Something this page does not cover: email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</li>
+  </ul>
 </main>
 
 <footer class="footer">

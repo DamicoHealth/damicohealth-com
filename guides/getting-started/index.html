@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#F68630" />
-<title>Setup Guide — DH Field EMR</title>
-<meta name="description" content="Step-by-step setup for DH Field EMR: install the app on your device, choose offline-only or cloud sync, and connect your own free Supabase database." />
+<title>Setup Guide - DH Field EMR</title>
+<meta name="description" content="Install DH Field EMR on an iPad, set up the device offline only or connected to your clinic cloud, and save your first patient visit." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://damicohealth.com/guides/getting-started/" />
 
-<meta property="og:title" content="Setup Guide — DH Field EMR" />
-<meta property="og:description" content="Install the app, choose offline-only or cloud sync, and connect your own Supabase." />
+<meta property="og:title" content="Setup Guide - DH Field EMR" />
+<meta property="og:description" content="Install the app on an iPad, set up the device, and save your first patient visit." />
 <meta property="og:url" content="https://damicohealth.com/guides/getting-started/" />
 <meta property="og:type" content="article" />
 
@@ -48,239 +48,210 @@
     <div class="nav-cta">
       <a class="btn btn-ghost" href="/demo/">Try the Demo</a>
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-react/">Launch the App</a>
     </div>
   </div>
 </header>
 
 <main class="guide-page">
   <h1>Setup Guide</h1>
-  <p class="guide-subtitle">Get DH Field EMR running on your device in a few minutes — offline-only, or synced to your own free cloud.</p>
+  <p class="guide-subtitle">Install the app on an iPad, set up the device, and save your first patient visit. Around fifteen minutes, once.</p>
 
-  <div class="callout" style="border-left:4px solid #F68630;background:#fff7ed;">
-    <div class="callout-title">⚡ Stuck? Get AI-guided help</div>
-    <p>Download the <strong>complete reference &amp; troubleshooting PDF</strong>, then upload it to <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> (or any AI assistant) and describe your problem. It's written for an AI to read, so it can walk you through setup, fix Supabase / sync errors, and help you customize the app.</p>
-    <p style="margin-top:10px;"><a class="btn btn-primary" href="/guides/dh-field-emr-reference.pdf" download>Download the Reference PDF</a></p>
+  <div class="callout">
+    <div class="callout-title">You can do this alone</div>
+    <p>If you are using the app on one device, with no cloud, you need nothing from anyone: install it, answer three short screens, and start seeing patients. If your team syncs to a shared cloud, there is one extra screen and you need two lines of text from whoever set that up. Both paths are below.</p>
   </div>
 
   <nav class="toc" aria-label="Table of contents">
     <div class="toc-title">On this page</div>
     <ul>
-      <li><a href="#need">1. What you'll need</a></li>
-      <li><a href="#install">2. Install the app</a></li>
-      <li><a href="#mode">3. Choose how you'll use it</a></li>
-      <li><a href="#supabase">4. Set up your own cloud (Supabase)</a></li>
-      <li><a href="#connect">5. Connect the app</a></li>
-      <li><a href="#more-devices">6. Add more devices</a></li>
-      <li><a href="#configure">7. Make it yours</a></li>
-      <li><a href="#first">8. Your first patient</a></li>
-      <li><a href="#safe">9. Keeping your data safe</a></li>
-      <li><a href="#next">10. Next steps</a></li>
+      <li><a href="#what">1. What this is, and what it is not</a></li>
+      <li><a href="#need">2. What you need</a></li>
+      <li><a href="#install">3. Install it on the iPad</a></li>
+      <li><a href="#setup">4. Set up this device</a></li>
+      <li><a href="#cloud">5. If your team syncs to a cloud</a></li>
+      <li><a href="#first">6. Your first patient</a></li>
+      <li><a href="#chart">7. Find the patient again</a></li>
+      <li><a href="#safe">8. Keep the records safe</a></li>
+      <li><a href="#next">9. Next steps</a></li>
     </ul>
   </nav>
 
-  <h2 id="need">1. What you'll need</h2>
+  <h2 id="what">1. What this is, and what it is not</h2>
+  <p>DH Field EMR is a free patient record for outreach and field clinics. It runs in the browser, but it stores every visit on the device itself, so it works with no internet at all. A device can stay offline for a whole trip and lose nothing.</p>
+  <p>If your team wants records shared between devices, the app can sync to a Supabase database your organization creates and owns. Clinic volumes normally sit inside Supabase's free tier, but check their current pricing yourself. Sync is optional. Offline only is a normal way to run the app, not a fallback.</p>
   <ul>
-    <li>A device with a modern browser — an <strong>iPad/iPhone</strong> (Safari), an <strong>Android</strong> tablet/phone (Chrome), or a <strong>laptop</strong> (Chrome or Edge).</li>
-    <li><strong>For cloud sync (optional but recommended):</strong> a free <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> account. This is where your team's records live so multiple devices stay in sync and your data has an off-device home. It's free for the volumes a field clinic produces.</li>
+    <li><strong>It is not a certified EHR</strong>, and it is <strong>not HIPAA-compliant</strong>. It is built for global health work outside the United States. Do not use it where a certified system is required, and check what your own country and your organization require before you enter real patients.</li>
+    <li><strong>There is no app store and no account with us.</strong> Nothing to buy, nothing to sign up for, no licence.</li>
+    <li><strong>Records live on the device.</strong> If the iPad is lost, wiped, or the browser clears its storage, anything that existed only on that iPad is gone. Cloud sync and a daily backup are what prevent that. Section 8 covers both.</li>
   </ul>
-  <div class="callout">
-    <div class="callout-title">No app store, no purchase</div>
-    <p>DH Field EMR is a web app. You "install" it by adding it to your home screen — there's nothing to buy and no account to create with us.</p>
-  </div>
 
-  <h2 id="install">2. Install the app</h2>
-  <p>First, open the app in your browser:</p>
-  <p><a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a></p>
-  <p>Then add it to your home screen so it opens like a normal app and works offline:</p>
+  <h2 id="need">2. What you need</h2>
+  <ul>
+    <li>An <strong>iPad</strong> or iPhone with <strong>Safari</strong>. An Android tablet with Chrome, or a laptop with Chrome or Edge, works the same way.</li>
+    <li>Internet <strong>once</strong>, to load the app the first time. After that it opens offline.</li>
+    <li><strong>Only if your team syncs to a cloud:</strong> the <strong>Project URL</strong> and <strong>Project key</strong> for your organization's Supabase project. Whoever set the project up has them. You do not need a Supabase account of your own, and you do not need to understand Supabase to use the app.</li>
+  </ul>
 
-  <h3>iPad &amp; iPhone (Safari)</h3>
+  <h2 id="install">3. Install it on the iPad</h2>
+  <p>First open the app in the browser:</p>
+  <p><a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-react/">Launch the App</a></p>
+  <p>Then add it to the home screen. This is what makes it open like a normal app and work with no signal.</p>
+
+  <h3>iPad and iPhone (Safari)</h3>
   <ol class="steps">
-    <li>Open the link above in <strong>Safari</strong> (not Chrome — only Safari can install on iOS).</li>
-    <li>Tap the <strong>Share</strong> button (the square with an up-arrow).</li>
+    <li>Open the link above in <strong>Safari</strong>. On iOS only Safari can install a web app, so Chrome will not work for this step.</li>
+    <li>Tap the <strong>Share</strong> button, the square with an arrow pointing up.</li>
     <li>Choose <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</li>
-    <li>From now on, <strong>always open the app from the new home-screen icon</strong> — that's what makes it work reliably offline.</li>
+    <li>From now on, open the app <strong>only from the new home screen icon</strong>. Records saved in a Safari tab and records saved in the installed app are not always the same storage.</li>
   </ol>
 
   <h3>Android (Chrome)</h3>
   <ol class="steps">
     <li>Open the link in <strong>Chrome</strong>.</li>
-    <li>Tap the menu (⋮) and choose <strong>Install app</strong> (or tap the "Install" banner if it appears).</li>
-    <li>Open it from the new icon in your app drawer.</li>
+    <li>Tap the menu, the three dots, and choose <strong>Install app</strong>. If an Install banner appears, tapping that does the same thing.</li>
+    <li>Open it from the new icon in the app drawer.</li>
   </ol>
 
-  <h3>Laptop / Desktop (Chrome or Edge)</h3>
+  <h3>Laptop (Chrome or Edge)</h3>
   <ol class="steps">
     <li>Open the link in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
-    <li>Click the <strong>Install</strong> icon in the address bar (a small monitor with a down-arrow), or use the menu → <strong>Install</strong>.</li>
+    <li>Click the <strong>Install</strong> icon in the address bar, a small screen with a downward arrow, or use the menu and choose <strong>Install</strong>.</li>
   </ol>
-  <div class="callout">
-    <div class="callout-title">Updating later</div>
-    <p>When a new version ships, the app shows a small <strong>"Update now"</strong> bar — just tap it. You can always check which version you're running: it's shown next to the title at the top (e.g. <code>v2026-05-30 17:22</code>).</p>
+
+  <div class="callout warning">
+    <div class="callout-title">One copy open at a time</div>
+    <p>If the app is open in more than one tab or window on the same device, a red bar appears at the top reading <strong>Close the other tabs.</strong> Do it straight away. Two open copies can overwrite each other's work, and you can lose a visit you already typed.</p>
   </div>
-
-  <h2 id="mode">3. Choose how you'll use it</h2>
-  <p>The first time you open the app, a short setup wizard asks how you want to run it. There are three choices:</p>
-
-  <h3>Standalone (Offline Only)</h3>
-  <p>Best for trying it out, or a single device with no need to share data.</p>
-  <ul>
-    <li>All records stay on this one device.</li>
-    <li>No Supabase, no setup — just name your device and start.</li>
-    <li>You can switch to cloud sync later from the <strong>Admin</strong> screen.</li>
-  </ul>
-
-  <h3>New Organization</h3>
-  <p>Best for the <strong>first</strong> device of a team. You'll create your own Supabase database (next section), and this device becomes the admin.</p>
-
-  <h3>Join Existing Setup</h3>
-  <p>Best for <strong>additional</strong> devices joining a team that's already set up. You'll paste the same Supabase URL and key your team already uses (see <a href="#more-devices">section 6</a>).</p>
 
   <div class="callout">
-    <div class="callout-title">Just want to look around?</div>
-    <p>Pick <strong>Standalone</strong>. It takes 10 seconds and you can explore everything. Nothing you enter is sent anywhere.</p>
+    <div class="callout-title">Updates</div>
+    <p>When a new version is available a bar appears at the bottom reading <strong>A new version is ready.</strong> with <strong>Update now</strong> and <strong>Later</strong>. The app never reloads itself, so it cannot interrupt a visit you are typing. Tap <strong>Update now</strong> between patients, or at the end of the day.</p>
   </div>
 
-  <h2 id="supabase">4. Set up your own cloud (Supabase)</h2>
-  <p>This is the one technical step, and you only do it <strong>once</strong> for your whole team. It gives your records a safe home in the cloud that <em>you</em> own and control.</p>
+  <h2 id="setup">4. Set up this device</h2>
+  <p>The first time you open the app you land on <strong>Set up this device</strong>. It happens once. There are four short screens on the cloud path, and three on the offline one, which skips the cloud screen.</p>
+  <p>Most of what you choose here can be changed later under <strong>Admin</strong>: the device name, the site and clinician lists, and connecting an offline device to a cloud. One choice cannot be changed: what the device is allowed to do, on Screen 3. Read that screen before you tap past it.</p>
 
-  <ol class="steps">
-    <li>Go to <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and create a free account.</li>
-    <li>Click <strong>New project</strong>. Give it a name (e.g. "Hope Clinic EMR"), set a database password (save it somewhere safe), pick a region near where you work, and create it. Wait a minute for it to finish setting up.</li>
-    <li>In the left sidebar, open the <strong>SQL Editor</strong> and click <strong>New query</strong>.</li>
-    <li>Copy the entire block below, paste it into the editor, and click <strong>Run</strong>. You should see "Success."</li>
-  </ol>
-
-  <pre class="code">-- DH Field EMR — Supabase setup (run once). Safe to re-run:
--- every policy is dropped-then-created, so a second run won't error.
-CREATE TABLE IF NOT EXISTS records (
-  id UUID PRIMARY KEY,
-  device_id TEXT, site TEXT, date TEXT, mrn TEXT,
-  given_name TEXT, family_name TEXT, name TEXT, sex TEXT, dob TEXT, phone TEXT,
-  pregnant TEXT, breastfeeding TEXT, temp TEXT, bp TEXT, weight TEXT,
-  allergies TEXT, current_meds TEXT, pmh TEXT, chief_concern TEXT,
-  labs JSONB DEFAULT '{}'::jsonb, lab_comments TEXT,
-  urinalysis JSONB DEFAULT '{}'::jsonb, blood_glucose TEXT,
-  diagnosis TEXT, diagnosis_codes JSONB DEFAULT '[]'::jsonb,
-  medications JSONB DEFAULT '[]'::jsonb, treatment_notes TEXT, treatment TEXT,
-  procedures JSONB DEFAULT '[]'::jsonb, transport TEXT, travel_time TEXT,
-  access_to_care JSONB, referral_type TEXT, referral_date TEXT, referral_status TEXT,
-  imaging JSONB, surgery JSONB, provider TEXT, notes TEXT,
-  custom_fields JSONB DEFAULT '{}'::jsonb, template_id TEXT, template_name TEXT,
-  age_estimated BOOLEAN DEFAULT false, saved_at TIMESTAMPTZ,
-  sync_version INTEGER DEFAULT 1, deleted BOOLEAN DEFAULT false,
-  synced_at TIMESTAMPTZ DEFAULT now()
-);
-CREATE TABLE IF NOT EXISTS devices (
-  id TEXT PRIMARY KEY, name TEXT NOT NULL, role TEXT DEFAULT 'standard',
-  org_name TEXT, last_sync_at TIMESTAMPTZ, created_at TIMESTAMPTZ DEFAULT now()
-);
-CREATE TABLE IF NOT EXISTS config (
-  key TEXT PRIMARY KEY, value JSONB, updated_at TIMESTAMPTZ DEFAULT now()
-);
-CREATE INDEX IF NOT EXISTS idx_records_synced_at ON records (synced_at);
-CREATE INDEX IF NOT EXISTS idx_records_device_id ON records (device_id);
-CREATE INDEX IF NOT EXISTS idx_records_mrn ON records (mrn);
-ALTER TABLE records ENABLE ROW LEVEL SECURITY;
-ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
-ALTER TABLE config  ENABLE ROW LEVEL SECURITY;
--- Drop-then-create each policy so re-running never errors on duplicates.
-DROP POLICY IF EXISTS "anon_read_records"   ON records;
-CREATE POLICY "anon_read_records"   ON records FOR SELECT USING (true);
-DROP POLICY IF EXISTS "anon_insert_records" ON records;
-CREATE POLICY "anon_insert_records" ON records FOR INSERT WITH CHECK (
-  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
-DROP POLICY IF EXISTS "anon_update_records" ON records;
-CREATE POLICY "anon_update_records" ON records FOR UPDATE USING (
-  device_id IS NOT NULL AND EXISTS (SELECT 1 FROM devices WHERE id = device_id));
-DROP POLICY IF EXISTS "anon_read_devices"   ON devices;
-CREATE POLICY "anon_read_devices"   ON devices FOR SELECT USING (true);
-DROP POLICY IF EXISTS "anon_insert_devices" ON devices;
-CREATE POLICY "anon_insert_devices" ON devices FOR INSERT WITH CHECK (true);
-DROP POLICY IF EXISTS "anon_update_devices" ON devices;
-CREATE POLICY "anon_update_devices" ON devices FOR UPDATE USING (true);
-DROP POLICY IF EXISTS "anon_read_config"   ON config;
-CREATE POLICY "anon_read_config"   ON config FOR SELECT USING (true);
-DROP POLICY IF EXISTS "anon_write_config"  ON config;
-CREATE POLICY "anon_write_config"  ON config FOR INSERT WITH CHECK (true);
-DROP POLICY IF EXISTS "anon_update_config" ON config;
-CREATE POLICY "anon_update_config" ON config FOR UPDATE USING (true);
-DROP POLICY IF EXISTS "no_delete_records" ON records;
-CREATE POLICY "no_delete_records" ON records FOR DELETE USING (false);
-DROP POLICY IF EXISTS "no_delete_devices" ON devices;
-CREATE POLICY "no_delete_devices" ON devices FOR DELETE USING (false);
-DROP POLICY IF EXISTS "no_delete_config"  ON config;
-CREATE POLICY "no_delete_config"  ON config  FOR DELETE USING (false);
--- Server-side timestamp on every write; incremental pull depends on this.
-CREATE OR REPLACE FUNCTION update_synced_at()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.synced_at = now();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS trg_records_synced_at ON records;
-CREATE TRIGGER trg_records_synced_at
-  BEFORE INSERT OR UPDATE ON records
-  FOR EACH ROW
-  EXECUTE FUNCTION update_synced_at();</pre>
-
-
-  <h2 id="connect">5. Connect the app</h2>
-  <p>Back in the setup wizard (on the device you chose <strong>New Organization</strong>), you'll be asked for two things from Supabase:</p>
-  <ol class="steps">
-    <li>In Supabase, open <strong>Settings → API</strong> (the gear icon).</li>
-    <li>Copy your <strong>Project URL</strong> — it looks like <code>https://abcdxyz.supabase.co</code>.</li>
-    <li>Copy your <strong>anon</strong> key (also called the "publishable" key) — a long string starting with <code>eyJ…</code>. If you only see "Publishable" and "Secret," use <strong>Publishable</strong>. If your project shows newer keys, look for <em>"Legacy anon / service_role keys"</em> and copy the <strong>anon</strong> one.</li>
-    <li>Paste both into the app's <strong>Supabase URL</strong> and <strong>Supabase Anon Key</strong> fields and continue.</li>
-    <li>Let it <strong>seed the default presets</strong> (medications, diagnoses, sites, etc.), <strong>name this device</strong>, and <strong>set an admin password</strong> (this protects customization and settings).</li>
-  </ol>
-  <div class="callout warning">
-    <div class="callout-title">Use the anon / publishable key — not the secret one</div>
-    <p>Never put your <strong>service_role</strong> or <strong>secret</strong> key in the app or share it. The anon/publishable key is the one meant for apps.</p>
-  </div>
-
-  <h2 id="more-devices">6. Add more devices</h2>
-  <p>For every other phone, tablet, or laptop on your team:</p>
-  <ol class="steps">
-    <li>Install the app (section 2) and open it.</li>
-    <li>In the setup wizard, choose <strong>Join Existing Setup</strong>.</li>
-    <li>Paste the <strong>same Supabase URL and anon key</strong> the first device used. (Keep them somewhere your team can find — they're the "key" to your shared data.)</li>
-    <li>Name the device. It'll pull down your presets and history automatically.</li>
-  </ol>
-
-  <h2 id="configure">7. Make it yours</h2>
-  <p>On the admin device, open <strong>Options</strong> (and <strong>Admin</strong>) to tailor the app to your clinic:</p>
+  <h3>Screen 1: how this device works</h3>
+  <p>Two large buttons:</p>
   <ul>
-    <li>Add your <strong>sites</strong>, <strong>providers</strong>, and edit the medication / diagnosis / procedure presets.</li>
-    <li>Use the <strong>form builder</strong> to add your own sections and questions, or create multiple encounter forms (e.g. general vs. surgical).</li>
+    <li><strong>Connect to our clinic cloud</strong>. Records sync between every device on the team. You need the project address and key from your admin. Go to section 5 first if you do not have them.</li>
+    <li><strong>Use this device on its own</strong>. Records stay on this iPad and are never sent anywhere. Take a backup at the end of each clinic day.</li>
   </ul>
-  <p>Full details are in the <a href="/guides/admin-guide/">Admin Guide</a>. Changes sync to every device automatically.</p>
+  <p>Choosing <strong>Use this device on its own</strong> skips straight to naming the device. Nothing is lost by starting here: a device can be connected to a cloud later from <strong>Admin</strong>, and the visits already on it go up with the first sync.</p>
 
-  <h2 id="first">8. Your first patient</h2>
-  <ol class="steps">
-    <li>Tap <strong>+ New Encounter</strong>.</li>
-    <li>Enter the patient's name and date of birth — the MRN fills in automatically.</li>
-    <li>Pick a site and provider, record the complaint, vitals, labs, diagnosis, and any meds or referrals.</li>
-    <li>Tap <strong>Save &amp; Close</strong> — or, on a busy clinic day, <strong>Save &amp; Next</strong> to jump straight to a fresh form.</li>
-  </ol>
+  <h3>Screen 2: Connect to your cloud</h3>
+  <p>Only on the cloud path. Paste the <strong>Project URL</strong> and the <strong>Project key</strong>, then tap <strong>Check and continue</strong>. The app contacts the project and checks the tables before it accepts the key, so a typo is caught here instead of surfacing days later as records that never synced. See section 5 for what to do if it refuses.</p>
 
-  <h2 id="safe">9. Keeping your data safe</h2>
-  <p>Two simple habits keep your records protected:</p>
+  <h3>Screen 3: Name this device</h3>
+  <p>Two things.</p>
   <ul>
-    <li><strong>Sync when you have signal.</strong> The moment a device gets internet, it pushes records up to your Supabase — that's your off-device safety net. (Offline records also stay on the device; just give a save a few seconds to settle before force-closing the app.)</li>
-    <li><strong>Download a backup at the end of each clinic day.</strong> In <strong>Admin → Backup</strong>, tap <strong>Download Backup</strong> to save a complete <code>.json</code> file you can keep, email, or copy to a laptop. A backup can never be cleared by the device.</li>
+    <li><strong>Device name.</strong> The name shows in your device list and on the records this device files, so use something you can recognise on sight: <em>iPad 2 - triage</em>, <em>Grace's tablet</em>. This is required.</li>
+    <li><strong>What is this device allowed to do?</strong> A list with two choices: <strong>Enter and view records (most devices)</strong>, or <strong>Also change the form and clinic settings for everyone</strong>.</li>
   </ul>
+  <p>That second list is the whole permissions system. Choose <strong>Enter and view records</strong> for every device that only sees patients. Choose the second option for the one device that will build the encounter form and set the clinic lists: that device gets an extra <strong>Form setup</strong> tab, which nobody else sees.</p>
   <div class="callout warning">
-    <div class="callout-title">A note on offline storage</div>
-    <p>On iPads in particular, the operating system can occasionally clear a web app's local storage. In day-to-day use your records persist fine, but <strong>cloud sync and daily backups are what make your data truly safe</strong> — please use them.</p>
+    <div class="callout-title">This choice is permanent</div>
+    <p>The setup screen says you can change everything later under <strong>Admin</strong>. That is true of the device name, the site and clinician lists, and cloud sync. It is not true of this one. <strong>Admin</strong> shows <strong>Role</strong> as <strong>Admin</strong> or <strong>Standard</strong>, but only as a line of text, and the card's one button is <strong>Rename this device</strong>. There is no way to change the role afterwards. If you pick wrong on the device that was meant to build the form, the only fix is to clear the browser's storage for the app and run setup again, which also wipes the records on that device. Decide which single device is the admin one before you set up any of them.</p>
+  </div>
+  <div class="callout">
+    <div class="callout-title">There is no admin password</div>
+    <p>Older versions asked for one. This version does not have one anywhere. A device is either a normal device or an admin device, and that is decided here, on this screen, when the device is set up.</p>
   </div>
 
-  <h2 id="next">10. Next steps</h2>
+  <h3>Screen 4: Where is this device working?</h3>
+  <p>Two boxes, one entry per line:</p>
   <ul>
-    <li>Daily clinic workflow — see the <a href="/guides/user-guide/">User Guide</a>.</li>
-    <li>Customizing forms, presets, sync, backups, and donor reports — see the <a href="/guides/admin-guide/">Admin Guide</a>.</li>
-    <li>Stuck? Email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a> for help.</li>
+    <li><strong>Clinic or site names</strong>, for example <em>Kabale Community Clinic</em> on one line and <em>Mobile Unit A</em> on the next.</li>
+    <li><strong>Clinicians working on this device</strong>, for example <em>Dr. A. Mensah</em>, <em>Grace N., clinical officer</em>.</li>
+  </ul>
+  <p>These fill the <strong>Site</strong> and <strong>Provider</strong> lists on the encounter form. Fill them in now. If you leave them empty, every visit is filed under the placeholder <strong>Site A</strong>, which is useless when you later count patients per site for a report. On a cloud device, if your organization has already set these up, its lists replace what you type here on the first sync.</p>
+  <p>Tap <strong>Start using the app</strong>. Setup is done.</p>
+
+  <h2 id="cloud">5. If your team syncs to a cloud</h2>
+  <p>One person does this once for the whole team, not every clinician on every device. If someone has already done it, skip to the last part of this section.</p>
+  <ol class="steps">
+    <li>Create a free account at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and click <strong>New project</strong>. Give it a name, set a database password and keep it somewhere safe, and pick a region near where you work.</li>
+    <li>Open the <strong>SQL Editor</strong> in the left sidebar and click <strong>New query</strong>.</li>
+    <li>Copy the whole of <a href="https://github.com/DamicoHealth/dh-field-emr/blob/main/supabase/setup.sql" target="_blank" rel="noopener">setup.sql</a> from the project repository, paste it in, and click <strong>Run</strong>. It creates the tables the app needs and the security rules that go with them. It is safe to run again later.</li>
+    <li>Open <strong>Settings</strong>, then <strong>API Keys</strong>. Copy the <strong>Project URL</strong> and the <strong>Publishable</strong> key, or the legacy <strong>anon</strong> key on an older project.</li>
+    <li>Give those two lines to each device that needs them. They are what a device pastes on the <strong>Connect to your cloud</strong> screen.</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-title">Never the Secret or service_role key</div>
+    <p>A <strong>Secret</strong> or <strong>service_role</strong> key ignores every security rule on the database and must never go on a device that leaves the office. The app refuses one if you paste it. Use the <strong>Publishable</strong> key, or the legacy <strong>anon</strong> key.</p>
+  </div>
+
+  <h3>If Check and continue refuses</h3>
+  <ul>
+    <li><em>That does not look like a Supabase project URL</em>: the address must be the plain project address, like <code>https://yourproject.supabase.co</code>, with nothing after it.</li>
+    <li><em>Connected, but the records table was not found</em>: the project exists but the setup SQL in step 3 has not been run on it yet.</li>
+    <li><em>Could not reach the project tables</em>: usually the device has no internet, or the key was copied incompletely. Keys are long. Copy the whole thing.</li>
+  </ul>
+  <p>The full cloud walkthrough, including adding more devices later, is in the <a href="/guides/admin-guide/">Admin Guide</a>.</p>
+
+  <h2 id="first">6. Your first patient</h2>
+  <p>You land on <strong>Records</strong>. Tap <strong>+ New visit</strong> at the top right of the list.</p>
+  <ol class="steps">
+    <li><strong>Encounter.</strong> Pick a <strong>Site</strong>. It is required and the visit will not save without it. <strong>Provider</strong> is optional, but set it anyway: it is how anyone reading the record later knows who saw the patient. <strong>Date</strong> is already today's date, so change it only when you are entering a visit from a previous day.</li>
+    <li><strong>Patient.</strong> <strong>Given name</strong>, <strong>Family name</strong>, and <strong>Sex</strong>, which is two buttons, <strong>M</strong> and <strong>F</strong>. Then <strong>Date of birth</strong>, typed as digits in the order DD/MM/YYYY. If the patient does not know it, tick <strong>Date of birth unknown</strong> and put years in <strong>Estimated age</strong> instead. <strong>Phone</strong> is optional.</li>
+    <li><strong>Patient number (MRN)</strong> fills itself in as you type and cannot be edited. It is built from two letters of each name plus the date of birth, so the same patient gets the same number on any device on the team. Two different patients with the same initials and the same birth date get a letter added, B, C, D.</li>
+    <li><strong>Vitals.</strong> <strong>Temperature</strong> in °C, <strong>Blood pressure</strong> as 120/80, <strong>Weight</strong> in kg. <strong>Pregnant</strong> and <strong>Breastfeeding</strong> are on screen for every patient except a male one. They disappear the moment you tap <strong>M</strong>, and come back if you tap <strong>F</strong>.</li>
+    <li><strong>Chief Concern.</strong> Type freely, or tap the complaint buttons under the box. A button adds its text to what you have already written, it does not wipe it. Tap it again to take it back out.</li>
+    <li><strong>Labs</strong>, <strong>Diagnosis</strong> and <strong>Medications.</strong> Labs are POS or NEG toggles and typed numbers. Diagnosis is free text. For a drug, tap <strong>+ Add medication</strong>, choose it, then set dose, <strong>Frequency</strong> and <strong>Duration</strong>. The quantity to dispense is worked out and shown beside the row, for example <em>21 tabs</em>.</li>
+    <li><strong>Sections that start closed.</strong> Procedures, Referral, Imaging, Surgical Encounter and Notes are collapsed to keep the form short. Tap the heading to open one.</li>
+    <li>Tap <strong>Save</strong>.</li>
+  </ol>
+
+  <p>Six things are required: given name, family name, site, visit date, sex, and either a date of birth or an estimated age. If one is missing, saving shows a red box headed <strong>Check 2 fields</strong>, or <strong>Check 1 field</strong> when only one is missing. It lists what is wrong and jumps to it. Nothing you typed is lost.</p>
+
+  <div class="callout">
+    <div class="callout-title">On a busy clinic day, use Save &amp; next patient</div>
+    <p>On a new visit there is a second button, <strong>Save &amp; next patient</strong>. It saves, then opens a clean form that keeps the <strong>Site</strong>, <strong>Date</strong> and <strong>Provider</strong> you already chose and clears everything clinical. A green line confirms who was saved: <em>Saved Grace Achieng (GRAC12031991). Ready for the next patient.</em> This is the fastest way through a queue.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">If the app closes mid-visit</div>
+    <p>What you had typed is written down as you type. Reopen the app and it offers it back with a note reading <strong>Recovered from where you left off.</strong> Check every field before you save it, because the last few keystrokes may not have made it.</p>
+  </div>
+
+  <h2 id="chart">7. Find the patient again</h2>
+  <p>Every saved visit shows up on <strong>Records</strong> as a card, grouped by patient, most recently seen first. The card shows the site, the visit date, sex and age, the patient number, and the latest diagnosis. Coloured badges flag a positive lab, a referral, a pregnancy, and how many visits the patient has had. The <strong>Lab+</strong> badge comes only from a POS or NEG test you ordered and marked POS; the <a href="/guides/user-guide/#labs">User Guide</a> explains what it does and does not cover.</p>
+  <p>To find someone, type into the search box, <em>Search name, patient number, concern, diagnosis...</em>, or tap <strong>Filters</strong> to narrow by site, provider, referral or a date range. Only the first 150 patients are listed at once; the app tells you when there are more.</p>
+  <p>Tap a card to open the patient's chart. From there you can:</p>
+  <ul>
+    <li>Read every visit, newest first, with only the fields that were actually filled in.</li>
+    <li>See a <strong>Vitals trend</strong> table once the patient has two or more visits. Temperature and blood pressure are coloured when they cross a fixed threshold. That marks a number worth a second look; it is not a judgement about this patient, and a value with no colour is not a normal result.</li>
+    <li>Tap <strong>+ New visit</strong> to start today's visit for this patient. Name, sex, date of birth, phone, patient number, allergies, past history and current medications carry across. Everything clinical starts blank.</li>
+    <li>Tap <strong>Edit</strong> on one visit to correct it, or <strong>Delete</strong> to remove a visit filed on the wrong patient. Delete asks first, and it is final: the visit goes from this device and from every device that syncs with it, and only a backup taken beforehand can bring it back.</li>
+  </ul>
+
+  <h2 id="safe">8. Keep the records safe</h2>
+
+  <h3>If this device syncs to a cloud</h3>
+  <p>The button at the top right is the honest one to watch. It reads <strong>Connected</strong> when the app has just opened and has not synced yet, <strong>Syncing</strong> while it works, <strong>Synced</strong> when everything is up in the cloud, <strong>Pending</strong> or <strong>Offline</strong> with a count such as <em>12 pending</em> when work is still waiting, and <strong>Sync error</strong> when something is wrong. Tap it to sync now. The <a href="/guides/user-guide/#offline">User Guide</a> explains each one.</p>
+  <p>You do not have to tap it during clinic. The app syncs on its own every two minutes, the moment signal comes back, and whenever you return to the app. But before you wipe a device, hand it to someone else, or leave a site for good, tap it and wait for the count to reach zero. If it fails it says <strong>Not backed up.</strong> and names how many records are still waiting. Treat that as real. Those records exist on that one iPad and nowhere else.</p>
+
+  <h3>If this device is offline only</h3>
+  <p>The button reads <strong>Offline only</strong> and does nothing, because nothing leaves the device. Your safety net is a daily backup. At the end of each clinic day, open <strong>Admin</strong>, tap <strong>Download backup</strong>, and keep the file that downloads, named like <code>dh-emr-backup-2026-08-11.json</code>. Copy it to a laptop or email it to yourself. It holds every record plus your form and preset settings. It never holds the cloud key or the device identity, so a backup file cannot be used to impersonate a device.</p>
+  <p>The same file is how you move to a new iPad: <strong>Download backup</strong> on the old one, <strong>Restore from a backup</strong> on the new one, check the record count matches, then wipe the old device.</p>
+
+  <div class="callout warning">
+    <div class="callout-title">Two banners that mean stop</div>
+    <p><strong>Back this device up today.</strong> means the second copy the device keeps of its records is out of date, or was never written, so the records now exist in one place only. It is not about free space. Tap <strong>Download backup</strong> in <strong>Admin</strong> now, not at the end of the day, and tell your admin.</p>
+    <p><strong>This device cannot read its records. Do not enter more patients here.</strong> means exactly that. Use another device for the rest of the day and go to <strong>Admin</strong> to restore a backup. Do not keep entering patients into a device showing this.</p>
+  </div>
+
+  <p>One last thing worth being plain about: this app is not HIPAA-compliant and is not a certified EHR. Where the records live is up to you, and so is the responsibility for them. Do not put patient information anywhere your organization has not agreed to.</p>
+
+  <h2 id="next">9. Next steps</h2>
+  <ul>
+    <li>Daily clinic work: seeing patients, returning patients, prescriptions, referrals and searching records. See the <a href="/guides/user-guide/">User Guide</a>.</li>
+    <li>Setting up the form, the site and clinician lists, cloud sync, backups and moving devices. See the <a href="/guides/admin-guide/">Admin Guide</a>.</li>
+    <li>What changed in the last release: see the <a href="/guides/release-notes/">Release Notes</a>.</li>
+    <li>Stuck on something this page does not cover? Email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</li>
   </ul>
 </main>
 

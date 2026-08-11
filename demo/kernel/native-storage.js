@@ -1,9 +1,9 @@
 // ==========================================
-// NATIVE STORAGE — durable, OS-protected storage for the Capacitor app
+// NATIVE STORAGE - durable, OS-protected storage for the Capacitor app
 // ==========================================
 // THE reliability fix. In a native (iOS/Android) build, patient records must
 // NOT live in web storage (IndexedDB/localStorage), which the OS is allowed to
-// evict — that is what made offline records vanish on reopen. This routes the
+// evict - that is what made offline records vanish on reopen. This routes the
 // records blob to the native FILESYSTEM (app-private Data dir) and other keys
 // to native Preferences. Both are real app data: they survive restarts and are
 // never evicted like website data.
@@ -81,7 +81,7 @@
 
   window.NativeKV = NativeKV;
   try {
-    console.log('[native-storage] ACTIVE — platform:', window.Capacitor.getPlatform && window.Capacitor.getPlatform(),
+    console.log('[native-storage] ACTIVE - platform:', window.Capacitor.getPlatform && window.Capacitor.getPlatform(),
       '| records→Filesystem(' + DIRECTORY + ')', FS ? 'ok' : 'MISSING',
       '| config→Preferences', Prefs ? 'ok' : 'MISSING');
   } catch (e) {}

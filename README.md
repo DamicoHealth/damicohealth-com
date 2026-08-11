@@ -1,10 +1,10 @@
 # damicohealth.com
 
-Static product website for **DH Field EMR** — an electronic medical record app
+Static product website for **DH Field EMR** - an electronic medical record app
 for international medical outreach and global health teams, published by
 Damico Health Inc.
 
-The site is a plain HTML + CSS + a sprinkle of vanilla JS build — no
+The site is a plain HTML + CSS + a sprinkle of vanilla JS build - no
 frameworks, no build step. It is deployed via GitHub Pages to the custom
 domain `damicohealth.com` (see `CNAME`).
 

@@ -76,7 +76,7 @@ const idbStore = (function() {
         });
       }).catch((err) => {
         // Genuine IndexedDB failure. Try the localStorage fallback; if a value
-        // is there, use it. Otherwise REJECT rather than return null — callers
+        // is there, use it. Otherwise REJECT rather than return null - callers
         // must be able to tell "storage unreadable" apart from "genuinely empty",
         // or an empty result can trigger a destructive whole-dataset overwrite.
         console.warn('[idb-storage] getItem failed, trying localStorage:', err);
@@ -104,7 +104,7 @@ const idbStore = (function() {
         try {
           localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
         } catch(e) {
-          // Both IndexedDB AND the localStorage fallback failed — surface it so
+          // Both IndexedDB AND the localStorage fallback failed - surface it so
           // the caller can warn the user instead of silently losing the write.
           throw (e || err);
         }

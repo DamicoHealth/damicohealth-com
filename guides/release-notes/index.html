@@ -41,7 +41,7 @@
     <div class="nav-cta">
       <a class="btn btn-ghost" href="/demo/">Try the Demo</a>
       <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=36XWD8PJYBJRU" target="_blank" rel="noopener">Donate</a>
-      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa/">Launch the App</a>
+      <a class="btn btn-primary" href="https://damicohealth.github.io/dh-field-emr/pwa-react/">Launch the App</a>
     </div>
   </div>
 </header>
@@ -51,15 +51,48 @@
   <p class="guide-subtitle">Recent changes to DH Field EMR, newest first. Check here after an update to see what's new.</p>
 
   <div class="callout">
-    <div class="callout-title">Which version am I running?</div>
-    <p>The app shows its build version next to the title at the top (for example <code>v2026-05-30 17:22</code>). When a new version ships, an <strong>"Update now"</strong> bar appears - tap it. On an iPad, if an update doesn't take, remove the home-screen icon and re-add it from the launch link (back up first if you have unsynced records).</p>
+    <div class="callout-title">How a device updates</div>
+    <p>The app does not show a version number on screen. When a new version is ready, a bar appears at the bottom reading <strong>A new version is ready.</strong> with <strong>Update now</strong> and <strong>Later</strong>. The app never reloads itself, so it cannot interrupt a visit you are typing. Tap <strong>Update now</strong> between patients, or at the end of the day.</p>
+    <p>On an iPad, if an update does not take, remove the home-screen icon and add it again from the launch link. Take a backup first, and check the sync button reads <strong>Synced</strong>, so nothing that exists only on that device is lost.</p>
   </div>
 
   <h2>Changelog</h2>
   <p>This page is updated with each release. If a change you were expecting isn't listed yet, confirm your device is on the latest version (above), or email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</p>
 
   <div class="callout">
-    <div class="callout-title">Current release - 2026-08-11</div>
+    <div class="callout-title">Current release - a rebuilt app</div>
+    <p><strong>The app has been rebuilt.</strong> Same offline-first design, same optional
+    sync to your own Supabase project, same records: the difference is the app around them.
+    It is faster on an iPad, easier to read in daylight, and a good deal harder to lose work
+    in. If you have used it before, the layout will look different and a few things have new
+    names. The guides above have been rewritten to match.</p>
+
+    <p style="margin-top:14px;"><strong>What is new for a clinician.</strong> A returning
+    patient's chart now shows a vitals trend across their visits, with values outside the
+    usual range picked out. Recording a second visit for someone already in the chart is a
+    single button rather than re-typing their details, and it no longer risks writing over
+    the previous visit. A visit can be deleted if it was entered against the wrong patient.
+    If the app closes mid-visit, what you had typed comes back. The quantity to dispense
+    now appears on the prescription line as you enter it.</p>
+
+    <p style="margin-top:14px;"><strong>Setting up a device is now guided.</strong> A new
+    iPad walks through connecting to your cloud (or choosing to stay offline only), naming
+    itself, and entering your sites and clinicians, so records are never filed under a
+    placeholder name.</p>
+
+    <p style="margin-top:14px;"><strong>Under the hood.</strong> Text and buttons meet
+    accessibility contrast standards. The app warns and stops rather than carrying on if it
+    can no longer read its own records. Two browser tabs can no longer overwrite each
+    other. Patients whose names are written in Amharic, Tigrinya, Arabic, Cyrillic, Thai or
+    Khmer can be filed, which was previously impossible.</p>
+
+    <p style="margin-top:14px;"><strong>Try it before you install it.</strong> The
+    <a href="/demo/">browser demo</a> is a full working copy with sample patients. Nothing
+    in it leaves your browser.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Fixes carried over - 2026-08-11</div>
     <p><strong>Please update your devices.</strong> This release fixes three problems that can affect
     patient records and dispensing counts. If your team enters medications, or files patients whose
     names are not written in the Latin alphabet, update before your next clinic.</p>
@@ -81,7 +114,7 @@
 
     <p style="margin-top:14px;"><strong>Patients whose names are not written in Latin letters can now
     be filed.</strong> A name in Amharic, Tigrinya, Arabic, Cyrillic, Thai or Khmer produced no
-    patient number, so the encounter could not be saved at all. Every patient number that already
+    patient number, so the visit could not be saved at all. Every patient number that already
     exists is unchanged.</p>
 
     <p style="margin-top:14px;"><strong>Also in this release.</strong> The app accepts Supabase's
@@ -95,7 +128,7 @@
     <p><strong>Documentation refresh.</strong> The Setup, User, and Admin guides were revised to match the current app - accurate vitals and diagnosis fields, the real admin-access and automatic-sync behavior, the correct Supabase setup SQL, and a new "moving to a new device" section in the Admin Guide.</p>
   </div>
 
-  <p style="margin-top:24px;">Earlier changes aren't itemized here yet. For a complete technical reference and troubleshooting guide, see the <a href="/guides/dh-field-emr-reference.pdf" download>reference PDF</a>.</p>
+  <p style="margin-top:24px;">Earlier changes are not itemized here yet. For how the app works now, see the <a href="/guides/getting-started/">Setup Guide</a>, the <a href="/guides/user-guide/">User Guide</a> and the <a href="/guides/admin-guide/">Admin Guide</a>. For anything they do not answer, email <a href="mailto:md@damicohealth.org">md@damicohealth.org</a>.</p>
 </main>
 
 <footer class="footer">

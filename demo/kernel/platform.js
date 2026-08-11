@@ -3,7 +3,7 @@
 // The app's data + platform API: records in IndexedDB, config in localStorage,
 // cloud sync via Supabase (pwa-sync.js). Exposed as window.platform; the
 // historical name window.electronAPI is kept as an alias for older modules.
-// (Formerly demo-shim.js — it was never demo-only; it's the production layer.)
+// (Formerly demo-shim.js - it was never demo-only; it's the production layer.)
 // Must load AFTER idb-storage.js and pwa-sync.js, BEFORE all other scripts.
 // ==========================================
 (function() {
@@ -36,8 +36,8 @@
    */
   let _mirrorRefusal = null;
 
-  // Single-writer queue. EVERY read-modify-write of the records blob — save,
-  // delete, and cloud sync push/pull — chains through this promise, so two
+  // Single-writer queue. EVERY read-modify-write of the records blob - save,
+  // delete, and cloud sync push/pull - chains through this promise, so two
   // writers can never each read the array, mutate their own copy, and clobber
   // one another on write-back (the "record saved during sync vanishes" bug).
   let _recordsLock = Promise.resolve();
@@ -58,7 +58,7 @@
       loadOk = true; // a resolved read is authoritative, even if empty (null)
     } catch (e) {
       console.warn('[platform] idb read failed', e);
-      loadOk = false; // could NOT read — must not be treated as "empty"
+      loadOk = false; // could NOT read - must not be treated as "empty"
     }
     let arr = Array.isArray(data) ? data : [];
     // Safety net: if IndexedDB came back empty but a localStorage mirror has
@@ -140,7 +140,7 @@
       }
     } catch {}
     if (!idbOk && !mirrorOk) {
-      throw new Error('Could not save to this device’s storage — both the database and the local backup failed to write. The device may be out of space or in a private-browsing window. Your entry was NOT saved.');
+      throw new Error('Could not save to this device’s storage - both the database and the local backup failed to write. The device may be out of space or in a private-browsing window. Your entry was NOT saved.');
     }
   }
 
@@ -188,12 +188,12 @@
   let _onSyncStatusCb = null;
 
   window.electronAPI = {
-    // Records — now async with IndexedDB + sync_version tracking
+    // Records - now async with IndexedDB + sync_version tracking
     getRecords: () => getRecords(),
     saveRecord: async (record) => withRecordsLock(async () => {
       const all = await getAllRecords();
       // Wipe guard: if the existing records could NOT be read and the working
-      // set is empty, refuse to overwrite the whole store with a tiny array —
+      // set is empty, refuse to overwrite the whole store with a tiny array -
       // that is exactly how an unreadable-but-present dataset gets destroyed.
       if (!_lastLoadOk && all.length === 0) {
         throw new Error('Your existing records could not be read from this device right now, so saving was blocked to avoid overwriting them. Please close and reopen the app; if it keeps happening, restart the device before entering more data.');
@@ -239,7 +239,7 @@
       return getRecords();
     }),
 
-    // Config — localStorage is fine for small config data
+    // Config - localStorage is fine for small config data
     getSites: () => Promise.resolve(lsGet('sites', null)),
     saveSites: (v) => { lsSet('sites', v); },
     getProviders: () => Promise.resolve(lsGet('providers', null)),
@@ -265,7 +265,7 @@
     getFormTemplates: () => Promise.resolve(lsGet('formTemplates', null)),
     saveFormTemplates: (v) => { lsSet('formTemplates', v); },
 
-    // Device — now backed by pwaSync when available
+    // Device - now backed by pwaSync when available
     // Returns null (not a hardcoded default) when no device has been
     // registered yet, so the launch flow can show the sign-in screen
     // and avoid all PWA installs sharing the same device_id.
@@ -325,7 +325,7 @@
       // shared config table: that table is readable by every device (and anyone
       // holding the anon key), so syncing the password in plaintext gave no real
       // protection while leaking it fleet-wide. Real write-protection must be
-      // enforced server-side (authenticated admin role) — see the review.
+      // enforced server-side (authenticated admin role) - see the review.
       lsSet('adminPassword', pw);
       return Promise.resolve({ ok: true });
     },
@@ -345,7 +345,7 @@
       return 0;
     },
 
-    // Settings — use pwaSync IDB when available, fallback to localStorage
+    // Settings - use pwaSync IDB when available, fallback to localStorage
     getSetting: async (key) => {
       if (typeof pwaSync !== 'undefined') {
         const val = await pwaSync.idbSettingGet(key);
@@ -387,7 +387,7 @@
       }
     },
 
-    // Setup wizard — real implementation via pwaSync
+    // Setup wizard - real implementation via pwaSync
     verifyTables: async (url, key) => {
       if (typeof pwaSync !== 'undefined') {
         return await pwaSync.verifyTables(url, key);
@@ -401,7 +401,7 @@
       return { ok: true };
     },
 
-    // Sync — real implementation via pwaSync
+    // Sync - real implementation via pwaSync
     syncGetStatus: async () => {
       if (typeof pwaSync !== 'undefined') {
         return pwaSync.getStatus();
@@ -427,7 +427,7 @@
       }
     },
 
-    // Menu events — wire up to sync callbacks
+    // Menu events - wire up to sync callbacks
     onNewEncounter: () => {},
     onExportCSV: () => {},
     onRecordsRestored: () => {},
@@ -503,5 +503,5 @@
   // existing call sites (migrate opportunistically, then drop the alias).
   window.platform = window.electronAPI;
 
-  console.log('[platform] data layer ready (IndexedDB + Supabase sync) — window.platform (+ legacy window.electronAPI)');
+  console.log('[platform] data layer ready (IndexedDB + Supabase sync) - window.platform (+ legacy window.electronAPI)');
 })();
